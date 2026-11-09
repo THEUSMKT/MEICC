@@ -102,6 +102,23 @@ export function initLoop() {
     if (active && e.isTrusted) { e.stopPropagation(); e.preventDefault(); stop(); }
   }, true);
 
+  /* O celular endireita ao receber o ponteiro. Se o botao sair de baixo do dedo nesse instante, o navegador
+     entrega o clique ao fundo da tela e o toque se perde. Um toque sem arrasto sempre vale para o botao pressionado. */
+  let pressed = null, downX = 0, downY = 0;
+  app.root.addEventListener('pointerdown', e => {
+    pressed = e.target.closest('button');
+    downX = e.clientX; downY = e.clientY;
+  }, true);
+  app.root.addEventListener('click', e => {
+    const b = pressed;
+    pressed = null;
+    if (!e.isTrusted || e.defaultPrevented || !b || b.disabled) return;
+    if (b.contains(e.target) || !e.target.contains(b)) return;
+    if (Math.hypot(e.clientX - downX, e.clientY - downY) > 8) return;
+    e.stopPropagation();
+    b.click();
+  }, true);
+
   const phone = $('.phone-lift', el);
   const copy = $('.loop-copy', el);
   registerFx(mode => {

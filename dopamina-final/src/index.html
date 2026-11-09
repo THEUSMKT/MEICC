@@ -209,7 +209,7 @@
         <span class="cy-label" data-n="0"><svg class="ic"><use href="#i-bell"/></svg>Gatilho</span>
         <span class="cy-label" data-n="1"><svg class="ic"><use href="#i-phone"/></svg>Comportamento</span>
         <span class="cy-label" data-n="2"><svg class="ic"><use href="#i-spark"/></svg>Consequência</span>
-        <span class="cy-label cy-label-pause" data-n="3"><svg class="ic"><use href="#i-hourglass"/></svg>Pausa</span>
+        <span class="cy-label cy-label-pause" data-n="3">10 s</span>
         <div class="cw cw-notif"><span class="cw-bell"><svg class="ic"><use href="#i-bell"/></svg></span><div><b>Nova curtida</b><small>agora</small></div></div>
         <div class="cw cw-feed"><div class="feed-roll"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div></div>
         <div class="cw cw-feel"><span><svg class="ic"><use href="#i-wind"/></svg>Alívio</span><span><svg class="ic"><use href="#i-frown"/></svg>Arrependimento</span></div>
@@ -390,9 +390,20 @@
           <div class="field wide"><label for="ed-quote">Feedback dos testes, em uma frase</label><input id="ed-quote" type="text" autocomplete="off" maxlength="140"><small>Aparece na conclusão, junto do número de testes.</small></div>
         </form>
       </details>
+      <div class="keys">
+        <h3>Atalhos de teclado</h3>
+        <ul>
+          <li><kbd>T</kbd>Inicia ou pausa o cronômetro</li>
+          <li><kbd>H</kbd>Esconde ou mostra a barra do topo</li>
+          <li><kbd>R</kbd>Abre a defesa das fontes</li>
+          <li><kbd>D</kbd>Liga a demonstração do Loop</li>
+          <li><kbd>PageDown</kbd><kbd>PageUp</kbd>Próximo passo e passo anterior</li>
+          <li><kbd>Setas</kbd>Também navegam</li>
+        </ul>
+      </div>
     </div>
     <div>
-      <h2>Referências</h2>
+      <div class="ref-head"><h2>Referências</h2><button type="button" class="btn btn-ghost" id="defesaBtn"><svg class="ic" aria-hidden="true"><use href="#i-shield"/></svg>Defesa das fontes<kbd>R</kbd></button></div>
       <ul class="ref-list">
         <li>Meng S-Q, Cheng J-L, Li Y-Y, et al. (2022). <a href="https://doi.org/10.1016/j.cpr.2022.102128" target="_blank" rel="noopener">Global prevalence of digital addiction in general population: a systematic review and meta-analysis</a>. Clinical Psychology Review, 92, 102128. <span class="id">PMID 35150965</span>
           <span class="why"><b>Por que é artigo científico:</b> meta-análise em periódico revisado por pares (Elsevier), indexada no PubMed e registrada no PROSPERO (CRD42020171117). Reúne 495 artigos, 2,1 milhões de pessoas e 64 países.</span></li>
@@ -421,6 +432,19 @@
   </div>
 </section>
 </main>
+<dialog class="defesa" id="defesa" aria-labelledby="defesaT">
+  <header>
+    <div>
+      <p class="eyebrow">Tecla R</p>
+      <h2 id="defesaT">Defesa das fontes</h2>
+      <p class="def-sum" id="defesaN"></p>
+    </div>
+    <button type="button" class="icon-btn" id="defesaX" aria-label="Fechar painel"><svg class="ic" aria-hidden="true"><use href="#i-x"/></svg></button>
+  </header>
+  <ol class="def-list" id="defesaList" tabindex="0"></ol>
+</dialog>
+<p class="sr-only" id="copyStatus" aria-live="polite"></p>
+
 <script type="module" src="./main.js"></script>
 </body>
 </html>

@@ -14,6 +14,7 @@ import { initDopamina } from './chapters/dopamina.js';
 import { initCiclo } from './chapters/ciclo.js';
 import { initLoop } from './chapters/loop.js';
 import { initConclusao } from './chapters/conclusao.js';
+import { initReferencias } from './chapters/referencias.js';
 
 if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
 quality.init();
@@ -31,6 +32,7 @@ initDopamina();
 initCiclo();
 initLoop();
 initConclusao();
+initReferencias();
 initFx();
 clkRender();
 

@@ -79,9 +79,12 @@ function rebuildStops() {
       stops.push({ y: docTop(ch), ci, step: 0 });
     }
   });
-  /* a ultima secao e longa (referencias): anda de tela em tela ate o fim */
-  const last = stops[stops.length - 1];
+  /* nenhuma parada pode ficar alem do fim da pagina (em telas grandes a ultima secao e curta) */
   const max = Math.round(ScrollTrigger.maxScroll(window));
+  stops.forEach(s => { s.y = Math.min(s.y, max); });
+  for (let i = stops.length - 1; i > 0; i--) if (stops[i].y - stops[i - 1].y < 5) stops.splice(i, 1);
+  /* a ultima secao pode ser longa (referencias): anda de tela em tela ate o fim */
+  const last = stops[stops.length - 1];
   const page = Math.round(window.innerHeight * 0.82);
   for (let y = last.y + page; y < max; y += page) stops.push({ y, ci: last.ci, step: 0 });
   if (max > stops[stops.length - 1].y + 8) stops.push({ y: max, ci: last.ci, step: 0 });

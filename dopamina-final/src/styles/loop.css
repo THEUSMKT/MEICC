@@ -5,7 +5,8 @@
 .verbs li{display:grid;grid-template-columns:auto 1fr;gap:16px;align-items:start}
 .note{font-size:.92rem;color:var(--muted);border-left:2px solid var(--line-strong);padding-left:12px;max-width:50ch}
 .phone-wrap{position:relative;display:grid;place-items:center;perspective:1600px;padding-block:8px}
-.phone-lift{transform-style:preserve-3d;will-change:transform}
+/* sem preserve-3d aqui: com ele, a metade inclinada do celular ficava atras deste plano e nao recebia cliques */
+.phone-lift{perspective:1600px;will-change:transform}
 .phone-halo{position:absolute;left:50%;top:50%;width:min(620px,110%);aspect-ratio:1;margin:-50% 0 0;translate:-50% 0;border-radius:50%;background:radial-gradient(circle,rgba(255,138,61,.2),rgba(255,138,61,.05) 45%,transparent 68%);pointer-events:none}
 .phone{--h:min(720px,calc(100dvh - 150px));height:var(--h);aspect-ratio:9/18.4;border-radius:44px;padding:10px;background:linear-gradient(160deg,#2a3857,#0f1626);border:1px solid #3a4a6c;box-shadow:34px 44px 90px -30px rgba(2,6,16,.8),inset 0 1px 0 rgba(255,255,255,.08);transform:rotateY(-12deg) rotateX(4deg);transition:transform .3s ease-out;transform-style:preserve-3d}
 .phone:hover,.phone:focus-within{transform:rotateY(0deg) rotateX(0deg)}

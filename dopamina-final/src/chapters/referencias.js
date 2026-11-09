@@ -7,20 +7,24 @@ import { registerKey, registerFx, setNavBlocker } from '../core/nav.js';
 const icon = id => '<svg class="ic" aria-hidden="true"><use href="#' + id + '"/></svg>';
 const esc = s => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
 
-async function copyText(text) {
-  try {
-    await navigator.clipboard.writeText(text);
-    return true;
-  } catch (e) { /* sem acesso a area de transferencia: usa o caminho antigo */ }
+/* Aberto do disco (file://), navigator.clipboard pode ficar pendente para sempre.
+   Por isso o caminho sincrono vem primeiro e a API moderna entra com limite de tempo. */
+async function copyText(text, focusBack) {
   const ta = document.createElement('textarea');
   ta.value = text;
+  ta.setAttribute('readonly', '');
   ta.style.cssText = 'position:fixed;left:-9999px;opacity:0';
   document.body.appendChild(ta);
   ta.select();
   let ok = false;
   try { ok = document.execCommand('copy'); } catch (e) { ok = false; }
   ta.remove();
-  return ok;
+  if (focusBack) focusBack.focus({ preventScroll: true });
+  if (ok || !navigator.clipboard) return ok;
+  return Promise.race([
+    navigator.clipboard.writeText(text).then(() => true, () => false),
+    new Promise(res => setTimeout(() => res(false), 800))
+  ]);
 }
 
 export function initReferencias() {
@@ -45,14 +49,19 @@ export function initReferencias() {
 
   refs.forEach(r => {
     r.li.classList.add('ref-card');
-    r.li.insertAdjacentHTML('afterbegin', '<span class="seal">' + icon('i-seal') + 'Artigo revisado por pares</span>');
+    /* a citacao fica inteira num bloco so; selo e botoes entram em volta dela */
+    const body = document.createElement('div');
+    body.className = 'ref-body';
+    while (r.li.firstChild) body.appendChild(r.li.firstChild);
+    r.li.appendChild(body);
+    r.li.insertAdjacentHTML('afterbegin','<span class="seal">' + icon('i-seal') + 'Artigo revisado por pares</span>');
     r.li.insertAdjacentHTML('beforeend',
       '<div class="ref-act"><button type="button" class="mini-btn" data-copy>' + icon('i-copy') + '<span>Copiar citação</span></button>' +
       '<a class="mini-btn" href="' + r.href + '" target="_blank" rel="noopener">' + icon('i-link') + '<span>DOI: ' + esc(r.doi) + '</span></a></div>');
     const btn = $('[data-copy]', r.li), lbl = $('span', btn);
     let timer = 0;
     btn.addEventListener('click', async () => {
-      const ok = await copyText(r.full);
+      const ok = await copyText(r.full, btn);
       lbl.textContent = ok ? 'Citação copiada' : 'Não foi possível copiar';
       btn.classList.toggle('done', ok);
       status.textContent = ok ? 'Citação copiada' : 'Não foi possível copiar a citação';
@@ -78,6 +87,7 @@ export function initReferencias() {
     opener = document.activeElement;
     dlg.showModal();
     $('#defesaList').scrollTop = 0;
+    $('#defesaList').focus({ preventScroll: true });
     if (!reduce) gsap.fromTo(dlg, { opacity: 0, y: 26, scale: 0.97 }, { opacity: 1, y: 0, scale: 1, duration: 0.35, ease: 'power3.out', clearProps: 'all' });
   };
   const close = () => { if (dlg.open) dlg.close(); };
@@ -86,8 +96,19 @@ export function initReferencias() {
   $('#defesaX').addEventListener('click', close);
   $('#defesaBtn').addEventListener('click', open);
   registerKey('r', () => { if (dlg.open) close(); else open(); });
-  /* com o painel aberto, as teclas de navegacao rolam o painel e nao a apresentacao */
-  setNavBlocker(e => dlg.open && e.key.toLowerCase() !== 'r');
+  /* com o painel aberto, as teclas de navegacao rolam a lista e nao a apresentacao atras dele */
+  const SCROLL_KEYS = { PageDown: 0.85, PageUp: -0.85, ArrowRight: 0.85, ArrowLeft: -0.85, ArrowDown: 0.22, ArrowUp: -0.22 };
+  setNavBlocker(e => {
+    if (!dlg.open || e.key.toLowerCase() === 'r') return false;
+    const amount = SCROLL_KEYS[e.key];
+    if (amount) {
+      e.preventDefault();
+      const scroller = $('#defesaList');
+      /* rolagem imediata: a suave era cancelada se a tecla chegasse durante a abertura do painel */
+      if (!e.repeat) scroller.scrollBy({ top: scroller.clientHeight * amount });
+    }
+    return true;
+  });
 
   registerFx(() => {
     if (reduce) return;

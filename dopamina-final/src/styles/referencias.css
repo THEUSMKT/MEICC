@@ -1,5 +1,5 @@
 /* ===== Equipe e referencias ===== */
-.foot{min-height:auto;border-top:1px solid var(--line);background:var(--ink-2);padding-block:clamp(36px,6vh,64px)}
+.foot{min-height:auto;border-top:1px solid var(--line);background:var(--ink-2);padding-block:calc(var(--bar) + 22px) clamp(36px,6vh,64px)}
 .foot-grid{display:grid;grid-template-columns:4fr 8fr;gap:clamp(24px,4vw,64px)}
 .team-list{display:grid;gap:12px;margin-top:16px}
 .team-list li{display:flex;align-items:center;gap:14px}
@@ -15,9 +15,44 @@
 .field small{font-size:.78rem;color:var(--muted)}
 .field input{background:var(--ink-2);border:1px solid var(--line-strong);border-radius:var(--r-s);padding:.6rem .8rem;min-height:44px;width:100%}
 .field.wide{grid-column:1/-1}
-.ref-list{display:grid;gap:12px;margin-top:16px;font-size:.92rem;color:var(--muted)}
+.ref-list{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,340px),1fr));gap:14px;margin-top:18px;font-size:.94rem;color:var(--muted);align-items:stretch}
 .ref-list a{color:var(--text)}
-.ref-list li{max-width:84ch}
 .ref-list .why{display:block;margin-top:4px;font-size:.84rem;color:var(--calm)}
 .ref-list .why b{color:var(--text);font-weight:600}
 .ref-list .id{font-family:var(--mono);font-size:.78rem;color:var(--muted)}
+
+.ref-head{display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap}
+.ref-head .btn{min-height:44px;padding:.5rem 1.1rem;font-size:.95rem}
+.ref-card{display:flex;flex-direction:column;gap:8px;padding:clamp(14px,1.4vw,20px);border:1px solid var(--line);border-radius:var(--r);background:linear-gradient(180deg,var(--ink-3),var(--ink))}
+.seal{display:inline-flex;align-items:center;gap:6px;align-self:flex-start;font-size:.78rem;font-weight:600;color:var(--accent);padding:3px 10px 3px 6px;border:1px solid rgba(255,138,61,.55);border-radius:999px;background:rgba(255,138,61,.08)}
+.ref-body{flex:1}
+.ref-act{display:flex;flex-wrap:wrap;gap:8px;margin-top:auto;padding-top:6px}
+.mini-btn{position:relative;overflow:hidden;display:inline-flex;align-items:center;gap:6px;min-height:40px;padding:.3rem .8rem;border-radius:999px;border:1px solid var(--line-strong);background:var(--ink-2);color:var(--text);font-size:.82rem;cursor:pointer;text-decoration:none;max-width:100%;transition:border-color .2s,background .2s,transform .15s}
+.mini-btn span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.mini-btn .ic{flex:none;color:var(--accent);font-size:.92rem}
+.mini-btn:hover{border-color:var(--text);background:var(--ink-3);color:var(--text)}
+.mini-btn:active{transform:scale(.97)}
+.mini-btn.done{border-color:var(--accent)}
+.keys{margin-top:22px;display:grid;gap:10px}
+.keys h3{font-size:1.05rem}
+.keys ul{display:grid;gap:8px;font-size:.92rem;color:var(--muted)}
+.keys li{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+
+/* Painel de defesa das fontes */
+.defesa{width:min(980px,calc(100vw - 32px));max-height:calc(100dvh - 40px);margin:auto;padding:0;border:1px solid var(--line-strong);border-radius:var(--r);background:var(--ink-2);color:var(--text);box-shadow:0 40px 90px -30px rgba(0,0,0,.9);overflow:hidden}
+.defesa[open]{display:flex;flex-direction:column}
+.defesa::backdrop{background:rgba(4,7,13,.82)}
+.defesa header{display:flex;justify-content:space-between;align-items:flex-start;gap:20px;padding:clamp(18px,2.4vw,32px);border-bottom:1px solid var(--line)}
+.defesa h2{font-size:clamp(1.6rem,2.6vw,2.3rem);margin-top:4px}
+.def-sum{color:var(--muted);margin-top:6px;max-width:64ch}
+.def-list{overflow-y:auto;overscroll-behavior:contain;padding:8px clamp(18px,2.4vw,32px) 24px;display:grid;gap:0;min-height:0}
+.def-list:focus-visible{outline-offset:-3px}
+.def-list li{display:grid;grid-template-columns:auto 1fr;gap:16px;padding:16px 0;border-bottom:1px solid var(--line)}
+.def-list li:last-child{border-bottom:0}
+.def-n{width:36px;height:36px;border-radius:50%;display:grid;place-items:center;background:var(--accent);color:var(--accent-ink);font-weight:700;font-family:var(--display)}
+.def-list strong{display:block;font-family:var(--display)}
+.def-list a{display:block;color:var(--text);margin-top:2px}
+.def-list .why{margin-top:6px;color:var(--muted);font-size:.98rem}
+.def-list .why b{color:var(--text);font-weight:600}
+.def-list .id{display:block;margin-top:6px;font-family:var(--mono);font-size:.82rem;color:var(--calm)}

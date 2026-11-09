@@ -23,9 +23,9 @@ export function initConclusao() {
     });
 
     const tl = gsap.timeline({ scrollTrigger: { ...trigger, trigger: $('.next', el), start: mode === 'pin' ? 'top 62%' : 'top 78%' } });
-    tl.from($('.next', el), { autoAlpha: 0, x: 50, duration: 0.7, ease: 'power3.out' })
+    tl.from($('.next', el), { autoAlpha: 0, y: 44, duration: 0.7, ease: 'power3.out' })
       .from(line, { scaleY: 0, transformOrigin: '50% 0%', duration: 1.2, ease: 'power2.inOut' }, 0.2)
-      .from(steps, { autoAlpha: 0, x: -18, duration: 0.45, ease: 'power2.out', stagger: 0.2 }, 0.3);
+      .from(steps, { autoAlpha: 0, y: 14, duration: 0.45, ease: 'power2.out', stagger: 0.2 }, 0.3);
 
     SplitText.create(closing, {
       type: 'words,chars', autoSplit: false, aria: 'auto',

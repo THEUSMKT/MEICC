@@ -122,7 +122,7 @@ export function createCicloLayer(section, host, labelEls) {
     el: labelEls[k],
     pos: new THREE.Vector3(Math.cos(nodeAngle(k)) * R, Math.sin(nodeAngle(k)) * R, labelOffset)
   }));
-  labels.push({ el: labelEls[3], pos: new THREE.Vector3(Math.cos(gapMid) * R, Math.sin(gapMid) * R, labelOffset) });
+  labels.push({ el: labelEls[3], pos: new THREE.Vector3(Math.cos(gapMid) * R, Math.sin(gapMid) * R, 0) });
 
   let target = 0, p = 0, phase = 0, px = 0;
   window.addEventListener('pointermove', e => { px = e.clientX / window.innerWidth - 0.5; }, { passive: true });
