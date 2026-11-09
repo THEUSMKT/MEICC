@@ -1,15 +1,19 @@
 /* ===== 3. Dopamina ===== */
 .split3{display:grid;grid-template-columns:6fr 5fr;gap:clamp(24px,4vw,64px);align-items:center}
-.s3-copy{display:grid;gap:clamp(14px,2.2vh,22px)}
-.facts{display:grid;gap:18px;margin-top:6px}
-.facts li{display:grid;grid-template-columns:auto 1fr;gap:16px;align-items:start}
+.s3-copy{display:grid;gap:clamp(10px,1.9vh,22px)}
+.facts{display:grid;gap:clamp(8px,1.6vh,16px);margin-top:4px}
+.facts li{display:grid;grid-template-columns:auto 1fr;gap:16px;align-items:start;padding:clamp(6px,1vh,12px) 14px;margin-inline:-14px;border-radius:var(--r);border:1px solid transparent;transition:background .35s,border-color .35s}
+.facts li.on{background:rgba(255,138,61,.09);border-color:rgba(255,138,61,.55)}
 .fi{width:46px;height:46px;border-radius:var(--r-s);border:1px solid var(--line);background:var(--ink-3);display:grid;place-items:center;color:var(--accent);font-size:1.15rem}
 .facts strong,.mech strong,.verbs strong{display:block;font-family:var(--display);font-size:1.15rem;margin-bottom:2px}
 .facts p,.mech p,.verbs span{color:var(--muted);font-size:clamp(.98rem,1.2vw,1.12rem)}
-.src{display:block;margin-top:4px;font-family:var(--mono);font-size:.76rem;color:var(--calm)}
-.verbs .src,.myth .src{font-size:.76rem;color:var(--calm);margin-top:4px}
-.scene{position:relative;aspect-ratio:1/1;width:min(100%,520px);margin-inline:auto;perspective:1000px}
+.src{display:block;margin-top:4px;font-family:var(--mono);font-size:clamp(.76rem,.86vw,.88rem);color:var(--calm)}
+.verbs .src,.myth .src{font-size:clamp(.76rem,.86vw,.88rem);color:var(--calm);margin-top:4px}
+.dop-viz{position:relative;perspective:1200px}
+.scene{position:relative;aspect-ratio:1/1;width:min(100%,clamp(380px,76vh,620px));margin-inline:auto;perspective:1000px}
 .orb{position:absolute;border-radius:50%;display:grid;place-items:center;font-family:var(--display);font-weight:700;transform-style:preserve-3d}
+.is-3d .orb{display:none}
+.no3d .l3{display:none}
 .orb span{font-size:clamp(1.05rem,2vw,1.8rem);letter-spacing:-.01em}
 .orb-big{width:58%;aspect-ratio:1;left:4%;top:10%;background:radial-gradient(circle at 32% 28%,#ffd6b0 0,#ff8a3d 38%,#a8440d 100%);color:#2a1202;box-shadow:0 44px 80px -34px rgba(255,138,61,.5),inset -16px -20px 44px rgba(60,20,0,.35)}
 .orb-big::after{content:"";position:absolute;inset:-16%;border-radius:50%;border:1.5px solid rgba(154,168,194,.5);transform:rotateX(72deg)}
@@ -21,3 +25,21 @@
 }
 @keyframes floaty{0%,100%{transform:translateY(0)}50%{transform:translateY(-14px)}}
 @keyframes ringspin{from{transform:rotateX(72deg) rotateZ(0)}to{transform:rotateX(72deg) rotateZ(360deg)}}
+
+/* Rotulos presos a cena 3D */
+.l3{position:absolute;left:0;top:0;white-space:nowrap;pointer-events:none;font-family:var(--display);font-weight:600;font-size:clamp(.92rem,1.2vw,1.2rem);padding:.2em .7em;border-radius:999px;background:rgba(8,12,20,.82);border:1px solid var(--line-strong);opacity:0;will-change:transform,opacity}
+.l3-orb{background:none;border:0;padding:0;font-weight:700;font-size:clamp(1.3rem,2.6vw,2.5rem);letter-spacing:-.01em;color:#2a1202}
+.l3-small{font-size:clamp(.95rem,1.45vw,1.4rem);color:#0b1220}
+
+/* Erro de previsao de recompensa */
+.rpe{margin:0;background:rgba(14,21,34,.95);border:1px solid var(--line-strong);border-radius:var(--r);padding:clamp(14px,1.6vw,24px);display:grid;gap:8px;align-content:center;box-shadow:0 30px 60px -32px rgba(3,8,20,.95)}
+[data-mode="pin"] .rpe{position:absolute;inset:50% 0 auto 50%;transform:translate(-50%,-50%);width:min(100%,clamp(380px,76vh,620px));margin:0}
+[data-mode="flat"] .rpe{margin-top:18px}
+.rpe svg{display:block;width:100%;height:auto;overflow:visible}
+.rpe figcaption{font-size:clamp(.9rem,1vw,1rem);color:var(--muted)}
+.rt{font-family:var(--display);font-weight:700;font-size:20px;fill:var(--text)}
+.rn{font-family:var(--body);font-weight:600;font-size:17px;fill:var(--accent)}
+.rl{font-family:var(--body);font-size:15px;fill:var(--muted)}
+.rb{stroke:var(--line-strong);stroke-width:1}
+.rv{stroke:var(--line-strong);stroke-width:1.5;stroke-dasharray:3 5}
+.rp{fill:none;stroke:var(--accent);stroke-width:3.5;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:1}

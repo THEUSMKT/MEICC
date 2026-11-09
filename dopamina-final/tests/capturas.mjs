@@ -35,12 +35,13 @@ const wanted = only ? only.split(',').map(Number) : stops.map((_, i) => i);
 let at = 0;
 for (let i = 0; i < stops.length; i++) {
   if (wanted.includes(i)) {
-    await page.waitForTimeout(i === 0 ? 300 : 2300);
+    await page.waitForFunction(y => Math.abs(window.scrollY - y) < 3, stops[i].y, { timeout: 20000 }).catch(() => {});
+    await page.waitForTimeout(i === 0 ? 300 : 5000);
     await page.screenshot({ path: path.join(outDir, String(i).padStart(2, '0') + '.png') });
     const st = await page.evaluate(() => ({ y: Math.round(scrollY), w: document.documentElement.scrollWidth, cw: document.documentElement.clientWidth }));
     console.log('parada', i, JSON.stringify(stops[i]), JSON.stringify(st));
   }
-  if (i < stops.length - 1) { await page.keyboard.press('PageDown'); await page.waitForTimeout(wanted.includes(i + 1) ? 200 : 1700); at = i + 1; }
+  if (i < stops.length - 1) { await page.keyboard.press('PageDown'); await page.waitForFunction(y => Math.abs(window.scrollY - y) < 3, stops[i + 1].y, { timeout: 20000 }).catch(() => {}); at = i + 1; }
 }
 console.log('problemas:', problems.length ? '\n' + [...new Set(problems)].slice(0, 30).join('\n') : 'nenhum');
 await browser.close();
