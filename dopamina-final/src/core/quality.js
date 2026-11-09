@@ -3,10 +3,11 @@
 import { debug } from './env.js';
 
 const LEVELS = [
-  { name: 'minimo', dpr: 0.6, bloom: false, msaa: 0, particles: 0.2 },
-  { name: 'baixo', dpr: 0.75, bloom: false, msaa: 0, particles: 0.4 },
-  { name: 'medio', dpr: 1, bloom: true, msaa: 0, particles: 0.7 },
-  { name: 'alto', dpr: 1.5, bloom: true, msaa: 4, particles: 1 }
+  /* pixels: orcamento de GPU. Em tela pequena e densa ele rende mais pixels por ponto. */
+  { name: 'minimo', dpr: 0.6, pixels: 4e5, bloom: false, msaa: 0, particles: 0.2 },
+  { name: 'baixo', dpr: 0.75, pixels: 8e5, bloom: false, msaa: 0, particles: 0.4 },
+  { name: 'medio', dpr: 1, pixels: 1.4e6, bloom: true, msaa: 0, particles: 0.7 },
+  { name: 'alto', dpr: 1.5, pixels: 2.6e6, bloom: true, msaa: 4, particles: 1 }
 ];
 
 const forced = LEVELS.findIndex(l => l.name === debug.quality);

@@ -49,7 +49,7 @@ Parâmetros de URL para ensaio e teste. Sem eles, nada muda:
 
 ## Como funciona o desempenho
 
-Um único contexto WebGL fica fixo atrás da página e só desenha o capítulo que está na tela. A qualidade começa em "médio" e mede o FPS: se cair, reduz resolução, bloom e partículas. Se o computador não tiver aceleração gráfica, ou se nem o nível mínimo sustentar a animação, a página troca sozinha para os visuais aprovados sem WebGL. Com `prefers-reduced-motion`, não há cenas presas, 3D nem contagens: o conteúdo aparece completo e parado.
+Um único contexto WebGL fica fixo atrás da página e só desenha o capítulo que está na tela. A qualidade começa em "médio" e mede o FPS: se cair, reduz resolução, bloom e partículas. Em telas pequenas e densas, como a do celular, cada nível desenha mais pixels por ponto, para a imagem sair nítida. Se o computador não tiver aceleração gráfica, ou se nem o nível mínimo sustentar a animação, a página troca sozinha para os visuais aprovados sem WebGL. Com `prefers-reduced-motion`, não há cenas presas, 3D nem contagens: o conteúdo aparece completo e parado.
 
 ## O que mudou em cada capítulo
 

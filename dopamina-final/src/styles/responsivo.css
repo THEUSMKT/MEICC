@@ -18,6 +18,19 @@
   .who .nm{font-size:.84rem;max-width:8ch}
   .bar-in{gap:6px;grid-template-columns:1fr auto}
   #clk{font-size:1.1rem}
+  /* opaca: com o texto rolando por baixo, as letras apareciam atras dos nomes */
+  .bar{background:#080c14}
+  /* ciclo: contador em uma linha e cartao menor, para nao cobrirem os rotulos */
+  .cy-count{right:0;top:0;display:flex;align-items:baseline;gap:8px}
+  .cy-count b{font-size:1.9rem}
+  .cw.cw-notif{top:58%;left:54%}
+  .cw-notif{gap:8px;padding:8px 14px 8px 8px;border-radius:14px}
+  .cw-notif b{font-size:.92rem}
+  .cw-notif small{font-size:.78rem}
+  .cw-bell{width:34px;height:34px;border-radius:10px;font-size:1rem}
+  .cw.cw-feed{top:44%}
+  .cw-feed{width:72px;height:104px;--feed-loop:-144px}
+  .feed-roll i{height:40px}
 }
 @media (prefers-reduced-motion:reduce){*{scroll-behavior:auto!important}.phone{transition:none}}
 

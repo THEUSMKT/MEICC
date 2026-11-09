@@ -53,7 +53,7 @@ function setupScene(def) {
     if (def.onStep) def.onStep(n - 1, -1);
   } else {
     ScrollTrigger.create({
-      trigger: def.el, start: def.flatStart || 'top 60%', end: def.flatEnd || 'bottom 40%',
+      trigger: def.flatTrigger || def.el, start: def.flatStart || 'top 60%', end: def.flatEnd || 'bottom 40%',
       onUpdate: apply, onRefresh: apply
     });
   }

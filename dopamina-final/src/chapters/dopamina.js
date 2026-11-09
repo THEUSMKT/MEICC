@@ -93,11 +93,12 @@ export function initDopamina() {
           trigger: rpe, start: 'top 80%', once: true,
           onEnter: () => gsap.to(paths, { strokeDashoffset: 0, duration: 1, ease: 'power1.inOut', stagger: 0.35 })
         });
-        /* no celular a cena acompanha o scroll do proprio capitulo */
+        /* no celular a cena troca de uma vez no meio do capitulo: parada no meio da
+           transicao, a sinapse e as esferas ficariam uma por cima da outra */
         if (layer) {
           ScrollTrigger.create({
-            trigger: host, start: 'top 75%', end: 'bottom 15%', scrub: true,
-            onUpdate: self => layer.setProgress(self.progress * 0.55)
+            trigger: host, start: 'top 75%', end: 'bottom 15%',
+            onUpdate: self => layer.setProgress(self.progress < 0.5 ? 0 : 0.55)
           });
         }
       }

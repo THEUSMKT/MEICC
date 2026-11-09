@@ -1,5 +1,5 @@
 /* Ferramenta de ensaio: abre o build, percorre as paradas e salva capturas de tela.
-   Uso: node tests/capturas.mjs <pasta> <LxA> [query] [--paradas=a,b,c] [--sem-movimento] */
+   Uso: node tests/capturas.mjs <pasta> <LxA> [query] [--paradas=a,b,c] [--sem-movimento] [--dpr=3] */
 import { chromium } from '@playwright/test';
 import path from 'node:path';
 import { pathToFileURL } from 'node:url';
@@ -17,7 +17,8 @@ const browser = await chromium.launch({
   channel: 'msedge', headless: true,
   args: ['--use-angle=swiftshader', '--enable-webgl', '--ignore-gpu-blocklist', '--enable-unsafe-swiftshader']
 });
-const ctx = await browser.newContext({ viewport: { width, height }, reducedMotion: reduced ? 'reduce' : 'no-preference' });
+const dpr = parseFloat((flags.find(f => f.startsWith('--dpr=')) || '').split('=')[1]) || 1;
+const ctx = await browser.newContext({ viewport: { width, height }, deviceScaleFactor: dpr, reducedMotion: reduced ? 'reduce' : 'no-preference' });
 const page = await ctx.newPage();
 const problems = [];
 page.on('console', m => { if (m.type() === 'error' || m.type() === 'warning') problems.push(m.type() + ': ' + m.text()); });

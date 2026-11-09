@@ -31,6 +31,23 @@ test('modo 3D: sem erros, sem rede externa, sem scroll horizontal', async ({ pag
   expect(external).toEqual([]);
 });
 
+test('celular de tela densa: 3D nitido e rotulos dentro da tela', async ({ browser }, testInfo) => {
+  test.skip(testInfo.project.name !== '390x844', 'so vale no tamanho de celular');
+  const ctx = await browser.newContext({ viewport: { width: 390, height: 844 }, deviceScaleFactor: 3 });
+  const page = await ctx.newPage();
+  await page.goto(URL_BASE + '?forcar3d&q=medio');
+  await page.waitForFunction(() => document.documentElement.dataset.mode && window.__paradas && window.__paradas().length > 3, null, { timeout: 60000 });
+  expect(await page.evaluate(() => document.getElementById('gl').width)).toBeGreaterThanOrEqual(390 * 2);
+
+  const ciclo = await page.evaluate(() => window.__paradas().find(p => p.ci === 3).y);
+  await page.evaluate(v => window.scrollTo(0, v), ciclo);
+  await expect.poll(() => page.$$eval('#ciclo .cy-label:not(.cy-label-pause)', els => els.filter(e => {
+    const r = e.getBoundingClientRect();
+    return r.left < 0 || r.right > window.innerWidth;
+  }).length), { timeout: 30000 }).toBe(0);
+  await ctx.close();
+});
+
 test('qualidade adaptativa: FPS baixo reduz a qualidade sozinho', async ({ page }) => {
   await page.goto(URL_BASE + '?forcar3d');
   await page.waitForFunction(() => document.documentElement.dataset.mode, null, { timeout: 60000 });

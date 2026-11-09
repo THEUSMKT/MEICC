@@ -269,7 +269,8 @@ export function createNetLayer(section, hit) {
 
       /* a camera avanca para dentro da rede; no fim, a cena se apaga */
       const rect = hit.getBoundingClientRect();
-      const fit = Math.min(rect.width, rect.height) / view.h;
+      /* no celular a rede encolhe um pouco para nao encostar no botao nem nas laterais */
+      const fit = Math.min(rect.width, rect.height) / view.h * (view.w < 560 ? 0.88 : 1);
       camera.position.z = 3.05 - e * 2.95;
       aimCamera(camera, rect, 1 - e, fit + (1 - fit) * e);
       camera.updateProjectionMatrix();

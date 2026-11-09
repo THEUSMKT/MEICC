@@ -47,13 +47,16 @@ export function aimCamera(camera, rect, amount, zoomOut) {
 
 function applyQuality() {
   const q = quality.level;
-  view.dpr = Math.min(window.devicePixelRatio || 1, q.dpr);
+  /* o celular tem poucos pontos e muita densidade: limitar a 1x deixaria a imagem serrilhada */
+  view.dpr = Math.min(window.devicePixelRatio || 1, Math.max(q.dpr, Math.sqrt(q.pixels / (view.w * view.h))));
   renderer.setPixelRatio(view.dpr);
   renderer.setSize(view.w, view.h, false);
   composer.setPixelRatio(view.dpr);
   composer.setSize(view.w, view.h);
+  /* com essa densidade o antialiasing so gastaria GPU */
+  const samples = view.dpr >= 1.75 ? 0 : q.msaa;
   [composer.renderTarget1, composer.renderTarget2].forEach(t => {
-    if (t.samples !== q.msaa) { t.samples = q.msaa; t.dispose(); }
+    if (t.samples !== samples) { t.samples = samples; t.dispose(); }
   });
   bloomPass.enabled = q.bloom;
   /* bloom em meia resolucao: quase o mesmo visual por uma fracao do custo */

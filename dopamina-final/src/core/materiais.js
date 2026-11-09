@@ -101,8 +101,13 @@ export function placeLabels(labels, camera, rect, group, view) {
     v.copy(l.pos);
     if (group) group.localToWorld(v);
     v.project(camera);
-    const x = (v.x + 1) / 2 * view.w - rect.left;
+    let x = (v.x + 1) / 2 * view.w - rect.left;
     const y = (1 - v.y) / 2 * view.h - rect.top;
+    /* em tela estreita o rotulo nao pode sair pela lateral */
+    if (view.w < 560) {
+      if (!l.half || document.fonts.status !== 'loaded') l.half = l.el.offsetWidth / 2;
+      x = Math.max(8 + l.half - rect.left, Math.min(view.w - 8 - l.half - rect.left, x));
+    }
     l.el.style.transform = 'translate(-50%,-50%) translate(' + x.toFixed(1) + 'px,' + y.toFixed(1) + 'px)';
   }
 }

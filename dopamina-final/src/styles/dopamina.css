@@ -10,6 +10,8 @@
 .src{display:block;margin-top:4px;font-family:var(--mono);font-size:clamp(.76rem,.86vw,.88rem);color:var(--calm)}
 .verbs .src,.myth .src{font-size:clamp(.76rem,.86vw,.88rem);color:var(--calm);margin-top:4px}
 .dop-viz{position:relative;perspective:1200px}
+/* no celular o axonio sobe acima da cena: o espaco evita que ele passe por cima do texto */
+[data-mode="flat"].is-3d .dop-viz{margin-top:76px}
 .scene{position:relative;aspect-ratio:1/1;width:min(100%,clamp(380px,76vh,840px));margin-inline:auto;perspective:1000px}
 .orb{position:absolute;border-radius:50%;display:grid;place-items:center;font-family:var(--display);font-weight:700;transform-style:preserve-3d}
 .is-3d .orb{display:none}

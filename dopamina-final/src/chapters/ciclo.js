@@ -27,7 +27,8 @@ export function initCiclo() {
   let shown = -1;
 
   registerScene({
-    el, steps: 4, perStep: 0.72, flatStart: 'top 30%', flatEnd: 'bottom 70%',
+    /* no celular as quatro etapas acontecem enquanto o anel ainda esta na tela */
+    el, steps: 4, perStep: 0.72, flatTrigger: $('.cycle-viz', el), flatStart: 'top 62%', flatEnd: 'bottom 40%',
     onProgress(p) {
       if (layer) layer.setProgress(p);
       /* contador ilustrativo: sobe enquanto o ciclo gira e para quando a pausa entra */
