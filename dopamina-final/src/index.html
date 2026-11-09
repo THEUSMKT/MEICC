@@ -183,10 +183,10 @@
 </section>
 
 <!-- 4. CICLO -->
-<section class="chapter" id="ciclo" data-p="1">
-  <div class="wrap cycle-grid">
-    <div class="cycle-viz tilt">
-      <svg viewBox="0 0 400 340" role="img" aria-label="Ciclo do hábito: gatilho leva ao comportamento, que leva à consequência, que volta a reforçar o gatilho">
+<section class="chapter" id="ciclo" data-p="1" data-scene>
+  <div class="depth"><div class="wrap cycle-grid">
+    <div class="cycle-viz">
+      <svg class="cy-fallback" viewBox="0 0 400 340" role="img" aria-label="Ciclo do hábito: gatilho leva ao comportamento, que leva à consequência, que volta a reforçar o gatilho">
         <defs><marker id="ah" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" fill="#9aa8c2"/></marker></defs>
         <circle class="cy-ring" cx="200" cy="200" r="140"/>
         <path class="cy-arc" d="M265.7 76.4 A140 140 0 0 1 339.9 204.9" marker-end="url(#ah)"/>
@@ -204,19 +204,31 @@
         <text class="cy-c" x="200" y="196">O cérebro aprende</text>
         <text class="cy-c" x="200" y="216">e repete</text>
       </svg>
+      <div class="cy-stage" id="cyStage" aria-hidden="true">
+        <div class="cy-count"><span id="cyNL">Repetições</span><b id="cyN">1</b><small>Contador ilustrativo</small></div>
+        <span class="cy-label" data-n="0"><svg class="ic"><use href="#i-bell"/></svg>Gatilho</span>
+        <span class="cy-label" data-n="1"><svg class="ic"><use href="#i-phone"/></svg>Comportamento</span>
+        <span class="cy-label" data-n="2"><svg class="ic"><use href="#i-spark"/></svg>Consequência</span>
+        <span class="cy-label cy-label-pause" data-n="3"><svg class="ic"><use href="#i-hourglass"/></svg>Pausa</span>
+        <div class="cw cw-notif"><span class="cw-bell"><svg class="ic"><use href="#i-bell"/></svg></span><div><b>Nova curtida</b><small>agora</small></div></div>
+        <div class="cw cw-feed"><div class="feed-roll"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div></div>
+        <div class="cw cw-feel"><span><svg class="ic"><use href="#i-wind"/></svg>Alívio</span><span><svg class="ic"><use href="#i-frown"/></svg>Arrependimento</span></div>
+        <div class="cw cw-pause"><svg viewBox="0 0 120 120"><circle class="p-bg" cx="60" cy="60" r="52"/><circle class="p-fg" cx="60" cy="60" r="52" pathLength="1" transform="rotate(-90 60 60)"/></svg><b>10</b><small>segundos</small></div>
+      </div>
+      <p class="cy-cap" id="cyCap" aria-live="off">Gatilho: uma notificação chama a sua atenção.</p>
     </div>
     <div class="cycle-copy">
       <h2 class="reveal">O celular treina um hábito em três etapas</h2>
       <ul class="mech">
-        <li><span class="fi"><svg class="ic" aria-hidden="true"><use href="#i-spark"/></svg></span><div><strong>Recompensa social e imprevisível</strong><p>Em adolescentes, curtidas ativam o circuito de recompensa. Quanto mais inesperada a recompensa, maior o sinal de aprendizagem.</p><span class="src">Sherman et al., 2016 · Schultz et al., 1997 · Lindström et al., 2021</span></div></li>
-        <li><span class="fi"><svg class="ic" aria-hidden="true"><use href="#i-wind"/></svg></span><div><strong>Alívio do desconforto</strong><p>Usar o celular para aliviar tédio ou ansiedade é um dos caminhos que os modelos científicos apontam para o hábito se fixar.</p><span class="src">Brand et al., 2016</span></div></li>
+        <li data-cy="0,1"><span class="fi"><svg class="ic" aria-hidden="true"><use href="#i-spark"/></svg></span><div><strong>Recompensa social e imprevisível</strong><p>Em adolescentes, curtidas ativam o circuito de recompensa. Quanto mais inesperada a recompensa, maior o sinal de aprendizagem.</p><span class="src">Sherman et al., 2016 · Schultz et al., 1997 · Lindström et al., 2021</span></div></li>
+        <li data-cy="2"><span class="fi"><svg class="ic" aria-hidden="true"><use href="#i-wind"/></svg></span><div><strong>Alívio do desconforto</strong><p>Usar o celular para aliviar tédio ou ansiedade é um dos caminhos que os modelos científicos apontam para o hábito se fixar.</p><span class="src">Brand et al., 2016</span></div></li>
       </ul>
-      <div class="myth">
+      <div class="myth" data-cy="3">
         <p><b>Mito:</b> precisamos fazer um detox de dopamina.</p>
         <p><b>Fato:</b> a dopamina é necessária para querer e buscar qualquer recompensa, então não dá para eliminá-la. O que muda são os hábitos.<span class="src">Berridge e Robinson, 1998</span></p>
       </div>
     </div>
-  </div>
+  </div></div>
 </section>
 
 <!-- 5. LOOP -->

@@ -11,6 +11,7 @@ import { initFx } from './core/fx.js';
 import { initAbertura } from './chapters/abertura.js';
 import { initDados } from './chapters/dados.js';
 import { initDopamina } from './chapters/dopamina.js';
+import { initCiclo } from './chapters/ciclo.js';
 import { initLoopApp } from './chapters/loop-app.js';
 
 if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
@@ -26,6 +27,7 @@ if (has3D && stageOn) createFundo();
 initAbertura();
 initDados();
 initDopamina();
+initCiclo();
 initLoopApp();
 initFx();
 clkRender();
