@@ -12,7 +12,8 @@ import { initAbertura } from './chapters/abertura.js';
 import { initDados } from './chapters/dados.js';
 import { initDopamina } from './chapters/dopamina.js';
 import { initCiclo } from './chapters/ciclo.js';
-import { initLoopApp } from './chapters/loop-app.js';
+import { initLoop } from './chapters/loop.js';
+import { initConclusao } from './chapters/conclusao.js';
 
 if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
 quality.init();
@@ -28,7 +29,8 @@ initAbertura();
 initDados();
 initDopamina();
 initCiclo();
-initLoopApp();
+initLoop();
+initConclusao();
 initFx();
 clkRender();
 

@@ -1,6 +1,7 @@
 /* App Loop. O fluxo e as chaves de armazenamento sao os mesmos da versao aprovada. */
 import { $, $$, pad } from '../core/dom.js';
 import { store } from '../core/store.js';
+import { debug, reduce } from '../core/env.js';
 
 export function initLoopApp() {
   const root = $('#app');
@@ -38,7 +39,9 @@ export function initLoopApp() {
     entries: Array.isArray(saved.entries) ? saved.entries.filter(okEntry) : [],
     pending: saved.pending && T[saved.pending.trigger] && saved.pending.startedAt ? saved.pending : null
   };
-  const persist = () => store.set(KEY, { entries: state.entries, pending: state.pending });
+  let sandbox = null; /* demonstracao automatica: roda em memoria e nunca toca nos dados salvos */
+  const persist = () => { if (!sandbox) store.set(KEY, { entries: state.entries, pending: state.pending }); };
+  const pauseSeconds = () => sandbox ? sandbox.pausa : (debug.pausa || 10);
 
   const views = {};
   $$('[data-view]', root).forEach(v => { views[v.dataset.view] = v; });
@@ -91,8 +94,14 @@ export function initLoopApp() {
   }
 
   const C = 326.7;
+  function setNum(el, v) {
+    const t = String(v);
+    if (el.textContent === t) return;
+    el.textContent = t;
+    if (!reduce && el.animate) el.animate([{ transform: 'scale(1.2)' }, { transform: 'scale(1)' }], { duration: 280, easing: 'cubic-bezier(.16,1,.3,1)' });
+  }
   function startPause() {
-    const total = 10, t0 = performance.now();
+    const total = pauseSeconds(), t0 = performance.now();
     const fg = $('#ringFg'), num = $('#ringNum');
     $('#btnOpen').disabled = true; $('#btnOther').disabled = true; $('#btnSkip').hidden = false;
     num.classList.remove('ok');
@@ -102,10 +111,10 @@ export function initLoopApp() {
       const el = (performance.now() - t0) / 1000;
       const rem = Math.max(0, total - el);
       fg.style.strokeDashoffset = C * (1 - Math.min(1, el / total));
-      num.textContent = Math.ceil(rem);
+      setNum(num, Math.ceil(rem * 10 / total));
       if (rem <= 0) endPause();
     };
-    timers.pause = setInterval(step, 100);
+    timers.pause = setInterval(step, 50);
     step();
   }
   function endPause() {
@@ -229,4 +238,23 @@ export function initLoopApp() {
 
   buildChips();
   show('home', { focus: false });
+
+  return {
+    root,
+    /* entra e sai da demonstracao: troca os dados por uma copia em memoria e devolve tudo no fim */
+    sandboxOn(pausa) {
+      sandbox = { pausa, entries: state.entries, pending: state.pending };
+      state.entries = DEMO.map(e => Object.assign({}, e));
+      state.pending = null;
+      show('home', { focus: false });
+    },
+    sandboxOff() {
+      if (!sandbox) return;
+      state.entries = sandbox.entries;
+      state.pending = sandbox.pending;
+      sandbox = null;
+      show('home', { focus: false });
+    },
+    fakeUse(min) { if (state.pending) state.pending.startedAt = Date.now() - min * 60000; }
+  };
 }

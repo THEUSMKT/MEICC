@@ -104,6 +104,11 @@ function goToStop(idx) {
   });
 }
 
+export function goToChapter(ci) {
+  const idx = stops.findIndex(s => s.ci === ci);
+  if (idx >= 0) goToStop(idx);
+}
+
 function step(dir) {
   if (!stops.length) return;
   if (target >= 0) { goToStop(target + dir); return; }
