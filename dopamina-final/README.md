@@ -33,6 +33,14 @@ Os atalhos não valem com o foco em um campo de texto. O botão "Roteiro e pergu
 
 Divisão de tempo: apresentador 1 (abertura e dados, 0 a 90 s), apresentador 2 (ciência e hábito, 90 a 190 s), apresentador 3 (Loop e conclusão, 190 a 300 s).
 
+## No celular
+
+A pré-visualização de arquivos do WhatsApp e do iPhone não executa scripts, então o `index.html` aberto por ali aparece sem 3D e sem animações. No celular, use o link público: https://theusmkt.github.io/MEICC/dopamina-final/dist/index.html
+
+Para ter no aparelho e abrir sem internet: abra o link uma vez com internet, toque em Compartilhar e em "Adicionar à Tela de Início". Quando há internet, a versão mais nova é baixada sozinha. Os registros do Loop feitos pelo ícone ficam só nele, separados do navegador.
+
+Os arquivos `sw.js`, `manifest.webmanifest` e os ícones em `dist/` só servem para o link público. O `dist/index.html` continua funcionando sozinho, com dois cliques.
+
 ## Para editar
 
 ```bash

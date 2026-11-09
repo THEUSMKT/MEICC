@@ -13,7 +13,8 @@ export const debug = {
   no3d: params.has('no3d'),
   forcar3d: params.has('forcar3d'),
   quality: params.get('q'),
-  demoSpeed: params.get('demoSpeed') /* fast: encurta a demonstracao do Loop nos testes */
+  demoSpeed: params.get('demoSpeed'), /* fast: encurta a demonstracao do Loop nos testes */
+  sw: params.has('sw') /* liga o modo offline em localhost, so para os testes */
 };
 
 export const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
