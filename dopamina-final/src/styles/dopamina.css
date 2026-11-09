@@ -9,6 +9,9 @@
 .facts p,.mech p,.verbs span{color:var(--muted);font-size:clamp(.98rem,1.2vw,1.12rem)}
 .src{display:block;margin-top:4px;font-family:var(--mono);font-size:clamp(.76rem,.86vw,.88rem);color:var(--calm)}
 .verbs .src,.myth .src{font-size:clamp(.76rem,.86vw,.88rem);color:var(--calm);margin-top:4px}
+/* frase curta de evidencia, com a fonte, abaixo de uma lista */
+.facts li.evid,.mech li.evid{display:block;padding-block:0;font-size:clamp(.9rem,1.02vw,1.02rem);line-height:1.35;color:var(--muted)}
+.facts li.evid p,.mech li.evid p{font-size:inherit}
 .dop-viz{position:relative;perspective:1200px}
 /* no celular o axonio sobe acima da cena: o espaco evita que ele passe por cima do texto */
 [data-mode="flat"].is-3d .dop-viz{margin-top:76px}

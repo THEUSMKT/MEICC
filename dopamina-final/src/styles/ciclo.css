@@ -66,6 +66,18 @@
 .myth p{font-size:clamp(.98rem,1.2vw,1.1rem)}
 .myth b{color:var(--accent)}
 
+/* Projetor de altura baixa (1366x768): as frases de evidencia precisam caber sem rolagem */
+@media (max-height:820px){
+  [data-mode="pin"] #ciclo{padding-block:calc(var(--bar) + 10px) 12px}
+  [data-mode="pin"] #ciclo h2{font-size:clamp(1.7rem,2.75vw,2.75rem)}
+  [data-mode="pin"] #ciclo .cycle-copy{gap:8px}
+  [data-mode="pin"] #ciclo .mech{gap:6px}
+  [data-mode="pin"] #ciclo .mech li{padding-block:5px}
+  [data-mode="pin"] #ciclo .mech strong{font-size:1.04rem}
+  [data-mode="pin"] #ciclo .mech p,[data-mode="pin"] #ciclo .myth p{font-size:.95rem;line-height:1.34}
+  [data-mode="pin"] #ciclo .myth{padding-block:8px}
+}
+
 /* Sem WebGL: o ciclo tambem quebra na pausa */
 .no3d .cw.cw-pause{display:grid;top:59%}
 .is-3d .cw.cw-pause{display:none}

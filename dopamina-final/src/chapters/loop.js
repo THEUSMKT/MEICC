@@ -1,13 +1,30 @@
-/* Capitulo 5: Loop. O celular sobe em 3D e o app pode se demonstrar sozinho (tecla D).
-   A demonstracao clica nos botoes de verdade, mas roda em memoria: nada e gravado. */
+/* Capitulo 5: Loop. O celular sobe em 3D e o app pode se demonstrar sozinho (tecla D), em ritmo de fala.
+   A demonstracao usa as telas e os botoes de verdade, mas roda em memoria: nada e gravado. */
 import { $, $$ } from '../core/dom.js';
-import { reduce } from '../core/env.js';
+import { reduce, debug } from '../core/env.js';
 import { gsap, ScrollTrigger } from '../core/gsap.js';
-import { registerFx, registerKey, goToChapter } from '../core/nav.js';
+import { registerFx, registerKey, goToChapter, setNavBlocker, getMode } from '../core/nav.js';
 import { revealLines, revealBlur } from '../core/fx.js';
 import { initLoopApp } from './loop-app.js';
 
-const DEMO_PAUSE = 4.5; /* segundos: a contagem mostra de 10 a 1, acelerada */
+const TRANS = 600, RING = 550; /* milissegundos na velocidade Normal */
+const SPEEDS = { 1: { f: 1.5, nome: 'Lento' }, 2: { f: 1, nome: 'Normal' }, 3: { f: 0.75, nome: 'Rápido' } };
+const FAST = debug.demoSpeed === 'fast'; /* so para testes automatizados */
+
+/* ms: tempo minimo na tela, na velocidade Normal. No passo 3, o relogio so anda depois dos 10 s reais do anel. */
+const STEPS = [
+  { view: 'home', ms: 6000, btn: '#btnWant', cap: 'Registrar o que você sente.', src: 'Harkin et al., 2016' },
+  {
+    view: 'trigger', ms: 7000, btn: '#btnTrigNext', cap: 'Escolher o que puxou a vontade e qual é o app.', src: 'Harkin et al., 2016',
+    at: [[1900, '[data-chip="trigger"][data-val="tedio"]'], [3800, '[data-chip="app"][data-val="Instagram"]']]
+  },
+  { view: 'pause', ms: 2000, btn: '#btnOpen', cap: 'Pausa de 10 segundos.', src: 'Grüning et al., 2023', until: () => !$('#btnOpen').disabled },
+  { view: 'using', ms: 7000, btn: '[data-act="finish"]', cap: 'Decidiu abrir: o Loop conta o tempo de uso.' },
+  { view: 'feel', ms: 7000, btn: '[data-act="feel"][data-val="tempo"]', cap: 'Terminou: contar como foi.', src: 'Harkin et al., 2016' },
+  { view: 'done', ms: 4000, btn: '[data-act="toPattern"]', cap: 'Registro salvo. Cada registro deixa o padrão mais claro.' },
+  { view: 'pattern', cap: 'Seu padrão: o gatilho que mais aparece e como costuma terminar.', src: 'Dados de exemplo' }
+];
+const LAST = STEPS.length - 1;
 
 export function initLoop() {
   const el = $('#loop');
@@ -16,87 +33,182 @@ export function initLoop() {
   const finger = $('#tap');
   const btn = $('#demoBtn');
   const tag = $('#autoTag');
-  let run = 0; /* token: cada demonstracao tem o seu; trocar o token cancela a anterior */
-  let active = false;
+  const copy = $('.loop-copy', el);
+  const panel = $('#demoPanel');
+  const ticks = STEPS.map(() => $('#dpTicks').appendChild(document.createElement('i')));
+  let token = 0; /* cada passo tem o seu; trocar o token cancela o que estava esperando */
+  let active = false, cur = 0, paused = false, manual = false, speed = 2, leaving = false;
 
-  const wait = (ms, id) => new Promise(res => setTimeout(() => res(id === run), ms));
+  const factor = () => (FAST ? 0.05 : SPEEDS[speed].f);
+  const target = s => (s.btn ? $(s.btn, screen) : null);
 
-  async function tap(sel, id) {
-    if (id !== run) return false;
-    const target = typeof sel === 'string' ? $(sel, screen) : sel;
-    if (!target) return false;
-    const s = screen.getBoundingClientRect(), r = target.getBoundingClientRect();
-    const x = r.left - s.left + r.width / 2, y = r.top - s.top + r.height / 2;
-    if (reduce) {
-      gsap.set(finger, { x, y, opacity: 0.9 });
-    } else {
-      gsap.to(finger, { x, y, opacity: 0.9, duration: 0.42, ease: 'power3.inOut', overwrite: 'auto' });
-      await wait(440, id);
-      if (id !== run) return false;
-      gsap.fromTo(finger, { scale: 1 }, { scale: 0.62, duration: 0.09, yoyo: true, repeat: 1 });
-      await wait(120, id);
-    }
-    if (id !== run) return false;
-    target.click();
-    return true;
+  /* em tela grande a legenda ocupa o lugar do texto, ao lado do celular */
+  function place() {
+    if (getMode() !== 'pin') { panel.style.cssText = ''; return; }
+    const c = copy.getBoundingClientRect(), b = btn.getBoundingClientRect();
+    const top = Math.max(76, c.top);
+    panel.style.left = c.left + 'px';
+    panel.style.top = top + 'px';
+    panel.style.width = c.width + 'px';
+    panel.style.height = Math.max(240, b.top - top - 14) + 'px';
   }
 
-  const until = async (fn, id, limit = 9000) => {
-    const t0 = performance.now();
-    while (id === run && !fn() && performance.now() - t0 < limit) await wait(60, id);
-  };
+  function seals() {
+    $('#dpSpeed').textContent = SPEEDS[speed].nome;
+    $('#dpMode').textContent = manual ? 'Manual' : 'Automático';
+    $('#dpPaused').hidden = !paused;
+  }
+
+  function paint() {
+    const s = STEPS[cur], src = $('#dpSrc');
+    $('#dpStep').textContent = (cur + 1) + ' de ' + STEPS.length;
+    $('#dpCap').textContent = s.cap;
+    src.textContent = s.src || '';
+    src.hidden = !s.src;
+    ticks.forEach((t, k) => t.classList.toggle('on', k <= cur));
+    tag.hidden = cur === LAST; /* no resumo, a etiqueta que importa e "Dados de exemplo" */
+    seals();
+    place();
+  }
+
+  /* anel que se expande sobre o botao que a demonstracao vai apertar */
+  function ringAt(button) {
+    if (reduce || !button) return;
+    const s = screen.getBoundingClientRect(), r = button.getBoundingClientRect();
+    gsap.fromTo(finger,
+      { x: r.left - s.left + r.width / 2, y: r.top - s.top + r.height / 2, scale: 0.3, opacity: 1 },
+      { scale: 2, opacity: 0, duration: RING / 1000 * factor(), ease: 'power2.out', overwrite: 'auto' });
+  }
+
+  function press(sel, t) {
+    const b = $(sel, screen);
+    ringAt(b);
+    setTimeout(() => { if (t === token && b && !b.disabled) b.click(); }, Math.min(260, RING * factor() / 2));
+  }
+
+  /* Relogio da demonstracao: para com a pausa, segue a velocidade e, no modo manual, nao encerra o passo. */
+  function clock(ms, t, opts = {}) {
+    const at = opts.at || [];
+    return new Promise(res => {
+      let el2 = 0, last = performance.now(), fired = 0;
+      const id = setInterval(() => {
+        if (t !== token) { clearInterval(id); res(false); return; }
+        const now = performance.now(), dt = now - last;
+        last = now;
+        place();
+        if (paused && !opts.always) return;
+        if (opts.until && !opts.until()) return;
+        el2 += dt / factor();
+        while (fired < at.length && el2 >= at[fired][0]) press(at[fired++][1], t);
+        if (el2 >= ms && !(opts.gate && manual)) { clearInterval(id); res(true); }
+      }, 30);
+    });
+  }
+
+  async function leave(i, t, always) {
+    leaving = true;
+    ringAt(target(STEPS[i]));
+    if (!await clock(RING, t, { always })) return;
+    const b = target(STEPS[i]), next = STEPS[i + 1];
+    if (b && !b.disabled && b.offsetParent) {
+      b.click();
+      if (next.view === 'using') app.fakeUse(12);
+    } else {
+      /* o apresentador pulou o passo antes de o botao ficar disponivel */
+      app.demoState(next.view);
+    }
+    run(i + 1);
+  }
+
+  async function run(i) {
+    const t = ++token;
+    cur = i;
+    leaving = false;
+    paint();
+    app.freeze(paused);
+    if (!reduce) gsap.fromTo(app.viewEl(), { autoAlpha: 0, y: 12 }, { autoAlpha: 1, y: 0, duration: TRANS / 1000 * factor(), ease: 'power2.out', clearProps: 'all' });
+    if (!await clock(TRANS, t)) return;
+    if (i === LAST) return; /* o resumo fica na tela ate o apresentador avancar */
+    const s = STEPS[i];
+    if (!await clock(s.ms, t, { until: s.until, at: s.at, gate: true })) return;
+    leave(i, t, false);
+  }
+
+  function next() {
+    if (!leaving) leave(cur, ++token, true);
+  }
+
+  function prev() {
+    if (cur === 0) return;
+    app.demoState(STEPS[cur - 1].view);
+    run(cur - 1);
+  }
 
   function setUi(on) {
     active = on;
     tag.hidden = !on;
+    panel.hidden = !on;
+    el.classList.toggle('demo-on', on);
     btn.setAttribute('aria-pressed', on ? 'true' : 'false');
-    $('.lbl', btn).textContent = on ? 'Parar demonstração' : 'Demonstração automática';
-    gsap.to(finger, { opacity: 0, duration: 0.2, overwrite: 'auto' });
+    $('.lbl', btn).textContent = on ? 'Parar demonstração' : 'Ver demonstração';
+    gsap.set(finger, { opacity: 0 });
   }
 
   function stop() {
     if (!active) return;
-    run++;
+    token++;
     setUi(false);
+    gsap.killTweensOf(app.viewEl());
+    gsap.set(app.viewEl(), { clearProps: 'all' });
     app.sandboxOff();
   }
 
-  async function start() {
-    const id = ++run;
+  function start() {
+    paused = false; manual = false; speed = 2; leaving = false;
+    if (document.activeElement && document.activeElement !== document.body) document.activeElement.blur();
     setUi(true);
-    app.sandboxOn(DEMO_PAUSE);
-    await wait(500, id);
-    if (!await tap('#btnWant', id)) return;
-    await wait(420, id);
-    if (!await tap('[data-chip="trigger"][data-val="tedio"]', id)) return;
-    await wait(260, id);
-    if (!await tap('[data-chip="app"][data-val="Instagram"]', id)) return;
-    await wait(300, id);
-    if (!await tap('#btnTrigNext', id)) return;
-    await until(() => !$('#btnOpen').disabled, id);
-    await wait(420, id);
-    if (!await tap('#btnOpen', id)) return;
-    app.fakeUse(12);
-    await wait(1700, id);
-    if (!await tap('[data-act="finish"]', id)) return;
-    await wait(650, id);
-    if (!await tap('[data-act="feel"][data-val="tempo"]', id)) return;
-    await wait(900, id);
-    if (!await tap('[data-act="toPattern"]', id)) return;
-    /* o resumo fica na tela enquanto a pessoa fala; sai com D, Esc, um clique ou ao mudar de capitulo */
-    gsap.to(finger, { opacity: 0, duration: 0.3, overwrite: 'auto' });
+    app.sandboxOn(FAST ? 0.5 : 10);
+    run(0);
   }
 
   function toggle() {
     if (active) { stop(); return; }
-    const r = el.getBoundingClientRect();
-    if (Math.abs(r.top) > window.innerHeight * 0.3) goToChapter(4);
+    if (getMode() === 'pin') {
+      if (Math.abs(el.getBoundingClientRect().top) > window.innerHeight * 0.3) goToChapter(4);
+    } else {
+      /* no celular o que importa e ver o aparelho, logo abaixo da barra */
+      const y = $('.phone-wrap', el).getBoundingClientRect().top + window.scrollY - 76;
+      window.scrollTo({ top: y, behavior: reduce ? 'auto' : 'smooth' });
+    }
     start();
   }
 
   btn.addEventListener('click', toggle);
   registerKey('d', toggle);
   document.addEventListener('keydown', e => { if (e.key === 'Escape') stop(); });
+  window.addEventListener('resize', () => { if (active) place(); });
+  /* o Espaco nao pode ativar o botao que estiver em foco */
+  document.addEventListener('keyup', e => { if (active && e.key === ' ') e.preventDefault(); }, true);
+
+  setNavBlocker(e => {
+    if (!active || document.querySelector('dialog[open]')) return false;
+    const k = e.key;
+    const forward = k === 'PageDown' || k === 'ArrowRight' || k === 'ArrowDown';
+    const back = k === 'PageUp' || k === 'ArrowLeft' || k === 'ArrowUp';
+    if (forward && cur === LAST) { stop(); return false; } /* depois do resumo, a apresentacao segue */
+    if (forward || back || k === ' ') {
+      e.preventDefault();
+      if (e.repeat) return true;
+      if (forward) next();
+      else if (back) prev();
+      else { paused = !paused; app.freeze(paused); seals(); }
+      return true;
+    }
+    if (SPEEDS[k]) { speed = +k; seals(); return true; }
+    if (k.toLowerCase() === 'm') { manual = !manual; seals(); return true; }
+    return false;
+  });
+
   /* um clique de verdade no celular encerra a demonstracao e volta ao modo real */
   app.root.addEventListener('click', e => {
     if (active && e.isTrusted) { e.stopPropagation(); e.preventDefault(); stop(); }
@@ -120,7 +232,6 @@ export function initLoop() {
   }, true);
 
   const phone = $('.phone-lift', el);
-  const copy = $('.loop-copy', el);
   registerFx(mode => {
     revealLines($('h2', el), { trigger: el, start: 'top 72%' });
     revealBlur($('.lead', el), { trigger: el, start: 'top 58%' });

@@ -12,6 +12,7 @@
 .tile-top .ic{color:var(--accent)}
 .n{font-family:var(--display);font-weight:800;font-size:clamp(3.6rem,8vw,10rem);letter-spacing:-.04em;line-height:1;font-variant-numeric:tabular-nums}
 .n-new{color:var(--accent)}
+.amostra{display:inline-block;padding:.22em .8em;border:1.5px solid var(--accent);border-radius:999px;background:rgba(255,138,61,.12);color:var(--accent);font-family:var(--display);font-weight:700;font-size:clamp(1rem,1.4vw,1.5rem)}
 .small{font-size:clamp(.92rem,1.08vw,1.1rem);color:var(--muted);max-width:60ch}
 [data-mode="pin"] #dados .depth,[data-mode="pin"] #dados .wrap{height:100%}
 [data-mode="pin"] #dados .wrap{display:flex;flex-direction:column}

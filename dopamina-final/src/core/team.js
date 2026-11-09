@@ -3,17 +3,22 @@ import { $, $$ } from './dom.js';
 import { store } from './store.js';
 import { CONFIG } from './config.js';
 
-export function initTeam() {
 const TEAM_KEY = 'dd-team-v1';
 const team = Object.assign({ n1: '', n2: '', n3: '', escola: '', testou: '', quote: '' }, store.get(TEAM_KEY) || {});
-const nameOf = i => String(team['n' + (i + 1)] || '').trim() || CONFIG.equipe[i].nome;
+const listeners = new Set();
+
+export const nomeDe = i => String(team['n' + (i + 1)] || '').trim() || CONFIG.equipe[i].nome;
+export const testouN = () => { const n = parseInt(team.testou, 10); return n > 0 ? n : 0; };
+export const onTeamChange = fn => { listeners.add(fn); };
+
+export function initTeam() {
 function applyTeam() {
-  $$('[data-nome]').forEach(el => { el.textContent = nameOf(+el.dataset.nome); });
-  $$('[data-inicial]').forEach(el => { el.textContent = nameOf(+el.dataset.inicial).charAt(0).toUpperCase(); });
+  $$('[data-nome]').forEach(el => { el.textContent = nomeDe(+el.dataset.nome); });
+  $$('[data-inicial]').forEach(el => { el.textContent = nomeDe(+el.dataset.inicial).charAt(0).toUpperCase(); });
   const escola = String(team.escola || '').trim() || CONFIG.turma;
   $$('[data-turma]').forEach(el => { el.textContent = escola; });
   $('#eyebrow').textContent = escola ? 'Feira científica, ' + escola : 'Feira científica';
-  const n = parseInt(team.testou, 10);
+  const n = testouN();
   const box = $('#testedBox');
   if (n > 0) {
     box.hidden = false;
@@ -22,6 +27,8 @@ function applyTeam() {
     $('#testedQuote').textContent = q;
     $('#testedQuote').hidden = !q;
   } else { box.hidden = true; }
+  $('#limTest').textContent = n > 0 ? ' ' + (n === 1 ? '1 colega testou a ferramenta.' : n + ' colegas testaram a ferramenta.') : '';
+  listeners.forEach(fn => fn());
 }
 ['n1', 'n2', 'n3', 'escola', 'testou', 'quote'].forEach(k => {
   const el = $('#ed-' + k);

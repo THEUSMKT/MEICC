@@ -3,7 +3,8 @@
      ?pausa=0.5   encurta a pausa do Loop para 0,5 s
      ?no3d        usa os visuais sem WebGL
      ?forcar3d    aceita WebGL por software (normalmente cai no plano B)
-     ?q=alto      trava a qualidade (minimo, baixo, medio ou alto) */
+     ?q=alto      trava a qualidade (minimo, baixo, medio ou alto)
+     ?demoSpeed=fast  encurta a demonstracao do Loop */
 const params = new URLSearchParams(location.search);
 const num = k => { const v = parseFloat(params.get(k)); return Number.isFinite(v) && v > 0 ? v : null; };
 
@@ -11,7 +12,8 @@ export const debug = {
   pausa: num('pausa'),
   no3d: params.has('no3d'),
   forcar3d: params.has('forcar3d'),
-  quality: params.get('q')
+  quality: params.get('q'),
+  demoSpeed: params.get('demoSpeed') /* fast: encurta a demonstracao do Loop nos testes */
 };
 
 export const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;

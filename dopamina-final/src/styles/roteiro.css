@@ -1,0 +1,42 @@
+/* ===== Roteiro, perguntas e limites (teclas N, Q e L) ===== */
+.cola{position:fixed;top:calc(var(--bar) + 8px);right:12px;bottom:12px;z-index:45;width:min(580px,calc(100vw - 24px));display:flex;flex-direction:column;border:1px solid var(--line-strong);border-radius:var(--r);background:var(--ink-2);box-shadow:0 30px 70px -24px rgba(0,0,0,.9)}
+.cola[hidden]{display:none}
+.cola header{display:flex;justify-content:space-between;align-items:flex-start;gap:16px;padding:16px 20px;border-bottom:1px solid var(--line)}
+.cola h2{font-size:1.4rem;margin-top:2px}
+.cola-body{position:relative;overflow-y:auto;overscroll-behavior:contain;padding:14px 20px 22px;font-size:1.02rem;line-height:1.45;display:grid;gap:18px;align-content:start}
+.rt-bloco{display:grid;gap:8px}
+.rt-bloco h3{font-size:1.12rem;color:var(--accent)}
+.rt-bloco ol{display:grid;gap:8px;list-style:decimal;padding-left:1.3em}
+.rt-bloco li b{font-family:var(--mono);font-weight:600;font-size:.92em;color:var(--calm)}
+.rt-diga b,.rt-evite b{font-weight:700}
+.rt-diga b{color:var(--good)}
+.rt-evite b{color:var(--bad)}
+.rt-perg{display:grid;gap:12px;list-style:decimal;padding-left:1.3em}
+.rt-perg b{display:block;font-weight:600;color:var(--text)}
+.rt-lim{display:grid;gap:10px;list-style:disc;padding-left:1.2em}
+
+/* ===== Visao para imprimir ===== */
+#impressao{position:fixed;inset:0;z-index:100;overflow:auto;background:#fff;color:#111}
+#impressao[hidden]{display:none}
+.imp-bar{position:sticky;top:0;display:flex;gap:10px;padding:12px 20px;background:var(--ink-2)}
+#impBody{max-width:190mm;margin-inline:auto;padding:14px 16px 40px;font-family:var(--body);font-size:15.5px;line-height:1.3;color:#111}
+#impBody h1{font-size:1.45em;margin-bottom:.3em}
+#impBody h2{font-size:1.3em;margin:.6em 0 .25em}
+#impBody h3{font-size:1.05em;margin-bottom:.15em;color:#111}
+#impBody .rt-bloco{display:block;margin-bottom:.45em}
+#impBody ol{display:block;padding-left:1.25em;list-style:decimal}
+#impBody li{margin-bottom:.14em}
+#impBody li b{color:#111;font-family:var(--body);font-size:1em;font-weight:700}
+#impBody .rt-perg b{display:inline}
+#impBody p{margin:.12em 0}
+#impBody .rt-diga b,#impBody .rt-evite b{color:#111}
+
+@page{size:A4;margin:9mm 11mm}
+@media print{
+  html,body{background:#fff!important;height:auto!important;overflow:visible!important}
+  body>*:not(#impressao){display:none!important}
+  #impressao,#impressao[hidden]{display:block!important;position:static;overflow:visible}
+  .imp-bar{display:none!important}
+  #impBody{max-width:none;padding:0;font-size:11.5pt;line-height:1.26}
+  #impBody .rt-bloco,#impBody li{break-inside:avoid}
+}

@@ -13,8 +13,23 @@ Abra `dist/index.html` com dois cliques. É um arquivo único, com tudo embutido
 | `T` | Inicia ou pausa o cronômetro de 5:00 |
 | `H` | Esconde ou mostra a barra do topo e o cronômetro |
 | `R` | Abre ou fecha o painel "Defesa das fontes" |
-| `D` | Liga ou desliga a demonstração automática do Loop |
+| `D` | Liga ou encerra a demonstração automática do Loop |
+| `N` | Abre ou fecha o roteiro de fala (use nos ensaios: se o projetor espelhar a tela, a plateia vê) |
+| `Q` | Abre ou fecha as perguntas prováveis |
+| `L` | Abre ou fecha os limites do trabalho |
 | `Esc` | Fecha o painel e encerra a demonstração |
+
+Durante a demonstração do Loop:
+
+| Tecla | O que faz |
+| --- | --- |
+| `Espaço` | Pausa e retoma |
+| `PageDown`, seta direita | Avança um passo. No último passo, encerra e segue para a conclusão |
+| `PageUp`, seta esquerda | Volta um passo |
+| `1`, `2`, `3` | Lento, Normal ou Rápido. O anel da pausa conta sempre 10 s reais |
+| `M` | Alterna automático e manual. No manual, a tela só muda com `PageDown` |
+
+Os atalhos não valem com o foco em um campo de texto. O botão "Roteiro e perguntas (imprimir)", na seção da equipe, gera a versão em A4 para levar no papel.
 
 Divisão de tempo: apresentador 1 (abertura e dados, 0 a 90 s), apresentador 2 (ciência e hábito, 90 a 190 s), apresentador 3 (Loop e conclusão, 190 a 300 s).
 
@@ -36,7 +51,7 @@ npm run check
 npm test
 ```
 
-`npm run check` confere o conteúdo contra o backup: as 11 referências idênticas, as justificativas, os números, os travessões, a ausência de CDN e o contraste. `npm test` usa o Playwright com o Edge instalado no Windows, em 1366x768, 1920x1080 e 390x844, abrindo o arquivo final direto do disco.
+`npm run check` confere o conteúdo contra o backup: as 11 referências originais idênticas, as 4 novas, as 15 justificativas, as frases novas, os números, os travessões, a ausência de CDN e o contraste. `npm test` usa o Playwright com o Edge instalado no Windows, em 1366x768, 1920x1080 e 390x844, abrindo o arquivo final direto do disco.
 
 Parâmetros de URL para ensaio e teste. Sem eles, nada muda:
 
@@ -46,6 +61,7 @@ Parâmetros de URL para ensaio e teste. Sem eles, nada muda:
 | `?no3d` | Usa os visuais sem WebGL |
 | `?forcar3d` | Aceita WebGL por software, que normalmente cai no plano B |
 | `?q=medio` | Trava a qualidade em `minimo`, `baixo`, `medio` ou `alto` |
+| `?demoSpeed=fast` | Encurta a demonstração do Loop, só para os testes automatizados |
 
 ## Como funciona o desempenho
 
@@ -58,7 +74,7 @@ Um único contexto WebGL fica fixo atrás da página e só desenha o capítulo q
 - **Dados:** três cartões em profundidade, um por toque. Grade de 100 pessoas com 27 acesas, barras em sequência, comparativo do +2,8 e Fortaleza no mapa do Brasil.
 - **Dopamina:** sinapse 3D com vesículas e receptores, esferas Querer e Gostar, e a ilustração do erro de previsão de recompensa.
 - **Ciclo do hábito:** anel 3D que gira por etapa, partículas nas setas, contador ilustrativo e a pausa de 10 segundos que quebra o ciclo.
-- **Loop:** celular sobe em 3D, anel de contagem maior e demonstração automática (tecla D), que não grava nada.
+- **Loop:** celular sobe em 3D, anel de contagem maior e demonstração automática em ritmo de fala (tecla D ou botão "Ver demonstração"), com legenda grande, anel de toque e controles. Não grava nada.
 - **Conclusão:** aprendizados em profundidade, frase final animada e próximos passos em linha do tempo.
 - **Referências:** selo de revisado por pares, copiar citação, link do DOI e painel de defesa das fontes (tecla R).
 
@@ -72,8 +88,9 @@ Um único contexto WebGL fica fixo atrás da página e só desenha o capítulo q
 - **Contraste:** o texto sobre o fundo 3D foi avaliado pelas cores do tema, porque a ferramenta automática não mede texto sobre WebGL.
 - **Contador de repetições do ciclo:** é ilustrativo e está identificado assim na tela.
 - **Clique perdido corrigido:** a versão aprovada podia perder um toque enquanto o celular se endireitava. Agora o toque sempre vale para o botão pressionado, sem mudar o fluxo.
+- **Frase de Wilson et al., 2014:** o resumo diz que os participantes, em geral, não gostaram da experiência, e em um dos estudos 49,3% ficaram no meio da escala ou abaixo. Por isso a página diz "em geral", e não "a maioria".
 - **Nomes e turma:** Antony, Davi, Edson e a Turma 2312 estão em `src/core/config.js`. O que for digitado no editor da página vale por cima disso, naquele navegador.
 
 ## Fontes
 
-Só entram artigos científicos revisados por pares. A lista fica em `src/index.html`, cada artigo com a linha "Por que é artigo científico", e o painel da tecla R é montado a partir dela. O contorno do Brasil no capítulo Dados vem do Natural Earth (domínio público) e é só um desenho, não uma fonte de dados.
+Só entram artigos científicos revisados por pares: são 15, conferidos pelo DOI no Crossref e no PubMed. A lista fica em `src/index.html`, cada artigo com a linha "Por que é artigo científico", e o painel da tecla R é montado a partir dela. O contorno do Brasil no capítulo Dados vem do Natural Earth (domínio público) e é só um desenho, não uma fonte de dados.

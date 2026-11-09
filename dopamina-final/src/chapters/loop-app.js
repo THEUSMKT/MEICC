@@ -46,6 +46,7 @@ export function initLoopApp() {
   const views = {};
   $$('[data-view]', root).forEach(v => { views[v.dataset.view] = v; });
   let showDemo = false;
+  let curView = 'home';
   let flow = { trigger: null, app: null, dur: 0 };
   const timers = { pause: 0, use: 0 };
   let wipeArm = 0;
@@ -71,9 +72,10 @@ export function initLoopApp() {
   function show(name, opts) {
     clearInterval(timers.pause); clearInterval(timers.use);
     if (name !== 'pattern') showDemo = false;
+    curView = name;
     Object.keys(views).forEach(k => { views[k].hidden = k !== name; });
     $$('.tabs [data-tab]', root).forEach(b => b.setAttribute('aria-current', b.dataset.tab === (name === 'pattern' ? 'pattern' : 'home') ? 'page' : 'false'));
-    $('#demoTag').hidden = !(showDemo && name === 'pattern');
+    $('#demoTag').hidden = !((showDemo || sandbox) && name === 'pattern');
     $('#views').scrollTop = 0;
     if (name === 'home') renderHome();
     if (name === 'pause') startPause();
@@ -100,15 +102,20 @@ export function initLoopApp() {
     el.textContent = t;
     if (!reduce && el.animate) el.animate([{ transform: 'scale(1.2)' }, { transform: 'scale(1)' }], { duration: 280, easing: 'cubic-bezier(.16,1,.3,1)' });
   }
+  /* a demonstracao pode congelar o anel (tecla Espaco) sem perder os 10 s reais */
+  let pauseT0 = 0, frozen = 0;
   function startPause() {
-    const total = pauseSeconds(), t0 = performance.now();
+    const total = pauseSeconds();
+    pauseT0 = performance.now();
+    if (frozen) frozen = pauseT0;
     const fg = $('#ringFg'), num = $('#ringNum');
     $('#btnOpen').disabled = true; $('#btnOther').disabled = true; $('#btnSkip').hidden = false;
     num.classList.remove('ok');
     fg.style.strokeDasharray = C;
     $('#pauseInfo').textContent = 'Você sente: ' + T[flow.trigger].toLowerCase() + (flow.app ? ' (' + flow.app + ')' : '') + '.';
     const step = () => {
-      const el = (performance.now() - t0) / 1000;
+      if (frozen) return;
+      const el = (performance.now() - pauseT0) / 1000;
       const rem = Math.max(0, total - el);
       fg.style.strokeDashoffset = C * (1 - Math.min(1, el / total));
       setNum(num, Math.ceil(rem * 10 / total));
@@ -144,13 +151,16 @@ export function initLoopApp() {
     show('done');
   }
 
+  const fillFeel = () => { $('#feelInfo').textContent = 'Você ficou ' + fmtDur(flow.dur) + '. Como se sente agora?'; };
+
   function renderPattern() {
     const data = showDemo ? DEMO : state.entries;
     const n = data.length;
     const body = $('#patBody');
     $('#btnDemo').textContent = showDemo ? 'Voltar aos meus dados' : 'Ver com dados de exemplo';
-    $('#btnWipe').hidden = showDemo || !state.entries.length;
-    $('#demoTag').hidden = !showDemo;
+    $('#btnDemo').hidden = !!sandbox;
+    $('#btnWipe').hidden = showDemo || !!sandbox || !state.entries.length;
+    $('#demoTag').hidden = !(showDemo || sandbox);
     if (!n) { body.innerHTML = '<p class="v-sub">Ainda não há registros. Faça o primeiro na aba Registrar ou veja um exemplo.</p>'; return; }
     const opened = data.filter(e => e.dec === 'abrir');
     const other = n - opened.length;
@@ -206,7 +216,7 @@ export function initLoopApp() {
       case 'finish': {
         if (!state.pending) { show('home'); break; }
         flow.dur = Math.round((Date.now() - state.pending.startedAt) / 1000);
-        $('#feelInfo').textContent = 'Você ficou ' + fmtDur(flow.dur) + '. Como se sente agora?';
+        fillFeel();
         show('feel');
         break;
       }
@@ -243,18 +253,52 @@ export function initLoopApp() {
     root,
     /* entra e sai da demonstracao: troca os dados por uma copia em memoria e devolve tudo no fim */
     sandboxOn(pausa) {
-      sandbox = { pausa, entries: state.entries, pending: state.pending };
+      sandbox = { pausa, entries: state.entries, pending: state.pending, view: curView, flow, showDemo };
       state.entries = DEMO.map(e => Object.assign({}, e));
       state.pending = null;
+      frozen = 0;
       show('home', { focus: false });
     },
     sandboxOff() {
       if (!sandbox) return;
-      state.entries = sandbox.entries;
-      state.pending = sandbox.pending;
+      const s = sandbox;
+      state.entries = s.entries;
+      state.pending = s.pending;
       sandbox = null;
-      show('home', { focus: false });
+      frozen = 0;
+      flow = s.flow;
+      buildChips();
+      ['trigger', 'app'].forEach(g => $$('[data-chip="' + g + '"]', root).forEach(c => c.setAttribute('aria-checked', c.dataset.val === flow[g] ? 'true' : 'false')));
+      $('#btnTrigNext').disabled = !flow.trigger;
+      /* volta para a tela em que estava; "salvo" so faz sentido logo depois de um registro */
+      const view = s.view === 'done' ? 'home' : s.view;
+      if (view === 'feel') fillFeel();
+      if (view === 'pattern') { showDemo = s.showDemo; renderPattern(); }
+      show(view, { focus: false });
     },
-    fakeUse(min) { if (state.pending) state.pending.startedAt = Date.now() - min * 60000; }
+    fakeUse(min) { if (state.pending) state.pending.startedAt = Date.now() - min * 60000; },
+    freeze(on) {
+      if (on) { if (!frozen) frozen = performance.now(); return; }
+      if (frozen) { pauseT0 += performance.now() - frozen; frozen = 0; }
+    },
+    viewEl() { return views[curView]; },
+    /* coloca o app direto em uma etapa: usado ao avancar ou voltar passos durante a demonstracao */
+    demoState(name) {
+      state.entries = DEMO.map(e => Object.assign({}, e));
+      state.pending = null;
+      flow = { trigger: 'tedio', app: 'Instagram', dur: 12 * 60 };
+      const pend = () => { state.pending = { trigger: flow.trigger, app: flow.app, startedAt: Date.now() - flow.dur * 1000 }; };
+      const save = () => state.entries.push({ t: Date.now(), trigger: flow.trigger, app: flow.app, dec: 'abrir', dur: flow.dur, feel: 'tempo' });
+      const quiet = { focus: false };
+      switch (name) {
+        case 'trigger': flow = { trigger: null, app: null, dur: 0 }; buildChips(); show('trigger', quiet); break;
+        case 'pause': show('pause', quiet); break;
+        case 'using': pend(); show('using', quiet); break;
+        case 'feel': pend(); fillFeel(); show('feel', quiet); break;
+        case 'done': save(); showDone('open'); break;
+        case 'pattern': save(); renderPattern(); show('pattern', quiet); break;
+        default: flow = { trigger: null, app: null, dur: 0 }; show('home', quiet);
+      }
+    }
   };
 }

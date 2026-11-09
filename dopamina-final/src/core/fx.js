@@ -140,6 +140,7 @@ function toggleBar() {
   const off = document.body.classList.toggle('bar-off');
   const b = $('#bar');
   if (off) b.setAttribute('inert', ''); else b.removeAttribute('inert');
+  window.dispatchEvent(new Event('esconder-barra')); /* a tecla H tambem fecha o roteiro */
 }
 
 export function initFx() {

@@ -13,7 +13,7 @@
 .screen{height:100%;border-radius:34px;background:var(--ink-2);overflow:hidden;display:flex;flex-direction:column;position:relative}
 .app-head{display:flex;align-items:center;gap:8px;padding:16px 20px 6px;font-family:var(--display);font-weight:700;font-size:1rem}
 .app-head .ic{color:var(--accent)}
-.demo-tag{margin-left:auto;font-family:var(--mono);font-size:.7rem;padding:3px 10px;border-radius:999px;border:1px solid var(--accent);color:var(--accent)}
+.demo-tag{margin-left:auto;white-space:nowrap;font-family:var(--mono);font-size:.7rem;padding:3px 10px;border-radius:999px;border:1px solid var(--accent);color:var(--accent)}
 .views{flex:1;overflow-y:auto;padding:10px 20px 12px;display:flex;flex-direction:column}
 .view{display:flex;flex-direction:column;gap:14px;flex:1}
 .view h3{font-size:1.35rem;line-height:1.2}
@@ -69,4 +69,24 @@
 .demo-btn{justify-self:start;min-height:46px}
 .demo-btn kbd{margin-left:.2em}
 .demo-btn[aria-pressed="true"]{border-color:var(--accent);color:var(--accent)}
-.tap{position:absolute;left:-22px;top:-22px;width:44px;height:44px;border-radius:50%;background:rgba(255,255,255,.26);border:2px solid rgba(255,255,255,.85);box-shadow:0 0 20px rgba(255,255,255,.35);opacity:0;pointer-events:none;z-index:5}
+.tap{position:absolute;left:-28px;top:-28px;width:56px;height:56px;border-radius:50%;border:3px solid var(--accent);box-shadow:0 0 18px rgba(255,138,61,.65);opacity:0;pointer-events:none;z-index:5}
+
+/* Demonstracao: a legenda toma o lugar do texto e o celular fica de frente */
+#loop.demo-on .phone{transform:none}
+[data-mode="pin"] #loop.demo-on .loop-copy>:not(.demo-btn){visibility:hidden!important}
+.demo-panel{position:fixed;z-index:30;left:8px;right:8px;bottom:8px;display:flex;flex-direction:column;justify-content:center;gap:clamp(8px,1.8vh,20px);padding:clamp(12px,1.7vw,30px);border:1px solid var(--line-strong);border-radius:var(--r);background:rgba(14,21,34,.97);box-shadow:0 24px 60px -24px rgba(0,0,0,.9)}
+.demo-panel[hidden]{display:none}
+[data-mode="pin"] .demo-panel{right:auto;bottom:auto}
+.dp-top{display:flex;flex-wrap:wrap;align-items:center;gap:8px 10px}
+.dp-step{font-family:var(--mono);font-weight:700;color:var(--accent);font-size:clamp(1rem,1.3vw,1.6rem)}
+.dp-ticks{display:flex;gap:5px;flex:1 1 90px}
+.dp-ticks i{display:block;flex:1;height:5px;border-radius:3px;background:var(--line-strong);transition:background .3s}
+.dp-ticks i.on{background:var(--accent)}
+.dp-seal{font-family:var(--mono);font-size:clamp(.74rem,.86vw,1rem);padding:2px 9px;border:1px solid var(--line-strong);border-radius:999px;color:var(--muted)}
+.dp-seal.dp-hot{border-color:var(--accent);color:var(--accent)}
+.dp-cap{font-family:var(--display);font-weight:600;font-size:1.12rem;line-height:1.25}
+[data-mode="pin"] .dp-cap{font-size:clamp(1.5rem,1.75vw,2.5rem)}
+.dp-src{font-family:var(--mono);font-size:.92rem;color:var(--calm)}
+[data-mode="pin"] .dp-src{font-size:clamp(1rem,1.25vw,1.5rem)}
+.dp-keys{display:flex;flex-wrap:wrap;align-items:center;gap:6px 8px;font-size:clamp(.82rem,.9vw,1.05rem);color:var(--muted)}
+[data-mode="flat"] .dp-keys{display:none}

@@ -15,6 +15,7 @@ import { initCiclo } from './chapters/ciclo.js';
 import { initLoop } from './chapters/loop.js';
 import { initConclusao } from './chapters/conclusao.js';
 import { initReferencias } from './chapters/referencias.js';
+import { initRoteiro } from './chapters/roteiro.js';
 
 if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
 quality.init();
@@ -33,6 +34,7 @@ initCiclo();
 initLoop();
 initConclusao();
 initReferencias();
+initRoteiro();
 initFx();
 clkRender();
 

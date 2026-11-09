@@ -181,20 +181,185 @@ test('sem o parametro de teste, a pausa continua sendo de 10 s', async ({ page }
 test('demonstracao automatica nao grava nada e devolve os dados', async ({ page }) => {
   const salvo = { entries: [{ trigger: 'habito', dec: 'outra', dur: 0, feel: null, app: null, t: 7 }], pending: null };
   await page.addInitScript(([k, v]) => localStorage.setItem(k, JSON.stringify(v)), [LOOP, salvo]);
-  await open(page);
+  await open(page, 'demoSpeed=fast');
   await goToLoop(page);
   await page.keyboard.press('d');
   await expect(page.locator('#autoTag')).toBeVisible();
-  await expect(page.locator('[data-view="trigger"]')).toBeVisible({ timeout: 15000 });
-  await expect(page.locator('[data-view="pause"]')).toBeVisible({ timeout: 15000 });
-  await expect(page.locator('[data-view="using"]')).toBeVisible({ timeout: 20000 });
-  await expect(page.locator('[data-view="pattern"]')).toBeVisible({ timeout: 25000 });
+  await expect(page.locator('#demoPanel')).toBeVisible();
+  await expect(page.locator('[data-view="pattern"]')).toBeVisible({ timeout: 30000 });
+  await expect(page.locator('#dpStep')).toHaveText('7 de 7');
+  await expect(page.locator('#demoTag')).toBeVisible();
   await expect(page.locator('#patBody .stat b').first()).toHaveText('25');
   expect(await page.evaluate(k => JSON.parse(localStorage.getItem(k)), LOOP)).toEqual(salvo);
   await page.keyboard.press('d');
   await expect(page.locator('#autoTag')).toBeHidden();
+  await expect(page.locator('#demoPanel')).toBeHidden();
   await expect(page.locator('#homeCount')).toContainText('1 registro');
   expect(await page.evaluate(k => JSON.parse(localStorage.getItem(k)), LOOP)).toEqual(salvo);
+});
+
+test('demonstracao no ritmo padrao: tempos minimos e 10 s reais', async ({ page }, testInfo) => {
+  test.skip(testInfo.project.name !== '1366x768', 'cronometra uma vez so');
+  await open(page);
+  await goToLoop(page);
+  await page.evaluate(() => {
+    const views = [...document.querySelectorAll('#app [data-view]')];
+    const now = () => views.find(v => !v.hidden).dataset.view;
+    let cur = now();
+    window.__tempos = [];
+    new MutationObserver(() => { const v = now(); if (v !== cur) { cur = v; window.__tempos.push([v, performance.now()]); } })
+      .observe(document.getElementById('views'), { subtree: true, attributes: true, attributeFilter: ['hidden'] });
+    new MutationObserver(() => { if (document.getElementById('ringNum').textContent === 'Escolha') window.__escolha = window.__escolha || performance.now(); })
+      .observe(document.getElementById('ringNum'), { childList: true, characterData: true, subtree: true });
+  });
+  const t0 = await page.evaluate(() => { window.__t0 = performance.now(); return window.__t0; });
+  await page.keyboard.press('d');
+  await expect(page.locator('[data-view="pattern"]')).toBeVisible({ timeout: 90000 });
+  const r = await page.evaluate(() => ({ t: window.__tempos, escolha: window.__escolha }));
+  const marcas = [['home', t0], ...r.t];
+  const nomes = marcas.map(m => m[0]);
+  expect(nomes).toEqual(['home', 'trigger', 'pause', 'using', 'feel', 'done', 'pattern']);
+  const duracoes = marcas.slice(0, -1).map((m, i) => [m[0], Math.round(marcas[i + 1][1] - m[1])]);
+  const total = Math.round(marcas[marcas.length - 1][1] - t0);
+  const pausa = Math.round(r.escolha - marcas[2][1]);
+  console.log('TEMPOS DA DEMONSTRACAO (ms): ' + JSON.stringify({ duracoes, ateSeuPadrao: total, contagemDaPausa: pausa }));
+  duracoes.forEach(([v, d]) => expect(d, 'tempo na tela: ' + v).toBeGreaterThanOrEqual(4000));
+  expect(total).toBeGreaterThanOrEqual(45000);
+  expect(pausa).toBeGreaterThanOrEqual(9950);
+  expect(pausa).toBeLessThan(10600);
+});
+
+test('controles da demonstracao: manual, passos, velocidade, pausa e Esc', async ({ page }, testInfo) => {
+  test.skip(!isDesktop(testInfo), 'teclas do projetor');
+  await open(page);
+  await goToLoop(page);
+  await page.keyboard.press('d');
+  await expect(page.locator('#dpStep')).toHaveText('1 de 7');
+  await expect(page.locator('#dpCap')).toContainText('Registrar o que você sente');
+  await expect(page.locator('#dpSrc')).toHaveText('Harkin et al., 2016');
+  const fonte = await page.locator('#dpCap').evaluate(e => parseFloat(getComputedStyle(e).fontSize));
+  expect(fonte).toBeGreaterThanOrEqual(testInfo.project.name === '1920x1080' ? 24 : 23.5);
+  await page.keyboard.press('m');
+  await expect(page.locator('#dpMode')).toHaveText('Manual');
+  /* no manual nada avanca sozinho, mesmo depois do tempo do passo */
+  await page.waitForTimeout(7600);
+  await expect(page.locator('#dpStep')).toHaveText('1 de 7');
+  await page.keyboard.press('PageDown');
+  await expect(page.locator('#dpStep')).toHaveText('2 de 7');
+  await expect(page.locator('[data-view="trigger"]')).toBeVisible();
+  await page.keyboard.press('PageUp');
+  await expect(page.locator('#dpStep')).toHaveText('1 de 7');
+  await expect(page.locator('[data-view="home"]')).toBeVisible();
+  await page.keyboard.press('ArrowRight');
+  await expect(page.locator('#dpStep')).toHaveText('2 de 7');
+  await page.keyboard.press('PageDown');
+  await expect(page.locator('#dpStep')).toHaveText('3 de 7');
+  await expect(page.locator('[data-view="pause"]')).toBeVisible();
+  await page.keyboard.press('1');
+  await expect(page.locator('#dpSpeed')).toHaveText('Lento');
+  await page.keyboard.press('3');
+  await expect(page.locator('#dpSpeed')).toHaveText('Rápido');
+  await page.keyboard.press('2');
+  await expect(page.locator('#dpSpeed')).toHaveText('Normal');
+  /* Espaco congela a contagem do anel */
+  await page.keyboard.press(' ');
+  await expect(page.locator('#dpPaused')).toBeVisible();
+  const antes = await page.locator('#ringNum').textContent();
+  await page.waitForTimeout(1800);
+  await expect(page.locator('#ringNum')).toHaveText(antes);
+  await page.keyboard.press(' ');
+  await expect(page.locator('#dpPaused')).toBeHidden();
+  await expect.poll(() => page.locator('#ringNum').textContent(), { timeout: 4000 }).not.toBe(antes);
+  await page.keyboard.press('Escape');
+  await expect(page.locator('#demoPanel')).toBeHidden();
+  await expect(page.locator('[data-view="home"]')).toBeVisible();
+  expect(await page.evaluate(k => localStorage.getItem(k), LOOP)).toBeNull();
+});
+
+test('roteiro, perguntas, limites e visao para imprimir', async ({ page }) => {
+  await page.addInitScript(() => { window.print = () => { window.__impresso = (window.__impresso || 0) + 1; }; });
+  await page.addInitScript(([k, v]) => localStorage.setItem(k, JSON.stringify(v)), [TEAM, { n1: 'Bia', testou: '12' }]);
+  await open(page);
+  const cola = page.locator('#cola');
+  await expect(cola).toBeHidden();
+  await page.keyboard.press('n');
+  await expect(cola).toBeVisible();
+  await expect(page.locator('#colaT')).toHaveText('Roteiro');
+  await expect(cola.locator('.rt-bloco')).toHaveCount(3);
+  await expect(cola.locator('.rt-bloco h3').first()).toHaveText('Bia. Abertura e dados (0:00 a 1:30)');
+  await expect(cola).not.toContainText('—');
+  await page.keyboard.press('h');
+  await expect(cola).toBeHidden();
+  await page.keyboard.press('h');
+  await page.keyboard.press('q');
+  await expect(page.locator('#colaT')).toHaveText('Perguntas prováveis');
+  await expect(cola.locator('.rt-perg > li')).toHaveCount(9);
+  await expect(cola).toContainText('Testamos com 12 colegas.');
+  await page.keyboard.press('l');
+  await expect(page.locator('#colaT')).toHaveText('Limites deste trabalho');
+  await expect(cola).toContainText('12 colegas testaram a ferramenta.');
+  await page.keyboard.press('Escape');
+  await expect(cola).toBeHidden();
+  await expect(page.locator('#limTest')).toHaveText(' 12 colegas testaram a ferramenta.');
+
+  /* atalhos nao valem dentro de um campo de texto */
+  await page.locator('.editor summary').click();
+  await page.locator('#ed-escola').focus();
+  await page.keyboard.press('n');
+  await expect(cola).toBeHidden();
+  await page.locator('#ed-testou').fill('');
+  await expect(page.locator('#limTest')).toHaveText('');
+  await page.locator('#ed-escola').blur();
+
+  await page.locator('#btnImprimir').click();
+  await expect(page.locator('#impressao')).toBeVisible();
+  expect(await page.evaluate(() => window.__impresso)).toBe(1);
+  await expect(page.locator('#impBody')).toContainText('Roteiro de fala');
+  await expect(page.locator('#impBody')).toContainText('Testamos com alguns colegas.');
+  const pdf = await page.pdf({ preferCSSPageSize: true });
+  const paginas = (pdf.toString('latin1').match(/\/Type\s*\/Page[^s]/g) || []).length;
+  console.log('PAGINAS DA VERSAO IMPRESSA: ' + paginas);
+  expect(paginas).toBeGreaterThan(0);
+  expect(paginas).toBeLessThanOrEqual(2);
+  await page.locator('#impClose').click();
+  await expect(page.locator('#impressao')).toBeHidden();
+});
+
+test('dados revelam um quadro por vez e nada avanca sozinho', async ({ page }, testInfo) => {
+  test.skip(!isDesktop(testInfo), 'no celular os quadros ficam empilhados');
+  await open(page);
+  const list = await stops(page);
+  const quadros = list.filter(s => s.ci === 1);
+  expect(quadros.length).toBe(3);
+  const visiveis = () => page.locator('#dados .card').evaluateAll(cs => cs.map(c => getComputedStyle(c).visibility === 'visible' && +getComputedStyle(c).opacity > 0.5));
+  for (let i = 0; i < 3; i++) {
+    await page.evaluate(v => window.scrollTo(0, v), quadros[i].y);
+    await settle(page, quadros[i].y);
+    await expect.poll(visiveis, { timeout: 8000 }).toEqual([0, 1, 2].map(k => k === i));
+  }
+  await page.waitForTimeout(3500);
+  expect(await visiveis()).toEqual([false, false, true]);
+  await expect(page.locator('#dados [data-card="2"] .amostra')).toBeVisible();
+  expect(await page.evaluate(() => window.scrollY)).toBe(quadros[2].y);
+});
+
+test('capitulos cabem na tela de 1366x768 sem rolagem interna', async ({ page }, testInfo) => {
+  test.skip(testInfo.project.name !== '1366x768', 'medida especifica do projetor');
+  await open(page);
+  const list = await stops(page);
+  for (const ci of [1, 2, 3, 5]) {
+    const s = list.find(x => x.ci === ci);
+    await page.evaluate(v => window.scrollTo(0, v), s.y);
+    await settle(page, s.y);
+    await page.waitForTimeout(500);
+    const m = await page.evaluate(i => {
+      const sec = document.querySelectorAll('.chapter')[i], w = sec.querySelector('.wrap').getBoundingClientRect();
+      return { top: w.top, bottom: w.bottom, extra: sec.scrollHeight - sec.clientHeight, vh: window.innerHeight };
+    }, ci);
+    expect(m.extra, 'rolagem interna no capitulo ' + ci).toBeLessThanOrEqual(0);
+    expect(m.top, 'topo do capitulo ' + ci).toBeGreaterThanOrEqual(66);
+    expect(m.bottom, 'fim do capitulo ' + ci).toBeLessThanOrEqual(m.vh);
+  }
 });
 
 test('nomes da equipe e turma aparecem sem editar nada', async ({ page }) => {
@@ -270,8 +435,8 @@ test('painel de defesa das fontes e copiar citacao', async ({ page, context }) =
   await page.keyboard.press('r');
   const dlg = page.locator('#defesa');
   await expect(dlg).toBeVisible();
-  await expect(dlg.locator('.def-list > li')).toHaveCount(11);
-  await expect(dlg.locator('.why', { hasText: 'Por que é artigo científico' })).toHaveCount(11);
+  await expect(dlg.locator('.def-list > li')).toHaveCount(15);
+  await expect(dlg.locator('.why', { hasText: 'Por que é artigo científico' })).toHaveCount(15);
   const y = await page.evaluate(() => window.scrollY);
   await page.keyboard.press('PageDown');
   await expect.poll(() => page.evaluate(() => document.getElementById('defesaList').scrollTop), { timeout: 5000 }).toBeGreaterThan(0);
@@ -283,8 +448,8 @@ test('painel de defesa das fontes e copiar citacao', async ({ page, context }) =
   await expect(dlg).toBeHidden();
 
   const cards = page.locator('.ref-card');
-  await expect(cards).toHaveCount(11);
-  await expect(page.locator('.ref-card .seal')).toHaveCount(11);
+  await expect(cards).toHaveCount(15);
+  await expect(page.locator('.ref-card .seal')).toHaveCount(15);
   const first = cards.first();
   await first.scrollIntoViewIfNeeded();
   /* os cartoes entram com animacao: clica depois que o cartao apareceu */
@@ -313,7 +478,7 @@ test('conteudo: sem travessao, numeros e justificativas', async ({ page }) => {
   for (const n of ['27%', '17%', '14%', '6%', '+2,8', '70%', '57%', '2,1 milhões', '64 países', '326.397', '286 estudantes']) expect(text).toContain(n);
   expect(text).toContain('Cada estudo usa amostras e escalas diferentes');
   expect(text).toContain('Ilustração do conceito de Schultz et al., 1997');
-  await expect(page.locator('.ref-list .why', { hasText: 'Por que é artigo científico:' })).toHaveCount(11);
+  await expect(page.locator('.ref-list .why', { hasText: 'Por que é artigo científico:' })).toHaveCount(15);
   const emoji = await page.evaluate(() => /\p{Extended_Pictographic}/u.test(document.body.textContent.replace(/[©®™]/g, '')));
   expect(emoji).toBe(false);
 });

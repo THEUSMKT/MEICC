@@ -15,12 +15,13 @@ let chapters = [];
 let mode = 'flat';
 let tween = null, target = -1;
 const proxy = { y: 0 };
-let blocked = () => false;
+const blockers = [];
+const blocked = e => blockers.some(fn => fn(e));
 
 export const registerScene = def => { scenes.push(def); };
 export const registerFx = fn => { fxList.push(fn); };
 export const registerKey = (k, fn) => { keys[k] = fn; };
-export const setNavBlocker = fn => { blocked = fn; };
+export const setNavBlocker = fn => { blockers.push(fn); };
 export const getStops = () => stops.slice();
 export const getMode = () => mode;
 
