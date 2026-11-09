@@ -72,7 +72,7 @@ Um único contexto WebGL fica fixo atrás da página e só desenha o capítulo q
 - **Contraste:** o texto sobre o fundo 3D foi avaliado pelas cores do tema, porque a ferramenta automática não mede texto sobre WebGL.
 - **Contador de repetições do ciclo:** é ilustrativo e está identificado assim na tela.
 - **Clique perdido corrigido:** a versão aprovada podia perder um toque enquanto o celular se endireitava. Agora o toque sempre vale para o botão pressionado, sem mudar o fluxo.
-- **Nomes:** os apresentadores 2 e 3 continuam com os nomes provisórios até serem editados na página.
+- **Nomes e turma:** Antony, Davi, Edson e a Turma 2312 estão em `src/core/config.js`. O que for digitado no editor da página vale por cima disso, naquele navegador.
 
 ## Fontes
 

@@ -11,9 +11,12 @@
   .scene{width:min(100%,380px)}
 }
 @media (max-width:560px){
-  .who{padding:4px 8px 4px 4px}
-  .who .nm{display:none}
-  .bar-in{gap:8px}
+  /* No celular os nomes ficam no lugar das iniciais, para caberem os tres */
+  .brand,.who .av{display:none}
+  .team{justify-content:flex-start;gap:2px}
+  .who{padding:8px 9px;min-height:36px}
+  .who .nm{font-size:.84rem;max-width:8ch}
+  .bar-in{gap:6px;grid-template-columns:1fr auto}
   #clk{font-size:1.1rem}
 }
 @media (prefers-reduced-motion:reduce){*{scroll-behavior:auto!important}.phone{transition:none}}

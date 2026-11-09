@@ -197,6 +197,22 @@ test('demonstracao automatica nao grava nada e devolve os dados', async ({ page 
   expect(await page.evaluate(k => JSON.parse(localStorage.getItem(k)), LOOP)).toEqual(salvo);
 });
 
+test('nomes da equipe e turma aparecem sem editar nada', async ({ page }) => {
+  await open(page);
+  const nomes = ['Antony', 'Davi', 'Edson'];
+  for (let i = 0; i < nomes.length; i++) {
+    const barra = page.locator(`.who[data-who="${i}"] .nm`);
+    await expect(barra).toBeVisible();
+    await expect(barra).toHaveText(nomes[i]);
+    await expect(page.locator('.team-list strong').nth(i)).toHaveText(nomes[i]);
+    await expect(page.locator('.team-list .av').nth(i)).toHaveText(nomes[i][0]);
+  }
+  const cortado = await page.locator('.who .nm').evaluateAll(els => els.some(el => el.scrollWidth > el.clientWidth));
+  expect(cortado).toBe(false);
+  await expect(page.locator('#eyebrow')).toHaveText('Feira científica, Turma 2312');
+  await expect(page.locator('[data-turma]')).toHaveText('Turma 2312');
+});
+
 test('barra do topo: cronometro, marcadores, tecla H e nomes', async ({ page }) => {
   await page.addInitScript(([k, v]) => localStorage.setItem(k, JSON.stringify(v)), [TEAM, { n2: 'Bia' }]);
   await open(page);

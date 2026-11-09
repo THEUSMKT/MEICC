@@ -51,9 +51,9 @@
   <div class="bar-in">
     <div class="brand"><svg class="ic" aria-hidden="true"><use href="#i-bolt"/></svg><span>Dopamina e Dependência</span></div>
     <nav class="team" aria-label="Apresentadores">
-      <button type="button" class="who" data-who="0" aria-current="true"><span class="av" data-inicial="0">M</span><span><span class="nm" data-nome="0">Mateus</span><span class="pt">Abertura e dados</span></span></button>
-      <button type="button" class="who" data-who="1" aria-current="false"><span class="av" data-inicial="1">A</span><span><span class="nm" data-nome="1">Apresentador 2</span><span class="pt">Ciência e hábito</span></span></button>
-      <button type="button" class="who" data-who="2" aria-current="false"><span class="av" data-inicial="2">A</span><span><span class="nm" data-nome="2">Apresentador 3</span><span class="pt">Loop e conclusão</span></span></button>
+      <button type="button" class="who" data-who="0" aria-current="true"><span class="av" data-inicial="0">A</span><span><span class="nm" data-nome="0">Antony</span><span class="pt">Abertura e dados</span></span></button>
+      <button type="button" class="who" data-who="1" aria-current="false"><span class="av" data-inicial="1">D</span><span><span class="nm" data-nome="1">Davi</span><span class="pt">Ciência e hábito</span></span></button>
+      <button type="button" class="who" data-who="2" aria-current="false"><span class="av" data-inicial="2">E</span><span><span class="nm" data-nome="2">Edson</span><span class="pt">Loop e conclusão</span></span></button>
     </nav>
     <div class="clock">
       <span id="clk" role="timer" aria-label="Tempo restante">05:00</span>
@@ -69,7 +69,7 @@
 <section class="chapter" id="abertura" data-p="0" data-scene>
   <div class="wrap hero-grid">
     <div class="hero-copy">
-      <p class="eyebrow" id="eyebrow">Feira científica</p>
+      <p class="eyebrow" id="eyebrow">Feira científica, Turma 2312</p>
       <h1>Por que é tão difícil largar o celular?</h1>
       <p class="lead">Você abre o Instagram para responder uma mensagem e, 40 minutos depois, ainda está rolando a tela.</p>
       <button type="button" class="btn" id="heroStart">Iniciar apresentação</button>
@@ -374,18 +374,19 @@
   <div class="wrap foot-grid">
     <div>
       <h2>Equipe</h2>
+      <p class="small" data-turma>Turma 2312</p>
       <ul class="team-list">
-        <li><span class="av" data-inicial="0">M</span><div><strong data-nome="0">Mateus</strong><span>Abertura e dados</span></div></li>
-        <li><span class="av" data-inicial="1">A</span><div><strong data-nome="1">Apresentador 2</strong><span>Ciência e hábito</span></div></li>
-        <li><span class="av" data-inicial="2">A</span><div><strong data-nome="2">Apresentador 3</strong><span>Loop e conclusão</span></div></li>
+        <li><span class="av" data-inicial="0">A</span><div><strong data-nome="0">Antony</strong><span>Abertura e dados</span></div></li>
+        <li><span class="av" data-inicial="1">D</span><div><strong data-nome="1">Davi</strong><span>Ciência e hábito</span></div></li>
+        <li><span class="av" data-inicial="2">E</span><div><strong data-nome="2">Edson</strong><span>Loop e conclusão</span></div></li>
       </ul>
       <details class="editor" data-nonav>
         <summary><svg class="ic" aria-hidden="true"><use href="#i-pencil"/></svg>Editar nomes e dados do teste</summary>
         <form onsubmit="return false">
-          <div class="field"><label for="ed-n1">Apresentador 1</label><input id="ed-n1" type="text" autocomplete="off" maxlength="40" placeholder="Mateus"><small>Aparece na barra do topo.</small></div>
-          <div class="field"><label for="ed-n2">Apresentador 2</label><input id="ed-n2" type="text" autocomplete="off" maxlength="40" placeholder="Apresentador 2"><small>Aparece na barra do topo.</small></div>
-          <div class="field"><label for="ed-n3">Apresentador 3</label><input id="ed-n3" type="text" autocomplete="off" maxlength="40" placeholder="Apresentador 3"><small>Aparece na barra do topo.</small></div>
-          <div class="field"><label for="ed-escola">Escola ou turma</label><input id="ed-escola" type="text" autocomplete="off" maxlength="60"><small>Aparece na abertura.</small></div>
+          <div class="field"><label for="ed-n1">Apresentador 1</label><input id="ed-n1" type="text" autocomplete="off" maxlength="40" placeholder="Antony"><small>Aparece na barra do topo.</small></div>
+          <div class="field"><label for="ed-n2">Apresentador 2</label><input id="ed-n2" type="text" autocomplete="off" maxlength="40" placeholder="Davi"><small>Aparece na barra do topo.</small></div>
+          <div class="field"><label for="ed-n3">Apresentador 3</label><input id="ed-n3" type="text" autocomplete="off" maxlength="40" placeholder="Edson"><small>Aparece na barra do topo.</small></div>
+          <div class="field"><label for="ed-escola">Escola ou turma</label><input id="ed-escola" type="text" autocomplete="off" maxlength="60" placeholder="Turma 2312"><small>Aparece na abertura e na equipe.</small></div>
           <div class="field"><label for="ed-testou">Pessoas que testaram o Loop</label><input id="ed-testou" type="number" min="0" max="999" inputmode="numeric"><small>Deixe vazio para ocultar.</small></div>
           <div class="field wide"><label for="ed-quote">Feedback dos testes, em uma frase</label><input id="ed-quote" type="text" autocomplete="off" maxlength="140"><small>Aparece na conclusão, junto do número de testes.</small></div>
         </form>
