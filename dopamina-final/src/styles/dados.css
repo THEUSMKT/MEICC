@@ -3,14 +3,14 @@
 #dados h2{font-size:clamp(1.7rem,2.75vw,2.75rem)}
 .deck{position:relative;margin-top:14px;perspective:1500px;display:grid;gap:18px}
 .card{background:linear-gradient(180deg,var(--ink-3),var(--ink-2));border:1px solid var(--line);border-radius:var(--r);padding:clamp(18px,2.4vw,40px);box-shadow:0 34px 64px -34px rgba(3,8,20,.95);display:grid;gap:clamp(18px,3vw,52px);align-items:center;backface-visibility:hidden}
-.card-g3{grid-template-columns:1.12fr 1fr .98fr}
+.card-g3{grid-template-columns:1.08fr 1fr 1.05fr}
 .card-g2{grid-template-columns:1fr 1.3fr}
 .card-text{display:grid;gap:clamp(8px,1.5vh,14px);align-content:center;justify-items:start}
 .card-text p:not(.small){font-size:clamp(1.05rem,1.55vw,1.55rem);line-height:1.35}
 .tilt{transform:perspective(900px) rotateX(var(--rx,0deg)) rotateY(var(--ry,0deg));transition:transform .25s ease-out;will-change:transform}
 .tile-top{display:flex;align-items:center;gap:10px;color:var(--muted);font-size:clamp(.92rem,1.1vw,1.1rem)}
 .tile-top .ic{color:var(--accent)}
-.n{font-family:var(--display);font-weight:800;font-size:clamp(3.6rem,8vw,8rem);letter-spacing:-.04em;line-height:1;font-variant-numeric:tabular-nums}
+.n{font-family:var(--display);font-weight:800;font-size:clamp(3.6rem,8vw,10rem);letter-spacing:-.04em;line-height:1;font-variant-numeric:tabular-nums}
 .n-new{color:var(--accent)}
 .small{font-size:clamp(.92rem,1.08vw,1.1rem);color:var(--muted);max-width:60ch}
 [data-mode="pin"] #dados .depth,[data-mode="pin"] #dados .wrap{height:100%}
@@ -32,8 +32,8 @@
 .person.on{color:var(--accent)}
 
 /* Barras */
-.chart{--ch:clamp(150px,38vh,330px);display:flex;align-items:flex-end;gap:clamp(8px,1.1vw,18px)}
-.cbar{flex:1;min-width:0;display:grid;justify-items:center;align-content:end;gap:8px;text-align:center}
+.chart{--ch:clamp(150px,38vh,430px);display:flex;align-items:flex-end;gap:clamp(8px,1.1vw,18px)}
+.cbar{flex:1;min-width:0;display:grid;grid-template-columns:minmax(0,1fr);justify-items:center;align-content:end;gap:8px;text-align:center}
 .cbar em{font-style:normal;font-family:var(--mono);font-size:clamp(1rem,1.3vw,1.35rem);font-variant-numeric:tabular-nums}
 .cbar i{display:block;width:100%;height:calc(var(--v) / 27 * var(--ch));background:var(--calm);border-radius:8px 8px 0 0}
 .cbar.hi i{background:var(--accent);box-shadow:0 0 38px -8px rgba(255,138,61,.7)}

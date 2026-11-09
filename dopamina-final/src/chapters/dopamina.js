@@ -23,7 +23,7 @@ function buildRpe(svg) {
   const rows = [
     { t: 'Recompensa inesperada', n: 'Dispara na recompensa', cs: false, ev: [{ x: US, h: BURST, s: S }] },
     { t: 'Depois de aprender', n: 'Dispara no sinal', cs: true, ev: [{ x: CS, h: BURST, s: S }] },
-    { t: 'A recompensa não vem', n: 'A atividade cai', cs: true, ev: [{ x: CS, h: BURST, s: S }, { x: US, h: -24, s: 17 }] }
+    { t: 'A recompensa não vem', n: 'A atividade cai', cs: true, ev: [{ x: CS, h: BURST, s: S }, { x: US, h: -19, s: 17 }] }
   ];
   let h = '';
   rows.forEach((r, i) => {
@@ -31,8 +31,8 @@ function buildRpe(svg) {
     h += '<text class="rt" x="0" y="' + (top + 18) + '">' + r.t + '</text>';
     h += '<text class="rn" x="520" y="' + (top + 18) + '" text-anchor="end">' + r.n + '</text>';
     h += '<line class="rb" x1="28" x2="512" y1="' + y0 + '" y2="' + y0 + '"/>';
-    if (r.cs) h += '<line class="rv" x1="' + CS + '" x2="' + CS + '" y1="' + (top + 30) + '" y2="' + (y0 + 12) + '"/><text class="rl" x="' + CS + '" y="' + (y0 + 30) + '" text-anchor="middle">Sinal</text>';
-    h += '<line class="rv" x1="' + US + '" x2="' + US + '" y1="' + (top + 30) + '" y2="' + (y0 + 12) + '"/><text class="rl" x="' + US + '" y="' + (y0 + 30) + '" text-anchor="middle">Recompensa</text>';
+    if (r.cs) h += '<line class="rv" x1="' + CS + '" x2="' + CS + '" y1="' + (top + 30) + '" y2="' + (y0 + 12) + '"/><text class="rl" x="' + CS + '" y="' + (y0 + 37) + '" text-anchor="middle">Sinal</text>';
+    h += '<line class="rv" x1="' + US + '" x2="' + US + '" y1="' + (top + 30) + '" y2="' + (y0 + 12) + '"/><text class="rl" x="' + US + '" y="' + (y0 + 37) + '" text-anchor="middle">Recompensa</text>';
     h += '<path class="rp" pathLength="1" d="' + trace(y0, r.ev) + '"/>';
   });
   svg.innerHTML = h;

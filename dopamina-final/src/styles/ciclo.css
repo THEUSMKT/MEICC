@@ -13,7 +13,7 @@
 @media (prefers-reduced-motion:no-preference){.cy-ring{animation:flow 6s linear infinite}}
 @keyframes flow{to{stroke-dashoffset:-48}}
 
-.cy-stage{position:relative;aspect-ratio:1/1;width:min(100%,clamp(380px,74vh,620px));margin-inline:auto}
+.cy-stage{position:relative;aspect-ratio:1/1;width:min(100%,clamp(380px,74vh,820px));margin-inline:auto}
 .no3d .cy-stage{position:absolute;inset:0;width:100%;aspect-ratio:auto;pointer-events:none}
 .no3d .cy-label,.no3d .cw{display:none}
 .cy-count{position:absolute;left:0;top:2%;display:grid;gap:0;z-index:2}
@@ -36,6 +36,7 @@
 .cw-bell{width:46px;height:46px;border-radius:12px;background:var(--accent);color:var(--accent-ink);display:grid;place-items:center;font-size:1.25rem}
 @media (prefers-reduced-motion:no-preference){.cw-notif.on .cw-bell{animation:ring 1.6s ease-in-out infinite}.cw-feed.on .feed-roll{animation:feed 2.2s linear infinite}.cw-pause.on .p-fg{animation:drawp 1.5s cubic-bezier(.33,0,.2,1) both}}
 @keyframes ring{0%,55%,100%{transform:rotate(0)}10%{transform:rotate(12deg)}22%{transform:rotate(-10deg)}34%{transform:rotate(7deg)}46%{transform:rotate(-4deg)}}
+.cw.cw-feed{top:42%}
 .cw-feed{width:clamp(96px,10vw,128px);height:clamp(138px,16vw,184px);border-radius:16px;border:2px solid var(--line-strong);background:var(--ink-2);overflow:hidden;box-shadow:0 18px 40px -16px rgba(0,0,0,.9)}
 .feed-roll{display:grid;gap:8px;padding:8px}
 .feed-roll i{display:block;height:58px;border-radius:7px;background:linear-gradient(180deg,#2a3857,#1b2740)}

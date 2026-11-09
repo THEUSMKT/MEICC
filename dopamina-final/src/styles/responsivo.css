@@ -17,3 +17,6 @@
   #clk{font-size:1.1rem}
 }
 @media (prefers-reduced-motion:reduce){*{scroll-behavior:auto!important}.phone{transition:none}}
+
+/* Projetor em Full HD: usa mais da tela para o texto ser lido de longe */
+@media (min-width:1700px){.wrap{max-width:min(1640px,94vw)}}

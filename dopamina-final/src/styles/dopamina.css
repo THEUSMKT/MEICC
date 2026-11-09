@@ -10,7 +10,7 @@
 .src{display:block;margin-top:4px;font-family:var(--mono);font-size:clamp(.76rem,.86vw,.88rem);color:var(--calm)}
 .verbs .src,.myth .src{font-size:clamp(.76rem,.86vw,.88rem);color:var(--calm);margin-top:4px}
 .dop-viz{position:relative;perspective:1200px}
-.scene{position:relative;aspect-ratio:1/1;width:min(100%,clamp(380px,76vh,620px));margin-inline:auto;perspective:1000px}
+.scene{position:relative;aspect-ratio:1/1;width:min(100%,clamp(380px,76vh,840px));margin-inline:auto;perspective:1000px}
 .orb{position:absolute;border-radius:50%;display:grid;place-items:center;font-family:var(--display);font-weight:700;transform-style:preserve-3d}
 .is-3d .orb{display:none}
 .no3d .l3{display:none}
@@ -33,7 +33,7 @@
 
 /* Erro de previsao de recompensa */
 .rpe{margin:0;background:rgba(14,21,34,.95);border:1px solid var(--line-strong);border-radius:var(--r);padding:clamp(14px,1.6vw,24px);display:grid;gap:8px;align-content:center;box-shadow:0 30px 60px -32px rgba(3,8,20,.95)}
-[data-mode="pin"] .rpe{position:absolute;inset:50% 0 auto 50%;transform:translate(-50%,-50%);width:min(100%,clamp(380px,76vh,620px));margin:0}
+[data-mode="pin"] .rpe{position:absolute;inset:50% 0 auto 50%;transform:translate(-50%,-50%);width:min(100%,clamp(380px,76vh,840px));margin:0}
 [data-mode="flat"] .rpe{margin-top:18px}
 .rpe svg{display:block;width:100%;height:auto;overflow:visible}
 .rpe figcaption{font-size:clamp(.9rem,1vw,1rem);color:var(--muted)}

@@ -51,6 +51,29 @@ Parâmetros de URL para ensaio e teste. Sem eles, nada muda:
 
 Um único contexto WebGL fica fixo atrás da página e só desenha o capítulo que está na tela. A qualidade começa em "médio" e mede o FPS: se cair, reduz resolução, bloom e partículas. Se o computador não tiver aceleração gráfica, ou se nem o nível mínimo sustentar a animação, a página troca sozinha para os visuais aprovados sem WebGL. Com `prefers-reduced-motion`, não há cenas presas, 3D nem contagens: o conteúdo aparece completo e parado.
 
+## O que mudou em cada capítulo
+
+- **Global:** barra de progresso, fundo de partículas em profundidade que reage ao scroll, transições entre capítulos, textos que entram linha por linha, números que contam, brilho no cursor e resposta tátil nos botões.
+- **Abertura:** rede neural em WebGL com brilho, pulsos de dopamina e órbita com inércia. Ao rolar, a câmera entra na rede.
+- **Dados:** três cartões em profundidade, um por toque. Grade de 100 pessoas com 27 acesas, barras em sequência, comparativo do +2,8 e Fortaleza no mapa do Brasil.
+- **Dopamina:** sinapse 3D com vesículas e receptores, esferas Querer e Gostar, e a ilustração do erro de previsão de recompensa.
+- **Ciclo do hábito:** anel 3D que gira por etapa, partículas nas setas, contador ilustrativo e a pausa de 10 segundos que quebra o ciclo.
+- **Loop:** celular sobe em 3D, anel de contagem maior e demonstração automática (tecla D), que não grava nada.
+- **Conclusão:** aprendizados em profundidade, frase final animada e próximos passos em linha do tempo.
+- **Referências:** selo de revisado por pares, copiar citação, link do DOI e painel de defesa das fontes (tecla R).
+
+## Decisões e limites conhecidos
+
+- **60 fps não foi medido em máquina real.** Os testes rodaram sem GPU, com WebGL por software. Neles a queda de qualidade e o plano B funcionaram, mas o desempenho real precisa de um ensaio no computador e no projetor da escola.
+- **O nível "alto" (mais nítido) não foi visto:** o renderizador de software nunca sustenta FPS para chegar nele.
+- **Só testado no Microsoft Edge** (mesmo motor do Chrome). Firefox e Safari não foram testados.
+- **O controle remoto foi simulado** pelas teclas PageDown e PageUp. Vale um ensaio com o aparelho.
+- **Barra do +2,8:** os artigos citados na página não trazem aqui os valores absolutos de 2018 e 2022. Como a regra proíbe inventar números, só o aumento está em escala, com a base cortada e explicada na legenda.
+- **Contraste:** o texto sobre o fundo 3D foi avaliado pelas cores do tema, porque a ferramenta automática não mede texto sobre WebGL.
+- **Contador de repetições do ciclo:** é ilustrativo e está identificado assim na tela.
+- **Clique perdido corrigido:** a versão aprovada podia perder um toque enquanto o celular se endireitava. Agora o toque sempre vale para o botão pressionado, sem mudar o fluxo.
+- **Nomes:** os apresentadores 2 e 3 continuam com os nomes provisórios até serem editados na página.
+
 ## Fontes
 
 Só entram artigos científicos revisados por pares. A lista fica em `src/index.html`, cada artigo com a linha "Por que é artigo científico", e o painel da tecla R é montado a partir dela. O contorno do Brasil no capítulo Dados vem do Natural Earth (domínio público) e é só um desenho, não uma fonte de dados.
