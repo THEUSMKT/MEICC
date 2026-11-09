@@ -8,6 +8,7 @@ import { OutputPass } from 'three/addons/postprocessing/OutputPass.js';
 import { has3D, debug } from './env.js';
 import { quality } from './quality.js';
 
+const BG = new THREE.Color(0x080c14);
 const layers = [];
 let renderer = null, composer = null, bloomPass = null, layersPass = null, canvas = null;
 let raf = 0, last = 0, time = 0, alive = false, drawn = false;
@@ -18,6 +19,8 @@ class LayersPass extends Pass {
   constructor() { super(); this.needsSwap = false; this.list = []; }
   render(r, writeBuffer, readBuffer) {
     r.setRenderTarget(this.renderToScreen ? null : readBuffer);
+    /* definida aqui, com o alvo ativo, para o three.js converter a cor no espaco certo */
+    r.setClearColor(BG, 1);
     r.autoClear = false;
     r.clear();
     for (const l of this.list) {
@@ -111,7 +114,6 @@ export function startStage() {
     window.dispatchEvent(new Event('no3d'));
     return false;
   }
-  renderer.setClearColor(0x080c14, 1);
   renderer.toneMapping = THREE.NoToneMapping;
   const target = new THREE.WebGLRenderTarget(4, 4, { type: THREE.HalfFloatType, samples: quality.level.msaa });
   composer = new EffectComposer(renderer, target);

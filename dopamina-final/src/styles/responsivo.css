@@ -1,8 +1,9 @@
 /* ===== Responsivo ===== */
 @media (max-width:1100px){.who .pt{display:none}.brand span{display:none}}
 @media (max-width:900px){
-  .hero-grid,.split3,.cycle-grid,.loop-grid,.end-grid,.foot-grid,.data-grid{grid-template-columns:1fr}
-  .tile-main{grid-row:auto}
+  .hero-grid,.split3,.cycle-grid,.loop-grid,.end-grid,.foot-grid,.card-g3,.card-g2{grid-template-columns:1fr}
+  .deck-foot{margin-top:18px}
+  .people{max-width:340px}
   .chapter{min-height:auto;padding-top:calc(var(--bar) + 28px)}
   .phone{transform:none;--h:min(660px,calc(100dvh - 120px))}
   .who .nm{max-width:9ch}

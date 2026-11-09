@@ -9,8 +9,10 @@ import { initClock, clkRender, clkToggle } from './core/clock.js';
 import { initNav, startScenes, registerKey } from './core/nav.js';
 import { initFx } from './core/fx.js';
 import { initAbertura } from './chapters/abertura.js';
+import { initDados } from './chapters/dados.js';
 import { initLoopApp } from './chapters/loop-app.js';
 
+if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
 quality.init();
 initTeam();
 initClock();
@@ -21,6 +23,7 @@ const stageOn = startStage();
 if (has3D && stageOn) createFundo();
 
 initAbertura();
+initDados();
 initLoopApp();
 initFx();
 clkRender();
