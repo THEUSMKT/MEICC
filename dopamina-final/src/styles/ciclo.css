@@ -1,0 +1,19 @@
+/* ===== 4. Ciclo ===== */
+.cycle-grid{display:grid;grid-template-columns:5fr 6fr;gap:clamp(24px,4vw,64px);align-items:center}
+.cycle-viz{background:var(--ink-2);border:1px solid var(--line);border-radius:var(--r);padding:clamp(10px,1.6vw,22px);box-shadow:0 26px 50px -30px rgba(3,8,20,.9)}
+.cycle-viz svg{display:block;width:100%;height:auto}
+.cy-ring{fill:none;stroke:var(--line-strong);stroke-width:1.5;stroke-dasharray:3 9;stroke-linecap:round}
+.cy-arc{fill:none;stroke:var(--calm);stroke-width:2.5;stroke-linecap:round}
+.cy-node{fill:var(--ink-3);stroke:var(--line-strong);stroke-width:1.5}
+.cy-node.hot{stroke:var(--accent)}
+.cy-t{fill:var(--text);font-family:var(--display);font-weight:700;font-size:13.5px;text-anchor:middle}
+.cy-c{fill:var(--muted);font-family:var(--body);font-size:14px;text-anchor:middle}
+.cy-ic{color:var(--accent);stroke:currentColor;fill:none;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+@media (prefers-reduced-motion:no-preference){.cy-ring{animation:flow 6s linear infinite}}
+@keyframes flow{to{stroke-dashoffset:-48}}
+.cycle-copy{display:grid;gap:clamp(14px,2.4vh,24px)}
+.mech{display:grid;gap:18px}
+.mech li{display:grid;grid-template-columns:auto 1fr;gap:16px;align-items:start}
+.myth{padding:16px 20px;border:1px dashed var(--line-strong);border-radius:var(--r);display:grid;gap:4px}
+.myth p{font-size:clamp(.98rem,1.2vw,1.1rem)}
+.myth b{color:var(--accent)}

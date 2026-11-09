@@ -1,0 +1,23 @@
+/* ===== Equipe e referencias ===== */
+.foot{min-height:auto;border-top:1px solid var(--line);background:var(--ink-2);padding-block:clamp(36px,6vh,64px)}
+.foot-grid{display:grid;grid-template-columns:4fr 8fr;gap:clamp(24px,4vw,64px)}
+.team-list{display:grid;gap:12px;margin-top:16px}
+.team-list li{display:flex;align-items:center;gap:14px}
+.team-list .av{width:44px;height:44px;border-radius:50%;display:grid;place-items:center;background:var(--accent);color:var(--accent-ink);font-weight:700}
+.team-list strong{display:block;font-family:var(--display)}
+.team-list span{font-size:.88rem;color:var(--muted)}
+.editor{margin-top:22px;border:1px solid var(--line);border-radius:var(--r);padding:0 16px;background:var(--ink)}
+.editor summary{cursor:pointer;min-height:48px;display:flex;align-items:center;gap:10px;font-weight:600}
+.editor summary .ic{color:var(--accent)}
+.editor form{display:grid;grid-template-columns:1fr 1fr;gap:14px;padding:6px 0 18px}
+.field{display:grid;gap:6px}
+.field label{font-size:.88rem;font-weight:600}
+.field small{font-size:.78rem;color:var(--muted)}
+.field input{background:var(--ink-2);border:1px solid var(--line-strong);border-radius:var(--r-s);padding:.6rem .8rem;min-height:44px;width:100%}
+.field.wide{grid-column:1/-1}
+.ref-list{display:grid;gap:12px;margin-top:16px;font-size:.92rem;color:var(--muted)}
+.ref-list a{color:var(--text)}
+.ref-list li{max-width:84ch}
+.ref-list .why{display:block;margin-top:4px;font-size:.84rem;color:var(--calm)}
+.ref-list .why b{color:var(--text);font-weight:600}
+.ref-list .id{font-family:var(--mono);font-size:.78rem;color:var(--muted)}

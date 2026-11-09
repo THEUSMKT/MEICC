@@ -1,0 +1,23 @@
+/* ===== 3. Dopamina ===== */
+.split3{display:grid;grid-template-columns:6fr 5fr;gap:clamp(24px,4vw,64px);align-items:center}
+.s3-copy{display:grid;gap:clamp(14px,2.2vh,22px)}
+.facts{display:grid;gap:18px;margin-top:6px}
+.facts li{display:grid;grid-template-columns:auto 1fr;gap:16px;align-items:start}
+.fi{width:46px;height:46px;border-radius:var(--r-s);border:1px solid var(--line);background:var(--ink-3);display:grid;place-items:center;color:var(--accent);font-size:1.15rem}
+.facts strong,.mech strong,.verbs strong{display:block;font-family:var(--display);font-size:1.15rem;margin-bottom:2px}
+.facts p,.mech p,.verbs span{color:var(--muted);font-size:clamp(.98rem,1.2vw,1.12rem)}
+.src{display:block;margin-top:4px;font-family:var(--mono);font-size:.76rem;color:var(--calm)}
+.verbs .src,.myth .src{font-size:.76rem;color:var(--calm);margin-top:4px}
+.scene{position:relative;aspect-ratio:1/1;width:min(100%,520px);margin-inline:auto;perspective:1000px}
+.orb{position:absolute;border-radius:50%;display:grid;place-items:center;font-family:var(--display);font-weight:700;transform-style:preserve-3d}
+.orb span{font-size:clamp(1.05rem,2vw,1.8rem);letter-spacing:-.01em}
+.orb-big{width:58%;aspect-ratio:1;left:4%;top:10%;background:radial-gradient(circle at 32% 28%,#ffd6b0 0,#ff8a3d 38%,#a8440d 100%);color:#2a1202;box-shadow:0 44px 80px -34px rgba(255,138,61,.5),inset -16px -20px 44px rgba(60,20,0,.35)}
+.orb-big::after{content:"";position:absolute;inset:-16%;border-radius:50%;border:1.5px solid rgba(154,168,194,.5);transform:rotateX(72deg)}
+.orb-small{width:30%;aspect-ratio:1;right:2%;bottom:8%;background:radial-gradient(circle at 32% 28%,#dbe5f7 0,#7488ad 48%,#27324b 100%);color:#0b1220;box-shadow:0 30px 60px -30px rgba(3,8,20,.9),inset -10px -12px 28px rgba(5,10,25,.4)}
+@media (prefers-reduced-motion:no-preference){
+  .orb-big{animation:floaty 7s ease-in-out infinite}
+  .orb-small{animation:floaty 5s ease-in-out infinite reverse}
+  .orb-big::after{animation:ringspin 14s linear infinite}
+}
+@keyframes floaty{0%,100%{transform:translateY(0)}50%{transform:translateY(-14px)}}
+@keyframes ringspin{from{transform:rotateX(72deg) rotateZ(0)}to{transform:rotateX(72deg) rotateZ(360deg)}}
