@@ -276,8 +276,30 @@ test('controles da demonstracao: manual, passos, velocidade, pausa e Esc', async
   expect(await page.evaluate(k => localStorage.getItem(k), LOOP)).toBeNull();
 });
 
-test('roteiro, perguntas, limites e visao para imprimir', async ({ page }) => {
-  await page.addInitScript(() => { window.print = () => { window.__impresso = (window.__impresso || 0) + 1; }; });
+test('demonstracao rola a tela do celular ate a pergunta do app', async ({ page }, testInfo) => {
+  test.skip(!isDesktop(testInfo), 'no celular a tela do app ja mostra as opcoes');
+  /* altura real de uma janela do Edge em 1366x768, com barra de endereco e barra de tarefas */
+  await page.setViewportSize({ width: page.viewportSize().width, height: 657 });
+  await open(page);
+  await goToLoop(page);
+  await page.keyboard.press('d');
+  const insta = page.locator('[data-chip="app"][data-val="Instagram"]');
+  await expect(insta).toHaveAttribute('aria-checked', 'true', { timeout: 30000 });
+  await page.waitForTimeout(400);
+  const m = await page.evaluate(() => {
+    const v = document.getElementById('views'), r = v.getBoundingClientRect();
+    const chip = document.querySelector('[data-chip="app"][data-val="Instagram"]').getBoundingClientRect();
+    const h4 = document.querySelector('[data-view="trigger"] h4').getBoundingClientRect();
+    return { cabe: v.scrollHeight <= v.clientHeight, rolou: v.scrollTop, chipDentro: chip.top >= r.top - 1 && chip.bottom <= r.bottom + 1, perguntaDentro: h4.top >= r.top - 1 && h4.bottom <= r.bottom + 1 };
+  });
+  expect(m.cabe, 'nesta altura as opcoes nao cabem sem rolar').toBe(false);
+  expect(m.rolou).toBeGreaterThan(0);
+  expect(m.chipDentro, 'o chip do app tocado aparece na tela do celular').toBe(true);
+  expect(m.perguntaDentro, 'a pergunta "Qual app?" aparece junto').toBe(true);
+  await page.keyboard.press('Escape');
+});
+
+test('roteiro, perguntas e limites (N, Q e L)', async ({ page }) => {
   await page.addInitScript(([k, v]) => localStorage.setItem(k, JSON.stringify(v)), [TEAM, { n1: 'Bia', testou: '12' }]);
   await open(page);
   const cola = page.locator('#cola');
@@ -301,28 +323,9 @@ test('roteiro, perguntas, limites e visao para imprimir', async ({ page }) => {
   await page.keyboard.press('Escape');
   await expect(cola).toBeHidden();
   await expect(page.locator('#limTest')).toHaveText(' 12 colegas testaram a ferramenta.');
-
-  /* atalhos nao valem dentro de um campo de texto */
-  await page.locator('.editor summary').click();
-  await page.locator('#ed-escola').focus();
-  await page.keyboard.press('n');
-  await expect(cola).toBeHidden();
-  await page.locator('#ed-testou').fill('');
-  await expect(page.locator('#limTest')).toHaveText('');
-  await page.locator('#ed-escola').blur();
-
-  await page.locator('#btnImprimir').click();
-  await expect(page.locator('#impressao')).toBeVisible();
-  expect(await page.evaluate(() => window.__impresso)).toBe(1);
-  await expect(page.locator('#impBody')).toContainText('Roteiro de fala');
-  await expect(page.locator('#impBody')).toContainText('Testamos com alguns colegas.');
-  const pdf = await page.pdf({ preferCSSPageSize: true });
-  const paginas = (pdf.toString('latin1').match(/\/Type\s*\/Page[^s]/g) || []).length;
-  console.log('PAGINAS DA VERSAO IMPRESSA: ' + paginas);
-  expect(paginas).toBeGreaterThan(0);
-  expect(paginas).toBeLessThanOrEqual(2);
-  await page.locator('#impClose').click();
-  await expect(page.locator('#impressao')).toBeHidden();
+  /* o editor de nomes e o botao de imprimir sairam da pagina */
+  await expect(page.locator('.editor')).toHaveCount(0);
+  await expect(page.getByText('Roteiro e perguntas (imprimir)')).toHaveCount(0);
 });
 
 test('dados revelam um quadro por vez e nada avanca sozinho', async ({ page }, testInfo) => {

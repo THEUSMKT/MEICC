@@ -397,18 +397,6 @@
         <li><span class="av" data-inicial="1">D</span><div><strong data-nome="1">Davi</strong><span>Ciência e hábito</span></div></li>
         <li><span class="av" data-inicial="2">E</span><div><strong data-nome="2">Edson</strong><span>Loop e conclusão</span></div></li>
       </ul>
-      <details class="editor" data-nonav>
-        <summary><svg class="ic" aria-hidden="true"><use href="#i-pencil"/></svg>Editar nomes e dados do teste</summary>
-        <form onsubmit="return false">
-          <div class="field"><label for="ed-n1">Apresentador 1</label><input id="ed-n1" type="text" autocomplete="off" maxlength="40" placeholder="Antony"><small>Aparece na barra do topo.</small></div>
-          <div class="field"><label for="ed-n2">Apresentador 2</label><input id="ed-n2" type="text" autocomplete="off" maxlength="40" placeholder="Davi"><small>Aparece na barra do topo.</small></div>
-          <div class="field"><label for="ed-n3">Apresentador 3</label><input id="ed-n3" type="text" autocomplete="off" maxlength="40" placeholder="Edson"><small>Aparece na barra do topo.</small></div>
-          <div class="field"><label for="ed-escola">Escola ou turma</label><input id="ed-escola" type="text" autocomplete="off" maxlength="60" placeholder="Turma 2312"><small>Aparece na abertura e na equipe.</small></div>
-          <div class="field"><label for="ed-testou">Pessoas que testaram o Loop</label><input id="ed-testou" type="number" min="0" max="999" inputmode="numeric"><small>Deixe vazio para ocultar.</small></div>
-          <div class="field wide"><label for="ed-quote">Feedback dos testes, em uma frase</label><input id="ed-quote" type="text" autocomplete="off" maxlength="140"><small>Aparece na conclusão, junto do número de testes.</small></div>
-        </form>
-      </details>
-      <button type="button" class="btn btn-ghost" id="btnImprimir" style="margin-top:18px"><svg class="ic" aria-hidden="true"><use href="#i-export"/></svg>Roteiro e perguntas (imprimir)</button>
       <div class="keys">
         <h3>Atalhos de teclado</h3>
         <ul>
@@ -499,13 +487,6 @@
   <div class="cola-body" id="colaBody" tabindex="0"></div>
 </aside>
 
-<div id="impressao" hidden>
-  <div class="imp-bar">
-    <button type="button" class="btn" id="impPrint">Imprimir</button>
-    <button type="button" class="btn btn-ghost" id="impClose">Voltar à apresentação</button>
-  </div>
-  <article id="impBody"></article>
-</div>
 
 <script type="module" src="./main.js"></script>
 </body>

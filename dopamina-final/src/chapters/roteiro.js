@@ -1,5 +1,4 @@
-/* Roteiro de fala (N), perguntas provaveis (Q), limites (L) e a visao para imprimir.
-   O texto do roteiro e das perguntas e o mesmo nas duas visoes. */
+/* Roteiro de fala (N), perguntas provaveis (Q) e limites (L), em um painel ao lado da apresentacao. */
 import { $, $$ } from '../core/dom.js';
 import { registerKey } from '../core/nav.js';
 import { nomeDe, testouN, onTeamChange } from '../core/team.js';
@@ -85,7 +84,6 @@ const PANELS = {
 
 export function initRoteiro() {
   const cola = $('#cola'), body = $('#colaBody');
-  const print = $('#impressao'), printBody = $('#impBody');
   let open = null;
 
   const close = () => { open = null; cola.hidden = true; };
@@ -107,27 +105,9 @@ export function initRoteiro() {
     }
   }
 
-  const renderPrint = () => {
-    printBody.innerHTML = '<h1>Roteiro de fala</h1>' + htmlRoteiro() + '<h2>Perguntas prováveis</h2>' + htmlPerguntas();
-  };
-
-  function openPrint() {
-    renderPrint();
-    print.hidden = false;
-    window.print();
-  }
-
   Object.keys(PANELS).forEach(k => registerKey(k, () => show(k)));
   $('#colaX').addEventListener('click', close);
   document.addEventListener('keydown', e => { if (e.key === 'Escape') close(); });
   window.addEventListener('esconder-barra', close);
-
-  renderPrint();
-  onTeamChange(() => {
-    renderPrint();
-    if (open) { const k = open; open = null; show(k); }
-  });
-  $('#btnImprimir').addEventListener('click', openPrint);
-  $('#impPrint').addEventListener('click', () => window.print());
-  $('#impClose').addEventListener('click', () => { print.hidden = true; });
+  onTeamChange(() => { if (open) { const k = open; open = null; show(k); } });
 }

@@ -32,6 +32,7 @@ function applyTeam() {
 }
 ['n1', 'n2', 'n3', 'escola', 'testou', 'quote'].forEach(k => {
   const el = $('#ed-' + k);
+  if (!el) return; /* o editor saiu da pagina: os nomes vem de config.js */
   el.value = team[k] || '';
   el.addEventListener('input', () => { team[k] = el.value; store.set(TEAM_KEY, team); applyTeam(); });
 });

@@ -7,7 +7,7 @@ import { registerFx, registerKey, goToChapter, setNavBlocker, getMode } from '..
 import { revealLines, revealBlur } from '../core/fx.js';
 import { initLoopApp } from './loop-app.js';
 
-const TRANS = 600, RING = 550; /* milissegundos na velocidade Normal */
+const TRANS = 600, RING = 550, SCROLL = 700; /* milissegundos na velocidade Normal */
 const SPEEDS = { 1: { f: 1.5, nome: 'Lento' }, 2: { f: 1, nome: 'Normal' }, 3: { f: 0.75, nome: 'Rápido' } };
 const FAST = debug.demoSpeed === 'fast'; /* so para testes automatizados */
 
@@ -80,8 +80,27 @@ export function initLoop() {
       { scale: 2, opacity: 0, duration: RING / 1000 * factor(), ease: 'power2.out', overwrite: 'auto' });
   }
 
-  function press(sel, t) {
+  /* Antes de tocar, rola a tela do celular ate o botao. Se ele faz parte de uma pergunta
+     ("Qual app?"), a pergunta sobe junto, para a plateia ver as opcoes. */
+  const views = $('#views', screen);
+  function reveal(b) {
+    if (!b) return false;
+    const v = views.getBoundingClientRect(), r = b.getBoundingClientRect();
+    const group = b.closest('.chips');
+    const lead = group && /^H[34]$/.test((group.previousElementSibling || {}).tagName || '') ? group.previousElementSibling : null;
+    const top = lead ? lead.getBoundingClientRect().top : r.top;
+    if (top >= v.top - 1 && r.bottom <= v.bottom + 1) return false;
+    let d;
+    if (lead && r.bottom - top <= v.height - 20) d = top - v.top - 8;
+    else d = r.bottom > v.bottom ? r.bottom - v.bottom + 12 : r.top - v.top - 8;
+    if (Math.abs(d) < 2) return false;
+    views.scrollTo({ top: views.scrollTop + d, behavior: reduce ? 'auto' : 'smooth' });
+    return true;
+  }
+
+  async function press(sel, t) {
     const b = $(sel, screen);
+    if (reveal(b) && !await clock(SCROLL, t, { always: true })) return;
     ringAt(b);
     setTimeout(() => { if (t === token && b && !b.disabled) b.click(); }, Math.min(260, RING * factor() / 2));
   }
@@ -107,6 +126,7 @@ export function initLoop() {
 
   async function leave(i, t, always) {
     leaving = true;
+    if (reveal(target(STEPS[i])) && !await clock(SCROLL, t, { always })) return;
     ringAt(target(STEPS[i]));
     if (!await clock(RING, t, { always })) return;
     const b = target(STEPS[i]), next = STEPS[i + 1];

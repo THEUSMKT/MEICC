@@ -29,7 +29,7 @@ Durante a demonstração do Loop:
 | `1`, `2`, `3` | Lento, Normal ou Rápido. O anel da pausa conta sempre 10 s reais |
 | `M` | Alterna automático e manual. No manual, a tela só muda com `PageDown` |
 
-Os atalhos não valem com o foco em um campo de texto. O botão "Roteiro e perguntas (imprimir)", na seção da equipe, gera a versão em A4 para levar no papel.
+Os atalhos não valem com o foco em um campo de texto. A demonstração rola a tela do celular sozinha antes de cada toque, para a pergunta e o botão aparecerem.
 
 Divisão de tempo: apresentador 1 (abertura e dados, 0 a 90 s), apresentador 2 (ciência e hábito, 90 a 190 s), apresentador 3 (Loop e conclusão, 190 a 300 s).
 
@@ -97,7 +97,7 @@ Um único contexto WebGL fica fixo atrás da página e só desenha o capítulo q
 - **Contador de repetições do ciclo:** é ilustrativo e está identificado assim na tela.
 - **Clique perdido corrigido:** a versão aprovada podia perder um toque enquanto o celular se endireitava. Agora o toque sempre vale para o botão pressionado, sem mudar o fluxo.
 - **Frase de Wilson et al., 2014:** o resumo diz que os participantes, em geral, não gostaram da experiência, e em um dos estudos 49,3% ficaram no meio da escala ou abaixo. Por isso a página diz "em geral", e não "a maioria".
-- **Nomes e turma:** Antony, Davi, Edson e a Turma 2312 estão em `src/core/config.js`. O que for digitado no editor da página vale por cima disso, naquele navegador.
+- **Nomes e turma:** Antony, Davi, Edson e a Turma 2312 estão em `src/core/config.js`. A página não tem mais editor de nomes nem botão de imprimir o roteiro; o roteiro continua nas teclas N, Q e L.
 
 ## Fontes
 
