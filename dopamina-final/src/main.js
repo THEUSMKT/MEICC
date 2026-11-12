@@ -18,6 +18,7 @@ import { initConclusao } from './chapters/conclusao.js';
 import { initReferencias } from './chapters/referencias.js';
 import { initRoteiro } from './chapters/roteiro.js';
 import { initOffline } from './core/offline.js';
+import { initTrilho } from './core/trilho.js';
 
 if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
 quality.init();
@@ -25,6 +26,7 @@ initOffline();
 initTeam();
 initClock();
 initNav();
+initTrilho();
 registerKey('t', clkToggle);
 
 const stageOn = startStage();

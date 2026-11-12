@@ -6,6 +6,7 @@ import { gsap, ScrollTrigger } from '../core/gsap.js';
 import { registerFx, registerKey, goToChapterId, setNavBlocker, getMode } from '../core/nav.js';
 import { revealLines, revealBlur } from '../core/fx.js';
 import { initLoopApp } from './loop-app.js';
+import { topoLivre } from '../core/trilho.js';
 
 const TRANS = 600, RING = 550, SCROLL = 700; /* milissegundos na velocidade Normal */
 const SPEEDS = { 1: { f: 1.5, nome: 'Lento' }, 2: { f: 1, nome: 'Normal' }, 3: { f: 0.75, nome: 'Rápido' } };
@@ -47,7 +48,7 @@ export function initLoop() {
   function place() {
     if (getMode() !== 'pin') { panel.style.cssText = ''; return; }
     const c = copy.getBoundingClientRect(), b = btn.getBoundingClientRect();
-    const top = Math.max(76, c.top);
+    const top = Math.max(topoLivre(), c.top);
     panel.style.left = c.left + 'px';
     panel.style.top = top + 'px';
     panel.style.width = c.width + 'px';
@@ -198,7 +199,7 @@ export function initLoop() {
       if (Math.abs(el.getBoundingClientRect().top) > window.innerHeight * 0.3) goToChapterId('loop');
     } else {
       /* no celular o que importa e ver o aparelho, logo abaixo da barra */
-      const y = $('.phone-wrap', el).getBoundingClientRect().top + window.scrollY - 76;
+      const y = $('.phone-wrap', el).getBoundingClientRect().top + window.scrollY - topoLivre();
       window.scrollTo({ top: y, behavior: reduce ? 'auto' : 'smooth' });
     }
     start();

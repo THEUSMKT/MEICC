@@ -16,7 +16,9 @@
   --mono:"JetBrains Mono", ui-monospace, "SF Mono", Consolas, monospace;
   --r:14px;
   --r-s:10px;
-  --bar:68px;
+  --barra:68px;
+  --trilho:30px;
+  --bar:calc(var(--barra) + var(--trilho)); /* espaco reservado no topo: barra + trilho */
   color-scheme:dark;
 }
 *{box-sizing:border-box}

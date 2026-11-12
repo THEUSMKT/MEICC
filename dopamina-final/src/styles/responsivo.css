@@ -36,3 +36,10 @@
 
 /* Projetor em Full HD: usa mais da tela para o texto ser lido de longe */
 @media (min-width:1700px){.wrap{max-width:min(1640px,94vw)}}
+/* No celular o trilho vira so pontos */
+@media (max-width:560px){
+  :root{--trilho:18px}
+  .trilho span{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+  .trilho button{min-height:16px;padding:0 3px}
+  .trilho li+li::before{width:18px}
+}
