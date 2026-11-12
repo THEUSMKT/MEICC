@@ -69,3 +69,14 @@
   .map-live .pin-wave.w2{animation-delay:1.2s}
 }
 @keyframes wave{from{transform:scale(.7);opacity:.95}to{transform:scale(5);opacity:0}}
+
+/* No projetor o cartao tem altura fixa (trilho e elo ocupam parte da tela):
+   a grade de pessoas se ajusta a altura dele e o texto fica mais compacto em telas baixas. */
+[data-mode="pin"] #dados .card{container-type:size}
+[data-mode="pin"] #dados .people{max-width:min(100%, calc(100cqh - 54px))}
+@media (max-height:820px){
+  [data-mode="pin"] #dados .card{padding:20px 30px}
+  [data-mode="pin"] #dados .n{font-size:clamp(3.2rem,6.2vw,7rem)}
+  [data-mode="pin"] #dados .card-text{gap:8px}
+  [data-mode="pin"] #dados .foot-note{font-size:.88rem}
+}

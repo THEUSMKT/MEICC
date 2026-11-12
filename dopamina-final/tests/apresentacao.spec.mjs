@@ -571,3 +571,34 @@ test('tela cheia pelo botao da barra e pela tecla F', async ({ page }, testInfo)
   await expect.poll(() => page.evaluate(() => !!document.fullscreenElement), { timeout: 5000 }).toBe(false);
   await expect(btn).toHaveAttribute('aria-pressed', 'false');
 });
+
+test('nenhum texto ou grafico sai do seu cartao, em cada passo do projetor', async ({ page }, testInfo) => {
+  test.skip(!isDesktop(testInfo), 'no celular os cartoes crescem com o conteudo');
+  await open(page);
+  const list = await stops(page);
+  const vistos = new Set();
+  for (const s of list) {
+    const k = s.ci + '-' + s.step;
+    if (vistos.has(k) || s.ci > CAP.conclusao) continue;
+    vistos.add(k);
+    await page.evaluate(v => window.scrollTo(0, v), s.y);
+    await settle(page, s.y);
+    await page.waitForTimeout(1600);
+    const fora = await page.evaluate(ci => {
+      const sec = document.querySelectorAll('.chapter')[ci];
+      const vis = e => { const cs = getComputedStyle(e); return cs.visibility !== 'hidden' && +cs.opacity > 0.05 && e.getClientRects().length; };
+      const res = [];
+      for (const box of sec.querySelectorAll('.card,.rpe,.next,.beta-box,.mech li,.facts li')) {
+        if (!vis(box)) continue;
+        const r = box.getBoundingClientRect();
+        for (const e of box.querySelectorAll('p,span,strong,figcaption,svg,b,em,h3,h4')) {
+          if (!vis(e)) continue;
+          const q = e.getBoundingClientRect();
+          if (q.height && (q.bottom > r.bottom + 2 || q.top < r.top - 2)) { res.push(box.className + ' > ' + e.tagName); break; }
+        }
+      }
+      return res;
+    }, s.ci);
+    expect(fora, 'conteudo saindo do cartao na parada ' + k).toEqual([]);
+  }
+});
