@@ -19,6 +19,7 @@ import { initReferencias } from './chapters/referencias.js';
 import { initRoteiro } from './chapters/roteiro.js';
 import { initOffline } from './core/offline.js';
 import { initTrilho } from './core/trilho.js';
+import { initTelaCheia } from './core/telacheia.js';
 
 if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
 quality.init();
@@ -27,6 +28,7 @@ initTeam();
 initClock();
 initNav();
 initTrilho();
+initTelaCheia();
 registerKey('t', clkToggle);
 
 const stageOn = startStage();

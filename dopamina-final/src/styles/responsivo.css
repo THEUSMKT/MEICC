@@ -43,3 +43,5 @@
   .trilho button{min-height:16px;padding:0 3px}
   .trilho li+li::before{width:18px}
 }
+/* no celular a tela cheia nao cabe na barra e o proprio aparelho ja ocupa a tela */
+@media (max-width:560px){#telaCheia{display:none}}

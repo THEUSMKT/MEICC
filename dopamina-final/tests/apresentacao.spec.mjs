@@ -377,7 +377,7 @@ test('nomes da equipe e turma aparecem sem editar nada', async ({ page }) => {
   }
   const cortado = await page.locator('.who .nm').evaluateAll(els => els.some(el => el.scrollWidth > el.clientWidth));
   expect(cortado).toBe(false);
-  await expect(page.locator('#eyebrow')).toHaveText('Feira científica, Turma 2312');
+  await expect(page.locator('#eyebrow')).toHaveText('MEICC, Turma 2312');
   await expect(page.locator('[data-turma]')).toHaveText('Turma 2312');
 });
 
@@ -557,4 +557,17 @@ test('trilho: no ativo por capitulo, clique leva ao capitulo e a tecla H nao o e
   await expect(page.locator('#trilho')).toBeVisible();
   await expect.poll(() => page.evaluate(() => document.getElementById('trilho').getBoundingClientRect().top), { timeout: 5000 }).toBe(0);
   await page.keyboard.press('h');
+});
+
+test('tela cheia pelo botao da barra e pela tecla F', async ({ page }, testInfo) => {
+  test.skip(!isDesktop(testInfo), 'no celular o botao fica escondido');
+  await open(page);
+  const btn = page.locator('#telaCheia');
+  await expect(btn).toBeVisible();
+  await btn.click();
+  await expect.poll(() => page.evaluate(() => !!document.fullscreenElement), { timeout: 5000 }).toBe(true);
+  await expect(btn).toHaveAttribute('aria-pressed', 'true');
+  await page.keyboard.press('f');
+  await expect.poll(() => page.evaluate(() => !!document.fullscreenElement), { timeout: 5000 }).toBe(false);
+  await expect(btn).toHaveAttribute('aria-pressed', 'false');
 });

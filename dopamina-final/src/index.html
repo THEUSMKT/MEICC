@@ -44,6 +44,8 @@
 <symbol id="i-shield" viewBox="0 0 24 24"><path d="M11.46 20.846a12 12 0 0 1 -7.96 -14.846a12 12 0 0 0 8.5 -3a12 12 0 0 0 8.5 3a12 12 0 0 1 -.09 7.06"></path><path d="M15 19l2 2l4 -4"></path></symbol>
 <symbol id="i-seal" viewBox="0 0 24 24"><path d="M5 7.2a2.2 2.2 0 0 1 2.2 -2.2h1a2.2 2.2 0 0 0 1.55 -.64l.7 -.7a2.2 2.2 0 0 1 3.12 0l.7 .7c.412 .41 .97 .64 1.55 .64h1a2.2 2.2 0 0 1 2.2 2.2v1c0 .58 .23 1.138 .64 1.55l.7 .7a2.2 2.2 0 0 1 0 3.12l-.7 .7a2.2 2.2 0 0 0 -.64 1.55v1a2.2 2.2 0 0 1 -2.2 2.2h-1a2.2 2.2 0 0 0 -1.55 .64l-.7 .7a2.2 2.2 0 0 1 -3.12 0l-.7 -.7a2.2 2.2 0 0 0 -1.55 -.64h-1a2.2 2.2 0 0 1 -2.2 -2.2v-1a2.2 2.2 0 0 0 -.64 -1.55l-.7 -.7a2.2 2.2 0 0 1 0 -3.12l.7 -.7a2.2 2.2 0 0 0 .64 -1.55v-1"></path><path d="M9 12l2 2l4 -4"></path></symbol>
 <symbol id="i-x" viewBox="0 0 24 24"><path d="M18 6l-12 12"></path><path d="M6 6l12 12"></path></symbol>
+<symbol id="i-max" viewBox="0 0 24 24"><path d="M4 8v-2a2 2 0 0 1 2 -2h2"></path><path d="M4 16v2a2 2 0 0 0 2 2h2"></path><path d="M16 4h2a2 2 0 0 1 2 2v2"></path><path d="M16 20h2a2 2 0 0 0 2 -2v-2"></path></symbol>
+<symbol id="i-min" viewBox="0 0 24 24"><path d="M5 9h2a2 2 0 0 0 2 -2v-2"></path><path d="M15 19v-2a2 2 0 0 1 2 -2h2"></path><path d="M15 5v2a2 2 0 0 0 2 2h2"></path><path d="M5 15h2a2 2 0 0 1 2 2v2"></path></symbol>
 </svg>
 
 <canvas id="gl" aria-hidden="true"></canvas>
@@ -63,6 +65,7 @@
       <span id="clk" role="timer" aria-label="Tempo restante">05:00</span>
       <button type="button" class="icon-btn" id="clkGo" aria-label="Iniciar cronômetro (tecla T)" title="Iniciar ou pausar (tecla T)"><svg class="ic" aria-hidden="true"><use id="clkIcon" href="#i-play"/></svg></button>
       <button type="button" class="icon-btn" id="clkReset" aria-label="Reiniciar cronômetro" title="Reiniciar"><svg class="ic" aria-hidden="true"><use href="#i-reset"/></svg></button>
+      <button type="button" class="icon-btn" id="telaCheia" aria-pressed="false" aria-label="Tela cheia (tecla F)" title="Tela cheia (F)"><svg class="ic" aria-hidden="true"><use href="#i-max"/></svg></button>
     </div>
   </div>
   <div class="track" aria-hidden="true"><i id="trackFill"></i><b id="tick1"></b><b id="tick2"></b></div>
@@ -82,7 +85,7 @@
 <section class="chapter" id="abertura" data-p="0" data-scene>
   <div class="wrap hero-grid">
     <div class="hero-copy">
-      <p class="eyebrow" id="eyebrow">Feira científica, Turma 2312</p>
+      <p class="eyebrow" id="eyebrow">MEICC, Turma 2312</p>
       <h1>Por que é tão difícil largar o celular?</h1>
       <p class="lead">Você abre o Instagram para responder uma mensagem e, 40 minutos depois, ainda está rolando a tela.</p>
       <p class="recorte">Vamos seguir um único hábito: pegar o celular sem decidir.</p>
@@ -440,6 +443,7 @@
         <ul>
           <li><kbd>T</kbd>Inicia ou pausa o cronômetro</li>
           <li><kbd>H</kbd>Esconde ou mostra a barra do topo</li>
+          <li><kbd>F</kbd>Tela cheia (ou o botão no canto da barra)</li>
           <li><kbd>R</kbd>Abre a defesa das fontes</li>
           <li><kbd>D</kbd>Liga ou encerra a demonstração do Loop</li>
           <li><kbd>Espaço</kbd>Na demonstração, pausa e retoma</li>

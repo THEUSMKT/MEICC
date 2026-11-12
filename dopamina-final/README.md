@@ -12,6 +12,7 @@ Abra `dist/index.html` com dois cliques. É um arquivo único, com tudo embutido
 | Setas | Também navegam (dentro do celular, as setas ficam com o app) |
 | `T` | Inicia ou pausa o cronômetro de 5:00 |
 | `H` | Esconde ou mostra a barra do topo e o cronômetro |
+| `F` | Tela cheia, sem depender do F11 (também pelo botão no canto da barra) |
 | `R` | Abre ou fecha o painel "Defesa das fontes" |
 | `D` | Liga ou encerra a demonstração automática do Loop |
 | `N` | Abre ou fecha o roteiro de fala (use nos ensaios: se o projetor espelhar a tela, a plateia vê) |

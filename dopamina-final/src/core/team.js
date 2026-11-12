@@ -18,7 +18,7 @@ function applyTeam() {
   $$('[data-inicial]').forEach(el => { el.textContent = nomeDe(+el.dataset.inicial).charAt(0).toUpperCase(); });
   const escola = String(team.escola || '').trim() || CONFIG.turma;
   $$('[data-turma]').forEach(el => { el.textContent = escola; });
-  $('#eyebrow').textContent = escola ? 'Feira científica, ' + escola : 'Feira científica';
+  $('#eyebrow').textContent = escola ? 'MEICC, ' + escola : 'MEICC';
   const n = testouN();
   const box = $('#testedBox');
   if (n > 0) {
