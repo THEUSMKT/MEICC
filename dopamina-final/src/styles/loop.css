@@ -94,3 +94,19 @@
 /* Loop como fase beta */
 .selo-beta{justify-self:start;display:inline-flex;align-items:center;gap:6px;padding:4px 12px 4px 8px;border:1px solid var(--accent);border-radius:999px;background:rgba(255,138,61,.1);color:var(--accent);font-family:var(--mono);font-size:.82rem;font-weight:600;letter-spacing:.06em;text-transform:uppercase}
 .beta-tag{font-family:var(--mono);font-size:.66rem;font-weight:700;letter-spacing:.06em;padding:2px 7px;border-radius:999px;background:var(--accent);color:var(--accent-ink);text-transform:uppercase}
+
+/* O nome do aplicativo e a fase beta precisam ser lidos de longe */
+.selo-app{justify-self:start;display:inline-flex;align-items:center;gap:8px;padding:5px 7px 5px 12px;border:1px solid var(--accent);border-radius:999px;background:rgba(255,138,61,.1)}
+.selo-app-k{font-family:var(--mono);font-size:.74rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.selo-app .ic{color:var(--accent);font-size:1.15rem}
+.selo-app b{font-family:var(--display);font-weight:800;font-size:1.15rem;color:var(--text)}
+.selo-app .beta-tag{font-size:.72rem;padding:3px 9px}
+.marca{color:var(--accent)}
+.marca-beta{display:inline-block;padding:.12em .5em;border-radius:999px;background:var(--accent);color:var(--accent-ink);font-family:var(--mono);font-size:.42em;font-weight:700;letter-spacing:.08em;text-transform:uppercase;vertical-align:.6em}
+.app-head{gap:9px;padding:16px 20px 8px;font-size:1.3rem}
+.app-head .ic{font-size:1.35rem}
+.app-head .beta-tag{font-size:.7rem;padding:3px 9px}
+@media (max-height:820px){
+  [data-mode="pin"] #loop .loop-copy{gap:12px}
+  [data-mode="pin"] #loop .verbs{gap:12px}
+}

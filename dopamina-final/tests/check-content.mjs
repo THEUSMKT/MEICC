@@ -47,7 +47,7 @@ for (const f of [
   'Um hábito automático só muda se ficar visível e ganhar uma pausa.',
   'O que interrompe o ciclo: ver e pausar',
   'Foi isso que a gente construiu: o Loop, em fase beta.',
-  'Loop beta: o ciclo vira uma escolha',
+  'Loop beta: o ciclo vira uma escolha'.replace('Loop beta', 'Loop</span> <span class="marca-beta">beta</span>'),
   'Um aplicativo que ajuda a usar o celular como ferramenta, não como passatempo automático.',
   'Isso é só a fase beta. O que vem depois?',
   'Do hábito automático à escolha',
