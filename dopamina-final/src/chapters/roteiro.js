@@ -53,6 +53,14 @@ const PERGUNTAS = [
   ['O que o tédio tem a ver com isso?', 'Em 11 estudos (Wilson et al., 2014), muita gente não gostou de ficar sozinha só pensando. Esse trabalho não envolve celular; ele ajuda a entender por que aliviar o tédio é tão atraente.']
 ];
 
+/* fora do discurso principal: so para perguntas, cada um com a sua fonte */
+const APOIO = [
+  'Prevalência por tipo de uso (Meng et al., 2022): smartphone 27%, redes sociais 17%, internet 14%, jogos 6%.',
+  'Fortaleza (Nunes et al., 2021): 70% dos 286 estudantes de 15 a 19 anos atingiram o critério de dependência de smartphone numa escala de triagem; vale para essa amostra e não representa o Brasil. Os números do 27% e do 70% não se comparam, porque as amostras, as idades e as escalas são diferentes.',
+  'Vídeos curtos (Nguyen et al., 2025): numa meta-análise de 71 estudos, mais uso esteve associado a pior atenção; os dados são correlacionais e não provam que o vídeo causa o problema.',
+  'Circuito de recompensa (Haber e Knutson, 2010): o núcleo accumbens e os neurônios dopaminérgicos da área tegmental ventral estão no centro do circuito de recompensa.'
+];
+
 const LIMITES = [
   'Os estudos citados mostram associações e usam escalas de triagem, não diagnóstico.',
   'O 70% de Fortaleza vem de uma só cidade e não representa o Brasil.',
@@ -68,7 +76,9 @@ const htmlRoteiro = () => ROTEIRO.map((b, i) =>
   '<p class="rt-diga"><b>Diga:</b> ' + esc(b.diga) + '</p><p class="rt-evite"><b>Evite:</b> ' + esc(b.evite) + '</p></section>').join('');
 
 const htmlPerguntas = () => '<ol class="rt-perg">' + PERGUNTAS.map(([p, r]) =>
-  '<li><b>"' + esc(p) + '"</b> ' + esc(r.replace('{N}', colegas())) + '</li>').join('') + '</ol>';
+  '<li><b>"' + esc(p) + '"</b> ' + esc(r.replace('{N}', colegas())) + '</li>').join('') + '</ol>' +
+  '<section class="rt-apoio" id="dadosApoio"><h3>Dados de apoio</h3><p>Só para perguntas, fora do discurso principal.</p><ul>' +
+  APOIO.map(a => '<li>' + esc(a) + '</li>').join('') + '</ul></section>';
 
 const htmlLimites = () => '<ul class="rt-lim">' + LIMITES.map((l, i) => {
   const n = testouN();

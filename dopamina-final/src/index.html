@@ -215,7 +215,52 @@
   </div></div>
 </section>
 
-<!-- 5. LOOP -->
+<!-- 5. PONTE: o mesmo ciclo, agora com registro e pausa -->
+<section class="chapter" id="ponte" data-p="2" data-scene>
+  <div class="depth"><div class="wrap cycle-grid">
+    <div class="cycle-viz">
+      <svg class="cy-fallback" viewBox="0 0 400 340" role="img" aria-label="O mesmo ciclo do hábito, agora com um registro no gatilho e uma pausa de 10 segundos entre o gatilho e o comportamento">
+        <defs><marker id="ah2" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" fill="#9aa8c2"/></marker></defs>
+        <circle class="cy-ring" cx="200" cy="200" r="140"/>
+        <path class="cy-arc" d="M265.7 76.4 A140 140 0 0 1 339.9 204.9" marker-end="url(#ah2)"/>
+        <path class="cy-arc" d="M274.2 318.7 A140 140 0 0 1 125.8 318.7" marker-end="url(#ah2)"/>
+        <path class="cy-arc" d="M60.1 204.9 A140 140 0 0 1 134.3 76.4" marker-end="url(#ah2)"/>
+        <circle class="cy-node hot" cx="200" cy="60" r="56"/>
+        <svg x="186" y="34" width="28" height="28" viewBox="0 0 24 24" class="cy-ic"><use href="#i-bell"/></svg>
+        <text class="cy-t" x="200" y="84">Gatilho</text>
+        <circle class="cy-node" cx="321.2" cy="270" r="56"/>
+        <svg x="307.2" y="244" width="28" height="28" viewBox="0 0 24 24" class="cy-ic"><use href="#i-phone"/></svg>
+        <text class="cy-t" x="321.2" y="294">Comportamento</text>
+        <circle class="cy-node" cx="78.8" cy="270" r="56"/>
+        <svg x="64.8" y="244" width="28" height="28" viewBox="0 0 24 24" class="cy-ic"><use href="#i-spark"/></svg>
+        <text class="cy-t" x="78.8" y="294">Consequência</text>
+        <rect class="pn-reg" x="44" y="46" width="94" height="28" rx="14"/>
+        <text class="pn-reg-t" x="91" y="65">Registro</text>
+        <circle class="pn-pausa" cx="321.2" cy="130" r="30"/>
+        <text class="pn-pausa-t" x="321.2" y="137">10 s</text>
+      </svg>
+      <div class="cy-stage" id="pnStage" aria-hidden="true">
+        <span class="cy-label" data-n="0"><svg class="ic"><use href="#i-bell"/></svg>Gatilho</span>
+        <span class="cy-label" data-n="1"><svg class="ic"><use href="#i-phone"/></svg>Comportamento</span>
+        <span class="cy-label" data-n="2"><svg class="ic"><use href="#i-spark"/></svg>Consequência</span>
+        <span class="cy-label cy-label-pause" data-n="3">10 s</span>
+        <span class="cy-label cy-label-reg" data-n="4"><svg class="ic"><use href="#i-pencil"/></svg>Registro</span>
+        <div class="cw cw-pause pn-pause"><svg viewBox="0 0 120 120"><circle class="p-bg" cx="60" cy="60" r="52"/><circle class="p-fg" cx="60" cy="60" r="52" pathLength="1" transform="rotate(-90 60 60)"/></svg><b>10</b><small>segundos</small></div>
+      </div>
+      <p class="cy-cap" id="pnCap" aria-live="off">Ver: o registro deixa o gatilho visível.</p>
+    </div>
+    <div class="cycle-copy">
+      <h2 class="reveal">O que interrompe o ciclo: ver e pausar</h2>
+      <ul class="mech">
+        <li data-pn="0"><span class="fi"><svg class="ic" aria-hidden="true"><use href="#i-pencil"/></svg></span><div><strong>Ver o hábito</strong><p>Monitorar o comportamento ajuda a atingir metas.</p><span class="src">Harkin et al., 2016</span></div></li>
+        <li data-pn="1"><span class="fi"><svg class="ic" aria-hidden="true"><use href="#i-hourglass"/></svg></span><div><strong>Pausar antes de agir</strong><p>Com pausa de 10 s, as aberturas dos apps caíram 57% em 6 semanas.</p><span class="src">Grüning et al., 2023 · estudo com outro aplicativo</span></div></li>
+      </ul>
+      <p class="elo"><span>Próximo:</span> Foi isso que a gente construiu: o Loop, em fase beta.</p>
+    </div>
+  </div></div>
+</section>
+
+<!-- 6. LOOP -->
 <section class="chapter" id="loop" data-p="2">
   <div class="depth"><div class="wrap loop-grid">
     <div class="loop-copy">

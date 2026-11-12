@@ -3,7 +3,7 @@
 import { $, $$ } from '../core/dom.js';
 import { reduce, debug } from '../core/env.js';
 import { gsap, ScrollTrigger } from '../core/gsap.js';
-import { registerFx, registerKey, goToChapter, setNavBlocker, getMode } from '../core/nav.js';
+import { registerFx, registerKey, goToChapterId, setNavBlocker, getMode } from '../core/nav.js';
 import { revealLines, revealBlur } from '../core/fx.js';
 import { initLoopApp } from './loop-app.js';
 
@@ -194,7 +194,7 @@ export function initLoop() {
   function toggle() {
     if (active) { stop(); return; }
     if (getMode() === 'pin') {
-      if (Math.abs(el.getBoundingClientRect().top) > window.innerHeight * 0.3) goToChapter(4);
+      if (Math.abs(el.getBoundingClientRect().top) > window.innerHeight * 0.3) goToChapterId('loop');
     } else {
       /* no celular o que importa e ver o aparelho, logo abaixo da barra */
       const y = $('.phone-wrap', el).getBoundingClientRect().top + window.scrollY - 76;

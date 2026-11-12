@@ -91,3 +91,15 @@
 .mech li.destaque.on{background:rgba(255,138,61,.14);border-color:var(--accent)}
 .mito-linha{padding-left:12px;border-left:2px solid var(--line-strong);font-size:clamp(.92rem,1.05vw,1.02rem);line-height:1.4;color:var(--muted)}
 .mito-linha .src{display:block}
+
+/* Ponte: o mesmo ciclo com o registro e a pausa */
+.pn-reg{fill:rgba(255,138,61,.14);stroke:var(--accent);stroke-width:1.5}
+.pn-reg-t,.pn-pausa-t{fill:var(--text);font-family:var(--display);font-weight:700;font-size:14px;text-anchor:middle}
+.pn-pausa{fill:var(--accent);stroke:#ffd6b0;stroke-width:2}
+.pn-pausa-t{fill:#2a1202;font-size:16px}
+.cy-label.cy-label-reg{border-color:var(--accent);color:var(--text)}
+.cy-label.cy-label-reg .ic{color:var(--accent)}
+.is-3d #ponte .cw.cw-pause{display:grid}
+#ponte.pausada .cy-cap{color:var(--accent)}
+#ponte .cw-pause{width:clamp(104px,10vw,140px)}
+.is-3d #ponte .cw.cw-pause{top:47%}
