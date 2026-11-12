@@ -21,3 +21,6 @@
 .tl-dot{width:44px;height:44px;border-radius:50%;display:grid;place-items:center;background:var(--ink-3);border:1px solid var(--accent);color:var(--accent);font-size:1.02rem}
 .linha-t{font-family:var(--mono);font-size:.82rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--accent)}
 .take b{color:var(--text);font-weight:700}
+.beta-box{display:grid;gap:4px;padding:12px 14px;border:1px solid rgba(255,138,61,.5);border-radius:var(--r-s);background:rgba(255,138,61,.07)}
+.beta-box h3{display:flex;align-items:center;gap:8px;font-size:1.05rem;color:var(--accent)}
+.beta-box p{font-size:clamp(.92rem,1.05vw,1.02rem);color:var(--text)}

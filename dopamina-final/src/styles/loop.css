@@ -90,3 +90,7 @@
 [data-mode="pin"] .dp-src{font-size:clamp(1rem,1.25vw,1.5rem)}
 .dp-keys{display:flex;flex-wrap:wrap;align-items:center;gap:6px 8px;font-size:clamp(.82rem,.9vw,1.05rem);color:var(--muted)}
 [data-mode="flat"] .dp-keys{display:none}
+
+/* Loop como fase beta */
+.selo-beta{justify-self:start;display:inline-flex;align-items:center;gap:6px;padding:4px 12px 4px 8px;border:1px solid var(--accent);border-radius:999px;background:rgba(255,138,61,.1);color:var(--accent);font-family:var(--mono);font-size:.82rem;font-weight:600;letter-spacing:.06em;text-transform:uppercase}
+.beta-tag{font-family:var(--mono);font-size:.66rem;font-weight:700;letter-spacing:.06em;padding:2px 7px;border-radius:999px;background:var(--accent);color:var(--accent-ink);text-transform:uppercase}

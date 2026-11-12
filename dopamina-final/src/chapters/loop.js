@@ -13,16 +13,17 @@ const FAST = debug.demoSpeed === 'fast'; /* so para testes automatizados */
 
 /* ms: tempo minimo na tela, na velocidade Normal. No passo 3, o relogio so anda depois dos 10 s reais do anel. */
 const STEPS = [
-  { view: 'home', ms: 6000, btn: '#btnWant', cap: 'Registrar o que você sente.', src: 'Harkin et al., 2016' },
+  /* cada legenda liga o passo do app a uma etapa do ciclo do habito */
+  { view: 'home', ms: 6000, btn: '#btnWant', cap: 'Gatilho: você sente a vontade e registra.' },
   {
-    view: 'trigger', ms: 7000, btn: '#btnTrigNext', cap: 'Escolher o que puxou a vontade e qual é o app.', src: 'Harkin et al., 2016',
+    view: 'trigger', ms: 7000, btn: '#btnTrigNext', cap: 'Gatilho: o que você sente e em qual app.',
     at: [[1900, '[data-chip="trigger"][data-val="tedio"]'], [3800, '[data-chip="app"][data-val="Instagram"]']]
   },
-  { view: 'pause', ms: 2000, btn: '#btnOpen', cap: 'Pausa de 10 segundos.', src: 'Grüning et al., 2023', until: () => !$('#btnOpen').disabled },
-  { view: 'using', ms: 7000, btn: '[data-act="finish"]', cap: 'Decidiu abrir: o Loop conta o tempo de uso.' },
-  { view: 'feel', ms: 7000, btn: '[data-act="feel"][data-val="tempo"]', cap: 'Terminou: contar como foi.', src: 'Harkin et al., 2016' },
-  { view: 'done', ms: 4000, btn: '[data-act="toPattern"]', cap: 'Registro salvo. Cada registro deixa o padrão mais claro.' },
-  { view: 'pattern', cap: 'Seu padrão: o gatilho que mais aparece e como costuma terminar.', src: 'Dados de exemplo' }
+  { view: 'pause', ms: 2000, btn: '#btnOpen', cap: 'Antes do comportamento: a pausa de 10 segundos.', until: () => !$('#btnOpen').disabled },
+  { view: 'using', ms: 7000, btn: '[data-act="finish"]', cap: 'Comportamento: você usa o celular.' },
+  { view: 'feel', ms: 7000, btn: '[data-act="feel"][data-val="tempo"]', cap: 'Consequência: como foi?' },
+  { view: 'done', ms: 4000, btn: '[data-act="toPattern"]', cap: 'Registro salvo.' },
+  { view: 'pattern', cap: 'O padrão fica visível.' }
 ];
 const LAST = STEPS.length - 1;
 
