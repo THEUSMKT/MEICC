@@ -105,7 +105,7 @@ export function initReferencias() {
       e.preventDefault();
       const scroller = $('#defesaList');
       /* rolagem imediata: a suave era cancelada se a tecla chegasse durante a abertura do painel */
-      if (!e.repeat) scroller.scrollBy({ top: scroller.clientHeight * amount });
+      if (!e.repeat) scroller.scrollTop += Math.round(scroller.clientHeight * amount);
     }
     return true;
   });

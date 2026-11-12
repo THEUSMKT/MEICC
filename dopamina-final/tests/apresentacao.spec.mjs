@@ -5,6 +5,7 @@ import { pathToFileURL } from 'node:url';
 
 const URL_BASE = pathToFileURL(path.resolve('dist/index.html')).href;
 const LOOP = 'dd-loop-v1', TEAM = 'dd-team-v1';
+const CAP = { abertura: 0, dados: 1, dopamina: 2, ciclo: 3, ponte: 4, loop: 5, conclusao: 6 };
 
 /* Registra erros de console e qualquer requisicao que saia do arquivo local. */
 function watch(page) {
@@ -44,7 +45,7 @@ async function press(page, loc) {
 
 async function goToLoop(page) {
   const list = await stops(page);
-  const y = list.find(s => s.ci === 4).y;
+  const y = list.find(s => s.ci === CAP.loop).y;
   await page.evaluate(v => window.scrollTo(0, v), y);
   await settle(page, y);
   /* como um mouse de verdade: passa por cima do celular, que endireita, e so depois clica */
@@ -153,7 +154,7 @@ test('um clique direto, com o celular ainda se endireitando, nao se perde', asyn
   test.skip(!isDesktop(testInfo), 'no celular a cena nao inclina');
   await open(page);
   const list = await stops(page);
-  const y = list.find(s => s.ci === 4).y;
+  const y = list.find(s => s.ci === CAP.loop).y;
   await page.evaluate(v => window.scrollTo(0, v), y);
   await settle(page, y);
   await page.waitForTimeout(800);
@@ -235,8 +236,8 @@ test('controles da demonstracao: manual, passos, velocidade, pausa e Esc', async
   await goToLoop(page);
   await page.keyboard.press('d');
   await expect(page.locator('#dpStep')).toHaveText('1 de 7');
-  await expect(page.locator('#dpCap')).toContainText('Registrar o que você sente');
-  await expect(page.locator('#dpSrc')).toHaveText('Harkin et al., 2016');
+  await expect(page.locator('#dpCap')).toContainText('Gatilho: você sente a vontade e registra');
+  await expect(page.locator('#dpSrc')).toBeHidden();
   const fonte = await page.locator('#dpCap').evaluate(e => parseFloat(getComputedStyle(e).fontSize));
   expect(fonte).toBeGreaterThanOrEqual(testInfo.project.name === '1920x1080' ? 24 : 23.5);
   await page.keyboard.press('m');
@@ -308,7 +309,7 @@ test('roteiro, perguntas e limites (N, Q e L)', async ({ page }) => {
   await expect(cola).toBeVisible();
   await expect(page.locator('#colaT')).toHaveText('Roteiro');
   await expect(cola.locator('.rt-bloco')).toHaveCount(3);
-  await expect(cola.locator('.rt-bloco h3').first()).toHaveText('Bia. Abertura e dados (0:00 a 1:30)');
+  await expect(cola.locator('.rt-bloco h3').first()).toHaveText('Bia. Problema (0:00 a 1:30)');
   await expect(cola).not.toContainText('—');
   await page.keyboard.press('h');
   await expect(cola).toBeHidden();
@@ -332,25 +333,24 @@ test('dados revelam um quadro por vez e nada avanca sozinho', async ({ page }, t
   test.skip(!isDesktop(testInfo), 'no celular os quadros ficam empilhados');
   await open(page);
   const list = await stops(page);
-  const quadros = list.filter(s => s.ci === 1);
-  expect(quadros.length).toBe(3);
+  const quadros = list.filter(s => s.ci === CAP.dados);
+  expect(quadros.length).toBe(2);
   const visiveis = () => page.locator('#dados .card').evaluateAll(cs => cs.map(c => getComputedStyle(c).visibility === 'visible' && +getComputedStyle(c).opacity > 0.5));
-  for (let i = 0; i < 3; i++) {
+  for (let i = 0; i < 2; i++) {
     await page.evaluate(v => window.scrollTo(0, v), quadros[i].y);
     await settle(page, quadros[i].y);
-    await expect.poll(visiveis, { timeout: 8000 }).toEqual([0, 1, 2].map(k => k === i));
+    await expect.poll(visiveis, { timeout: 8000 }).toEqual([0, 1].map(k => k === i));
   }
   await page.waitForTimeout(3500);
-  expect(await visiveis()).toEqual([false, false, true]);
-  await expect(page.locator('#dados [data-card="2"] .amostra')).toBeVisible();
-  expect(await page.evaluate(() => window.scrollY)).toBe(quadros[2].y);
+  expect(await visiveis()).toEqual([false, true]);
+  expect(await page.evaluate(() => window.scrollY)).toBe(quadros[1].y);
 });
 
 test('capitulos cabem na tela de 1366x768 sem rolagem interna', async ({ page }, testInfo) => {
   test.skip(testInfo.project.name !== '1366x768', 'medida especifica do projetor');
   await open(page);
   const list = await stops(page);
-  for (const ci of [1, 2, 3, 5]) {
+  for (const ci of [1, 2, 3, 4, 5, 6]) {
     const s = list.find(x => x.ci === ci);
     await page.evaluate(v => window.scrollTo(0, v), s.y);
     await settle(page, s.y);
@@ -360,7 +360,7 @@ test('capitulos cabem na tela de 1366x768 sem rolagem interna', async ({ page },
       return { top: w.top, bottom: w.bottom, extra: sec.scrollHeight - sec.clientHeight, vh: window.innerHeight };
     }, ci);
     expect(m.extra, 'rolagem interna no capitulo ' + ci).toBeLessThanOrEqual(0);
-    expect(m.top, 'topo do capitulo ' + ci).toBeGreaterThanOrEqual(66);
+    expect(m.top, 'topo do capitulo ' + ci).toBeGreaterThanOrEqual(96);
     expect(m.bottom, 'fim do capitulo ' + ci).toBeLessThanOrEqual(m.vh);
   }
 });
@@ -404,10 +404,10 @@ test('PageDown e PageUp andam exatamente uma parada por toque', async ({ page },
   test.skip(!isDesktop(testInfo), 'controle remoto so se aplica ao projetor');
   await open(page);
   const list = await stops(page);
-  /* no maximo 4 momentos por capitulo */
+  /* no maximo 3 momentos por capitulo */
   const porCap = {};
-  list.filter(s => s.ci < 6).forEach(s => { porCap[s.ci] = (porCap[s.ci] || 0) + 1; });
-  Object.values(porCap).forEach(n => expect(n).toBeLessThanOrEqual(4));
+  list.filter(s => s.ci < 7).forEach(s => { porCap[s.ci] = (porCap[s.ci] || 0) + 1; });
+  Object.values(porCap).forEach(n => expect(n).toBeLessThanOrEqual(3));
   for (let i = 1; i < list.length; i++) {
     await page.keyboard.press('PageDown');
     await settle(page, list[i].y);
@@ -424,12 +424,12 @@ test('PageDown e PageUp andam exatamente uma parada por toque', async ({ page },
   await settle(page, dop);
   await expect(page.locator('.who[data-who="1"]')).toHaveAttribute('aria-current', 'true');
   /* com o foco dentro do celular, o controle remoto continua navegando */
-  const loop = list.find(s => s.ci === 4);
+  const loop = list.find(s => s.ci === CAP.loop);
   await page.evaluate(v => window.scrollTo(0, v), loop.y);
   await settle(page, loop.y);
   await page.locator('#btnWant').focus();
   await page.keyboard.press('PageDown');
-  await settle(page, list.find(s => s.ci === 5).y);
+  await settle(page, list.find(s => s.ci === CAP.conclusao).y);
 });
 
 test('painel de defesa das fontes e copiar citacao', async ({ page, context }) => {
@@ -474,8 +474,13 @@ test('conteudo: sem travessao, numeros e justificativas', async ({ page }) => {
   await page.evaluate(() => window.scrollTo(0, 0));
   await expect.poll(() => page.locator('#dados [data-card="0"] .n').textContent(), { timeout: 15000 }).toBe('27%');
   await expect.poll(() => page.locator('#dados [data-card="1"] .n').textContent(), { timeout: 15000 }).toBe('+2,8');
-  await expect.poll(() => page.locator('#dados [data-card="2"] .n').textContent(), { timeout: 15000 }).toBe('70%');
-  const text = await page.evaluate(() => document.body.textContent);
+  /* os dados de apoio vivem no painel Q; o texto conferido inclui roteiro, perguntas e limites */
+  let text = await page.evaluate(() => document.body.textContent);
+  for (const k of ['n', 'q', 'l']) {
+    await page.keyboard.press(k);
+    text += await page.locator('#colaBody').textContent();
+  }
+  await page.keyboard.press('Escape');
   expect(text).not.toMatch(/[—–]/);
   expect(text).not.toMatch(/INSTRUÇÕES PARA O CLAUDE/);
   for (const n of ['27%', '17%', '14%', '6%', '+2,8', '70%', '57%', '2,1 milhões', '64 países', '326.397', '286 estudantes']) expect(text).toContain(n);
@@ -496,7 +501,7 @@ test.describe('movimento reduzido', () => {
     expect(await page.locator('.pin-spacer').count()).toBe(0);
     await expect(page.locator('#dados [data-card="0"] .n')).toHaveText('27%');
     await expect(page.locator('#dados [data-card="1"] .n')).toHaveText('+2,8');
-    await expect(page.locator('#dados [data-card="2"]')).toBeVisible();
+    await expect(page.locator('#ponte .cy-fallback')).toBeVisible();
     await expect(page.locator('#rpe')).toBeVisible();
     await expect(page.locator('#cyCap')).toBeVisible();
     expect(await page.locator('.person.on').first().evaluate(e => getComputedStyle(e).color)).toBe('rgb(255, 138, 61)');
@@ -505,4 +510,51 @@ test.describe('movimento reduzido', () => {
     expect(axe.violations.flatMap(v => v.nodes.map(n => n.target.join(' ') + ': ' + (n.any[0] && n.any[0].message)))).toEqual([]);
     expect(log.errors).toEqual([]);
   });
+});
+
+test('linha narrativa: ordem, no maximo 3 passos e o elo no ultimo passo', async ({ page }, testInfo) => {
+  test.skip(!isDesktop(testInfo), 'os passos presos so existem na tela grande');
+  await open(page);
+  const ids = await page.evaluate(() => [...document.querySelectorAll('.chapter')].map(c => c.id));
+  expect(ids.slice(0, 7)).toEqual(['abertura', 'dados', 'dopamina', 'ciclo', 'ponte', 'loop', 'conclusao']);
+  const list = await stops(page);
+  for (const id of ['dados', 'dopamina', 'ciclo', 'ponte', 'loop']) {
+    const passos = list.filter(s => s.ci === CAP[id]);
+    expect(passos.length, 'passos em ' + id).toBeLessThanOrEqual(3);
+    const elo = page.locator('#' + id + ' .elo');
+    await expect(elo).toHaveCount(1);
+    if (passos.length > 1) {
+      await page.evaluate(v => window.scrollTo(0, v), passos[0].y);
+      await settle(page, passos[0].y);
+      await expect.poll(() => elo.evaluate(e => +getComputedStyle(e).opacity), { timeout: 5000 }).toBeLessThan(0.1);
+    }
+    const ultimo = passos[passos.length - 1];
+    await page.evaluate(v => window.scrollTo(0, v), ultimo.y);
+    await settle(page, ultimo.y);
+    await expect.poll(() => elo.evaluate(e => +getComputedStyle(e).opacity), { timeout: 5000 }).toBeGreaterThan(0.9);
+  }
+  /* a conclusao fecha a linha e nao tem elo */
+  await expect(page.locator('#conclusao .elo')).toHaveCount(0);
+});
+
+test('trilho: no ativo por capitulo, clique leva ao capitulo e a tecla H nao o esconde', async ({ page }) => {
+  await open(page);
+  const list = await stops(page);
+  const nomes = { dados: 'Problema', dopamina: 'Cérebro', ciclo: 'Hábito', ponte: 'Interromper', loop: 'Loop beta', conclusao: 'Loop beta' };
+  for (const [id, no] of Object.entries(nomes)) {
+    const s = list.find(x => x.ci === CAP[id]);
+    await page.evaluate(v => window.scrollTo(0, v), s.y);
+    await settle(page, s.y);
+    await expect(page.locator('#trilho button.on')).toHaveText(no);
+  }
+  await page.evaluate(() => window.scrollTo(0, 0));
+  await settle(page, 0);
+  await page.locator('#trilho [data-ir="ponte"]').click();
+  await expect.poll(() => page.evaluate(() => window.scrollY), { timeout: 8000 }).toBe(list.find(x => x.ci === CAP.ponte).y);
+  await expect(page.locator('#trilho button.on')).toHaveText('Interromper');
+  await page.keyboard.press('h');
+  await expect.poll(() => page.evaluate(() => document.getElementById('bar').getBoundingClientRect().bottom), { timeout: 5000 }).toBeLessThanOrEqual(0);
+  await expect(page.locator('#trilho')).toBeVisible();
+  await expect.poll(() => page.evaluate(() => document.getElementById('trilho').getBoundingClientRect().top), { timeout: 5000 }).toBe(0);
+  await page.keyboard.press('h');
 });

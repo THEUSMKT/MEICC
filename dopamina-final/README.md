@@ -102,3 +102,21 @@ Um único contexto WebGL fica fixo atrás da página e só desenha o capítulo q
 ## Fontes
 
 Só entram artigos científicos revisados por pares: são 15, conferidos pelo DOI no Crossref e no PubMed. A lista fica em `src/index.html`, cada artigo com a linha "Por que é artigo científico", e o painel da tecla R é montado a partir dela. O contorno do Brasil no capítulo Dados vem do Natural Earth (domínio público) e é só um desenho, não uma fonte de dados.
+
+## Linha da apresentação (versão 3)
+
+Pergunta central: como fazer o celular voltar a ser ferramenta, e não passatempo automático? Cada capítulo responde à pergunta deixada pelo anterior, e o elo ("Próximo: ...") aparece no último passo.
+
+| Capítulo | Quem | Mensagem |
+| --- | --- | --- |
+| Abertura | Apresentador 1 | A cena do Instagram, o recorte e o mapa de cinco passos |
+| Dados | Apresentador 1 | Problema: 27% (Meng) e +2,8 (Marino), em 2 passos |
+| Dopamina | Apresentador 2 | Cérebro: o que empurra a mão é o querer |
+| Ciclo | Apresentador 2 | Hábito: gatilho, comportamento e consequência |
+| Ponte | Apresentador 3 | Interromper: ver o hábito (Harkin) e pausar (Grüning) |
+| Loop | Apresentador 3 | Loop beta: o ciclo vira uma escolha |
+| Conclusão | Apresentador 3 | A linha do trabalho, fase beta, próximos passos e limites |
+
+O trilho sob a barra mostra em que passo a história está; a tecla H esconde a barra, mas não o trilho. O comparativo por tipo de uso, Fortaleza, vídeos curtos e o circuito de recompensa estão nos dados de apoio, no fim do painel Q.
+
+O plano B é `dist/index.v2-backup.html`, a versão anterior inteira, que abre do mesmo jeito. O commit e a branch `v2-estavel` guardam esse ponto. O build recria o backup a partir de `src/public/index.v2-backup.html`, sem mudar nada nele.

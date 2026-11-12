@@ -103,3 +103,9 @@
 #ponte.pausada .cy-cap{color:var(--accent)}
 #ponte .cw-pause{width:clamp(104px,10vw,140px)}
 .is-3d #ponte .cw.cw-pause{top:47%}
+/* a ponte usa o mesmo palco do ciclo: a mesma compactacao em telas baixas */
+@media (max-height:820px){
+  [data-mode="pin"] #ponte{padding-block:calc(var(--bar) + 10px) 12px}
+  [data-mode="pin"] #ponte h2{font-size:clamp(1.7rem,2.75vw,2.75rem)}
+  [data-mode="pin"] #ponte .cycle-copy{gap:8px}
+}
