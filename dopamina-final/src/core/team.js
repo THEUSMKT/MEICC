@@ -9,6 +9,7 @@ const listeners = new Set();
 
 export const nomeDe = i => String(team['n' + (i + 1)] || '').trim() || CONFIG.equipe[i].nome;
 export const testouN = () => { const n = parseInt(team.testou, 10); return n > 0 ? n : 0; };
+export const fraseTeste = () => String(team.quote || '').trim();
 export const onTeamChange = fn => { listeners.add(fn); };
 
 export function initTeam() {
