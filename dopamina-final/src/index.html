@@ -55,9 +55,9 @@
   <div class="bar-in">
     <div class="brand"><svg class="ic" aria-hidden="true"><use href="#i-bolt"/></svg><span>Dopamina e Dependência</span></div>
     <nav class="team" aria-label="Apresentadores">
-      <button type="button" class="who" data-who="0" aria-current="true"><span class="av" data-inicial="0">A</span><span><span class="nm" data-nome="0">Antony</span><span class="pt">Abertura e dados</span></span></button>
-      <button type="button" class="who" data-who="1" aria-current="false"><span class="av" data-inicial="1">D</span><span><span class="nm" data-nome="1">Davi</span><span class="pt">Ciência e hábito</span></span></button>
-      <button type="button" class="who" data-who="2" aria-current="false"><span class="av" data-inicial="2">E</span><span><span class="nm" data-nome="2">Edson</span><span class="pt">Loop e conclusão</span></span></button>
+      <button type="button" class="who" data-who="0" aria-current="true"><span class="av" data-inicial="0">A</span><span><span class="nm" data-nome="0">Antony</span><span class="pt">Problema</span></span></button>
+      <button type="button" class="who" data-who="1" aria-current="false"><span class="av" data-inicial="1">D</span><span><span class="nm" data-nome="1">Davi</span><span class="pt">Cérebro e hábito</span></span></button>
+      <button type="button" class="who" data-who="2" aria-current="false"><span class="av" data-inicial="2">E</span><span><span class="nm" data-nome="2">Edson</span><span class="pt">Solução: Loop beta</span></span></button>
     </nav>
     <div class="clock">
       <span id="clk" role="timer" aria-label="Tempo restante">05:00</span>
@@ -76,6 +76,14 @@
       <p class="eyebrow" id="eyebrow">Feira científica, Turma 2312</p>
       <h1>Por que é tão difícil largar o celular?</h1>
       <p class="lead">Você abre o Instagram para responder uma mensagem e, 40 minutos depois, ainda está rolando a tela.</p>
+      <p class="recorte">Vamos seguir um único hábito: pegar o celular sem decidir.</p>
+      <ol class="mapa-passos" aria-label="Os cinco passos da apresentação">
+        <li><button type="button" data-ir="dados"><b>1</b>Problema</button></li>
+        <li><button type="button" data-ir="dopamina"><b>2</b>Cérebro</button></li>
+        <li><button type="button" data-ir="ciclo"><b>3</b>Hábito</button></li>
+        <li><button type="button" data-ir="ponte"><b>4</b>Interromper</button></li>
+        <li><button type="button" data-ir="loop"><b>5</b>Loop beta</button></li>
+      </ol>
       <button type="button" class="btn" id="heroStart">Iniciar apresentação</button>
     </div>
     <div class="hero-viz">
@@ -87,14 +95,14 @@
 <!-- 2. DADOS -->
 <section class="chapter" id="dados" data-p="0" data-scene>
   <div class="depth"><div class="wrap">
-    <h2 class="reveal">Mais adolescentes com dificuldade de controlar as redes</h2>
+    <h2 class="reveal">Muita gente tem dificuldade de controlar o uso</h2>
     <div class="deck" id="deck">
 
-      <article class="card card-g3" data-card="0">
+      <article class="card card-g2" data-card="0">
         <div class="card-text">
           <div class="tile-top"><svg class="ic" aria-hidden="true"><use href="#i-chart"/></svg><span>Meta-análise, 2022</span></div>
           <span class="n n-new" data-count="27" data-suf="%">27%</span>
-          <p>é a prevalência global de dependência de smartphone. Para redes sociais, 17%.</p>
+          <p>é a prevalência global de dependência de smartphone.</p>
           <p class="small">Reúne 2,1 milhões de pessoas em 64 países. Medido por escalas de triagem, não por diagnóstico clínico.</p>
           <span class="src">Meng et al., 2022, Clinical Psychology Review</span>
         </div>
@@ -102,12 +110,6 @@
           <figcaption>27 em cada 100 pessoas</figcaption>
           <div class="people" id="people" role="img" aria-label="Grade de 100 pessoas com 27 acesas"></div>
         </figure>
-        <div class="chart" role="img" aria-label="Prevalência global de dependência: smartphone 27%, redes sociais 17%, internet 14%, jogos 6%">
-          <div class="cbar hi" style="--v:27"><em data-count="27" data-suf="%">27%</em><i></i><span>Smartphone</span></div>
-          <div class="cbar" style="--v:17.4"><em data-count="17" data-suf="%">17%</em><i></i><span>Redes sociais</span></div>
-          <div class="cbar" style="--v:14.2"><em data-count="14" data-suf="%">14%</em><i></i><span>Internet</span></div>
-          <div class="cbar" style="--v:6"><em data-count="6" data-suf="%">6%</em><i></i><span>Jogos</span></div>
-        </div>
       </article>
 
       <article class="card card-g2" data-card="1">
@@ -126,33 +128,11 @@
         </figure>
       </article>
 
-      <article class="card card-g2" data-card="2">
-        <div class="card-text">
-          <div class="tile-top"><svg class="ic" aria-hidden="true"><use href="#i-phone"/></svg><span>Brasil, Fortaleza (CE)</span></div>
-          <span class="n" data-count="70" data-suf="%">70%</span>
-          <p>dos adolescentes atingiram o critério de dependência de smartphone.</p>
-          <span class="amostra">amostra de uma só cidade</span>
-          <p class="small">286 estudantes de 15 a 19 anos, em uma só cidade.</p>
-          <span class="src">Nunes et al., 2021, Ciência &amp; Saúde Coletiva</span>
-        </div>
-        <figure class="mapa">
-          <svg viewBox="0 0 500 512" role="img" aria-label="Mapa simplificado do Brasil com Fortaleza, no Ceará, em destaque">
-            <defs><path id="br" d="M103.6 68.4L109.8 73.9L117.6 71.3L120.1 74.8L144.1 57.1L144.6 54.0L136.8 52.9L134.8 39.8L128.1 31.4L137.1 35.6L145.2 35.5L150.8 39.7L155.3 33.1L172.5 28.3L177.0 24.0L176.7 20.0L184.4 21.7L182.6 28.3L187.8 30.2L189.6 35.6L186.0 39.8L184.4 50.6L188.2 62.0L197.7 68.6L218.1 58.8L231.7 60.7L229.7 55.8L231.8 52.7L243.3 51.7L253.2 57.5L257.5 54.7L266.9 56.7L284.5 31.0L293.3 57.3L302.2 63.1L302.9 69.1L286.6 84.2L278.5 99.7L270.4 101.9L278.8 102.3L291.2 94.5L297.0 107.5L309.7 104.1L306.0 115.3L310.9 106.3L321.0 101.1L319.9 97.0L323.8 92.1L333.7 91.0L355.0 99.6L356.5 103.9L359.5 100.9L364.4 104.3L365.8 108.0L363.2 110.5L367.0 109.4L367.6 111.8L363.6 121.9L369.4 113.0L369.8 117.1L379.4 111.9L401.7 118.4L419.5 117.8L436.9 128.1L452.2 142.6L471.3 145.2L475.0 150.5L480.0 171.3L478.1 184.8L470.7 198.6L450.0 219.3L439.7 238.5L436.6 239.9L434.4 235.8L432.5 237.9L429.7 247.5L432.2 275.0L429.0 297.3L423.2 303.9L421.6 319.9L407.8 340.0L407.3 349.3L399.0 353.0L395.1 360.7L384.3 361.0L382.0 358.0L381.2 361.2L364.6 362.0L365.4 364.7L354.9 371.1L338.5 376.3L322.8 390.6L316.6 390.0L320.5 392.8L316.4 400.9L318.6 412.1L315.8 428.8L304.7 438.3L290.9 461.2L277.7 471.6L277.5 468.2L286.7 463.9L294.9 451.3L295.1 449.1L289.7 450.5L286.4 446.5L286.6 455.1L278.5 462.8L270.6 484.0L262.1 491.3L260.2 484.4L265.0 479.1L257.5 470.9L235.9 456.3L231.2 459.1L230.8 455.4L221.5 447.3L212.4 448.3L234.5 424.3L256.7 411.2L258.6 401.1L256.0 393.6L247.5 392.5L251.9 374.0L247.4 371.2L238.1 372.9L233.6 353.5L226.0 350.2L220.3 352.5L208.3 350.6L209.8 337.1L205.9 327.1L209.4 324.8L206.2 322.0L213.7 303.5L209.8 295.0L203.2 291.6L203.8 280.1L182.2 279.9L181.5 270.4L177.5 265.8L181.1 265.7L178.4 250.0L171.7 246.3L163.3 246.8L148.3 236.4L132.4 233.6L125.7 228.0L121.1 219.2L121.0 200.6L107.2 202.9L83.1 217.5L59.4 216.3L60.6 197.3L52.4 203.7L41.3 204.2L39.0 198.2L29.3 197.0L32.0 191.9L20.0 174.5L23.3 171.6L22.8 166.7L30.1 161.4L29.0 156.9L33.1 145.1L57.6 133.6L67.3 135.2L74.0 97.6L71.3 89.3L66.1 84.8L66.3 76.2L76.9 75.4L75.0 70.4L68.7 70.3L68.7 62.5L88.4 62.4L88.2 59.1L91.2 62.0L97.4 57.5L101.4 68.9Z"/></defs>
-            <g class="br-depth"><use href="#br" y="10"/><use href="#br" y="8"/><use href="#br" y="6"/><use href="#br" y="4"/><use href="#br" y="2"/></g>
-            <use href="#br" class="br" id="brFill"/>
-            <path class="br-line" id="brLine" d="M103.6 68.4L109.8 73.9L117.6 71.3L120.1 74.8L144.1 57.1L144.6 54.0L136.8 52.9L134.8 39.8L128.1 31.4L137.1 35.6L145.2 35.5L150.8 39.7L155.3 33.1L172.5 28.3L177.0 24.0L176.7 20.0L184.4 21.7L182.6 28.3L187.8 30.2L189.6 35.6L186.0 39.8L184.4 50.6L188.2 62.0L197.7 68.6L218.1 58.8L231.7 60.7L229.7 55.8L231.8 52.7L243.3 51.7L253.2 57.5L257.5 54.7L266.9 56.7L284.5 31.0L293.3 57.3L302.2 63.1L302.9 69.1L286.6 84.2L278.5 99.7L270.4 101.9L278.8 102.3L291.2 94.5L297.0 107.5L309.7 104.1L306.0 115.3L310.9 106.3L321.0 101.1L319.9 97.0L323.8 92.1L333.7 91.0L355.0 99.6L356.5 103.9L359.5 100.9L364.4 104.3L365.8 108.0L363.2 110.5L367.0 109.4L367.6 111.8L363.6 121.9L369.4 113.0L369.8 117.1L379.4 111.9L401.7 118.4L419.5 117.8L436.9 128.1L452.2 142.6L471.3 145.2L475.0 150.5L480.0 171.3L478.1 184.8L470.7 198.6L450.0 219.3L439.7 238.5L436.6 239.9L434.4 235.8L432.5 237.9L429.7 247.5L432.2 275.0L429.0 297.3L423.2 303.9L421.6 319.9L407.8 340.0L407.3 349.3L399.0 353.0L395.1 360.7L384.3 361.0L382.0 358.0L381.2 361.2L364.6 362.0L365.4 364.7L354.9 371.1L338.5 376.3L322.8 390.6L316.6 390.0L320.5 392.8L316.4 400.9L318.6 412.1L315.8 428.8L304.7 438.3L290.9 461.2L277.7 471.6L277.5 468.2L286.7 463.9L294.9 451.3L295.1 449.1L289.7 450.5L286.4 446.5L286.6 455.1L278.5 462.8L270.6 484.0L262.1 491.3L260.2 484.4L265.0 479.1L257.5 470.9L235.9 456.3L231.2 459.1L230.8 455.4L221.5 447.3L212.4 448.3L234.5 424.3L256.7 411.2L258.6 401.1L256.0 393.6L247.5 392.5L251.9 374.0L247.4 371.2L238.1 372.9L233.6 353.5L226.0 350.2L220.3 352.5L208.3 350.6L209.8 337.1L205.9 327.1L209.4 324.8L206.2 322.0L213.7 303.5L209.8 295.0L203.2 291.6L203.8 280.1L182.2 279.9L181.5 270.4L177.5 265.8L181.1 265.7L178.4 250.0L171.7 246.3L163.3 246.8L148.3 236.4L132.4 233.6L125.7 228.0L121.1 219.2L121.0 200.6L107.2 202.9L83.1 217.5L59.4 216.3L60.6 197.3L52.4 203.7L41.3 204.2L39.0 198.2L29.3 197.0L32.0 191.9L20.0 174.5L23.3 171.6L22.8 166.7L30.1 161.4L29.0 156.9L33.1 145.1L57.6 133.6L67.3 135.2L74.0 97.6L71.3 89.3L66.1 84.8L66.3 76.2L76.9 75.4L75.0 70.4L68.7 70.3L68.7 62.5L88.4 62.4L88.2 59.1L91.2 62.0L97.4 57.5L101.4 68.9Z" pathLength="1"/>
-            <g transform="translate(436.2 128.1)"><g id="mapPin">
-              <circle class="pin-wave" r="12"/><circle class="pin-wave w2" r="12"/>
-              <circle class="pin-dot" r="9"/>
-              <text class="map-lbl" x="-20" y="-16" text-anchor="end">Fortaleza</text>
-            </g></g>
-          </svg>
-        </figure>
-      </article>
     </div>
+    <p class="elo"><span>Próximo:</span> Por que isso acontece? Vamos olhar para o cérebro.</p>
     <div class="deck-foot">
       <p class="foot-note">Cada estudo usa amostras e escalas diferentes e mede triagem, não diagnóstico. Os números não se comparam entre si. Dependência de smartphone ainda não é um diagnóstico oficial, por isso os estudos usam escalas de triagem. <span class="src" style="display:inline">Montag et al., 2019</span></p>
-      <div class="deck-dots" aria-hidden="true"><i></i><i></i><i></i></div>
+      <div class="deck-dots" aria-hidden="true"><i></i><i></i></div>
     </div>
   </div></div>
 </section>
@@ -161,14 +141,14 @@
 <section class="chapter" id="dopamina" data-p="1" data-scene>
   <div class="depth"><div class="wrap split3">
     <div class="s3-copy">
-      <h2 class="reveal">Dopamina não é o hormônio da felicidade</h2>
-      <p class="lead reveal">Ela empurra você a buscar a recompensa e ajuda o cérebro a aprender com o resultado. O prazer vem de outros sistemas.</p>
+      <h2 class="reveal">O que empurra a mão para o celular é o querer</h2>
+      <p class="lead reveal">A dopamina move o querer e o aprender. O prazer em si vem de outros sistemas.</p>
       <ul class="facts">
         <li data-on="1"><span class="fi"><svg class="ic" aria-hidden="true"><use href="#i-bolt"/></svg></span><div><strong>Querer</strong><p>A dopamina gera a vontade de ir atrás da recompensa.</p><span class="src">Berridge e Robinson, 2016</span></div></li>
-        <li data-on="1"><span class="fi"><svg class="ic" aria-hidden="true"><use href="#i-smile"/></svg></span><div><strong>Gostar</strong><p>O prazer de receber a recompensa não depende da dopamina.</p><span class="src">Berridge e Robinson, 2016</span></div></li>
         <li data-on="2"><span class="fi"><svg class="ic" aria-hidden="true"><use href="#i-brain"/></svg></span><div><strong>Aprender</strong><p>Neurônios dopaminérgicos sinalizam erros na previsão de recompensas.</p><span class="src">Schultz, Dayan e Montague, 1997</span></div></li>
-        <li class="evid"><p>O núcleo accumbens e os neurônios dopaminérgicos da área tegmental ventral estão no centro do circuito de recompensa.</p><span class="src">Haber e Knutson, 2010</span></li>
+        <li data-on="1" class="curto"><span class="fi"><svg class="ic" aria-hidden="true"><use href="#i-smile"/></svg></span><div><strong>Gostar</strong><p>O prazer em si não depende da dopamina.</p><span class="src">Berridge e Robinson, 2016</span></div></li>
       </ul>
+      <p class="elo"><span>Próximo:</span> Querer e aprender, repetidos todos os dias, viram hábito.</p>
     </div>
     <div class="dop-viz">
       <div class="scene" aria-hidden="true">
@@ -182,7 +162,7 @@
       </div>
       <figure class="rpe" id="rpe" role="img" aria-label="Ilustração do erro de previsão de recompensa. Recompensa inesperada: a dopamina dispara na recompensa. Depois de aprender: dispara no sinal que antecede a recompensa. Se a recompensa não vem: a atividade cai.">
         <svg viewBox="0 0 520 440" aria-hidden="true"></svg>
-        <figcaption>Ilustração do conceito de Schultz et al., 1997. Desenho original, não são dados reais.</figcaption>
+        <figcaption><b>Por que o imprevisível prende.</b> Ilustração do conceito de Schultz et al., 1997. Desenho original, não são dados reais.</figcaption>
       </figure>
     </div>
   </div></div>
@@ -227,13 +207,10 @@
       <h2 class="reveal">O celular treina um hábito em três etapas</h2>
       <ul class="mech">
         <li data-cy="0,1"><span class="fi"><svg class="ic" aria-hidden="true"><use href="#i-spark"/></svg></span><div><strong>Recompensa social e imprevisível</strong><p>Em adolescentes, curtidas ativam o circuito de recompensa. Quanto mais inesperada a recompensa, maior o sinal de aprendizagem.</p><span class="src">Sherman et al., 2016 · Schultz et al., 1997 · Lindström et al., 2021</span></div></li>
-        <li data-cy="2"><span class="fi"><svg class="ic" aria-hidden="true"><use href="#i-wind"/></svg></span><div><strong>Alívio do desconforto</strong><p>Usar o celular para aliviar tédio ou ansiedade é um dos caminhos que os modelos científicos apontam para o hábito se fixar. Em 11 estudos, em geral, as pessoas não gostaram de ficar de 6 a 15 minutos sozinhas, só pensando.</p><span class="src">Brand et al., 2016 · Wilson et al., 2014</span></div></li>
-        <li class="evid"><p>Em uma meta-análise de 71 estudos, mais uso de vídeos curtos esteve associado a pior atenção. Os dados são correlacionais.</p><span class="src">Nguyen et al., 2025</span></li>
+        <li data-cy="2" class="destaque"><span class="fi"><svg class="ic" aria-hidden="true"><use href="#i-wind"/></svg></span><div><strong>Alívio do tédio e do desconforto</strong><p>Usar o celular para aliviar tédio ou ansiedade é um dos caminhos que os modelos científicos apontam para o hábito se fixar. Em 11 estudos, em geral, as pessoas não gostaram de ficar de 6 a 15 minutos sozinhas, só pensando.</p><span class="src">Brand et al., 2016 · Wilson et al., 2014</span></div></li>
       </ul>
-      <div class="myth" data-cy="3">
-        <p><b>Mito:</b> precisamos fazer um detox de dopamina.</p>
-        <p><b>Fato:</b> a dopamina é necessária para querer e buscar qualquer recompensa, então não dá para eliminá-la. O que muda são os hábitos.<span class="src">Berridge e Robinson, 1998</span></p>
-      </div>
+      <p class="mito-linha">Eliminar a dopamina não é o caminho, porque ela é necessária para querer qualquer recompensa. O que dá para mudar é o ciclo.<span class="src">Berridge e Robinson, 1998</span></p>
+      <p class="elo"><span>Próximo:</span> Um hábito automático só muda se ficar visível e ganhar uma pausa.</p>
     </div>
   </div></div>
 </section>
@@ -350,13 +327,14 @@
 <!-- 6. CONCLUSAO -->
 <section class="chapter" id="conclusao" data-p="2">
   <div class="depth"><div class="wrap">
-    <h2 class="reveal">Entender o mecanismo é o primeiro passo</h2>
+    <h2 class="reveal">Do hábito automático à escolha</h2>
     <div class="end-grid">
       <div class="end-left">
+      <h3 class="linha-t">A linha do nosso trabalho</h3>
       <ul class="take">
-        <li><span class="fi"><svg class="ic" aria-hidden="true"><use href="#i-target"/></svg></span><span>Dopamina não é sinônimo de prazer: ela move a motivação e a busca por recompensas.</span></li>
-        <li><span class="fi"><svg class="ic" aria-hidden="true"><use href="#i-loop"/></svg></span><span>O cérebro aprende com expectativas e consequências. Recompensa imprevisível e alívio do desconforto ajudam a manter o hábito.</span></li>
-        <li><span class="fi"><svg class="ic" aria-hidden="true"><use href="#i-check"/></svg></span><span>Recuperar o controle é mais realista do que tentar eliminar a dopamina.</span></li>
+        <li><span class="fi"><svg class="ic" aria-hidden="true"><use href="#i-chart"/></svg></span><span><b>O problema:</b> muita gente tem dificuldade de controlar o uso do celular.</span></li>
+        <li><span class="fi"><svg class="ic" aria-hidden="true"><use href="#i-brain"/></svg></span><span><b>O mecanismo:</b> a dopamina move o querer e o aprender, e o celular treina um hábito de gatilho, comportamento e consequência.</span></li>
+        <li><span class="fi"><svg class="ic" aria-hidden="true"><use href="#i-loop"/></svg></span><span><b>A solução em teste:</b> ver o hábito e pausar antes de agir. O Loop beta põe isso no bolso.</span></li>
       </ul>
       <aside class="limites" id="limites">
         <h3>Limites deste trabalho</h3>
@@ -393,9 +371,9 @@
       <h2>Equipe</h2>
       <p class="small" data-turma>Turma 2312</p>
       <ul class="team-list">
-        <li><span class="av" data-inicial="0">A</span><div><strong data-nome="0">Antony</strong><span>Abertura e dados</span></div></li>
-        <li><span class="av" data-inicial="1">D</span><div><strong data-nome="1">Davi</strong><span>Ciência e hábito</span></div></li>
-        <li><span class="av" data-inicial="2">E</span><div><strong data-nome="2">Edson</strong><span>Loop e conclusão</span></div></li>
+        <li><span class="av" data-inicial="0">A</span><div><strong data-nome="0">Antony</strong><span>Problema</span></div></li>
+        <li><span class="av" data-inicial="1">D</span><div><strong data-nome="1">Davi</strong><span>Cérebro e hábito</span></div></li>
+        <li><span class="av" data-inicial="2">E</span><div><strong data-nome="2">Edson</strong><span>Solução: Loop beta</span></div></li>
       </ul>
       <div class="keys">
         <h3>Atalhos de teclado</h3>

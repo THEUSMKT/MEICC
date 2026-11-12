@@ -25,7 +25,6 @@ export function initDados() {
   }
   const lit = $$('.person.on', grid);
   const bars = $$('.cbar i', el);
-  const line = $('#brLine'), fill = $('#brFill'), pin = $('#mapPin'), depth = $('.br-depth', el);
   const plus = $('#cmpPlus');
   const nums = i => $$('[data-count]', cards[i]);
   const zero = e => { e.textContent = (e.dataset.pre || '') + '0' + (+e.dataset.dec ? ',0' : '') + (e.dataset.suf || ''); };
@@ -35,13 +34,7 @@ export function initDados() {
       gsap.set(lit, { color: OFF, opacity: 0.75, scale: 0.82, transformOrigin: '50% 50%' });
       gsap.set(bars, { scaleY: 0, transformOrigin: '50% 100%' });
     },
-    () => gsap.set(plus, { scaleX: 0, transformOrigin: '0% 50%' }),
-    () => {
-      gsap.set(line, { strokeDashoffset: 1 });
-      gsap.set([fill, depth], { opacity: 0 });
-      gsap.set(pin, { opacity: 0 });
-      cards[2].classList.remove('map-live');
-    }
+    () => gsap.set(plus, { scaleX: 0, transformOrigin: '0% 50%' })
   ];
   const play = [
     () => {
@@ -54,19 +47,10 @@ export function initDados() {
       countUp(nums(1)[0]);
       gsap.to(plus, { scaleX: 1, duration: 1.3, ease: 'power3.out', delay: 0.15 });
       countUp(nums(1)[1], { delay: 0.15 });
-    },
-    () => {
-      countUp(nums(2)[0]);
-      gsap.to(line, { strokeDashoffset: 0, duration: 1.3, ease: 'power2.inOut' });
-      gsap.to([fill, depth], { opacity: 1, duration: 0.7, delay: 0.75 });
-      gsap.fromTo(pin, { opacity: 0, y: -46 }, {
-        opacity: 1, y: 0, duration: 0.7, ease: 'bounce.out', delay: 1.05,
-        onComplete: () => cards[2].classList.add('map-live')
-      });
     }
   ];
 
-  const done = [false, false, false];
+  const done = [false, false];
   let entered = false, cur = 0, pinned = false;
   const trigger = i => { if (!reduce && !done[i]) { done[i] = true; play[i](); } };
 
@@ -84,7 +68,7 @@ export function initDados() {
   }
 
   registerScene({
-    el, steps: 3, perStep: 0.75,
+    el, steps: 2, perStep: 0.75,
     onStep(i) {
       cur = i;
       if (pinned) { show(i, false); if (entered) trigger(i); }

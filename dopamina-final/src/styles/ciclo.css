@@ -84,3 +84,10 @@
 #ciclo.broken .cy-fallback .cy-arc:nth-of-type(4){stroke-dasharray:3 16;opacity:.45}
 #ciclo.broken .cy-c{opacity:0}
 .no3d #ciclo.broken .cy-ring{opacity:.3}
+
+/* Alivio do tedio: o coracao do passatempo automatico */
+.mech li.destaque{background:rgba(255,138,61,.07);border-color:rgba(255,138,61,.35)}
+.mech li.destaque strong{color:var(--accent)}
+.mech li.destaque.on{background:rgba(255,138,61,.14);border-color:var(--accent)}
+.mito-linha{padding-left:12px;border-left:2px solid var(--line-strong);font-size:clamp(.92rem,1.05vw,1.02rem);line-height:1.4;color:var(--muted)}
+.mito-linha .src{display:block}

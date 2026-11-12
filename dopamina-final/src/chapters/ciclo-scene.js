@@ -12,14 +12,15 @@ const CALM = new THREE.Color('#8fa3c7'), DIM = new THREE.Color('#3a4a6c'), AMBER
 
 const flowV = /* glsl */`
   attribute vec3 aSeed;
-  uniform float uPhase, uBreak, uScale, uDpr, uR, uActive;
+  uniform float uPhase, uBreak, uScale, uDpr, uR, uActive, uGapC;
   varying float vA;
   void main() {
     float a = mod(aSeed.x * 6.283 + uPhase, 6.283);
     float r = uR + (aSeed.y - 0.5) * 0.13;
     vec3 p = vec3(cos(a) * r, sin(a) * r, (aSeed.z - 0.5) * 0.13);
     /* trecho entre consequencia e gatilho: as particulas se soltam quando o anel quebra */
-    float gap = smoothstep(2.55, 2.75, a) * smoothstep(4.78, 4.58, a);
+    float gd = abs(mod(a - uGapC + 3.1416, 6.283) - 3.1416);
+    float gap = smoothstep(1.11, 0.91, gd);
     float s = uBreak * gap;
     p += vec3(cos(a), sin(a), 0.7) * s * (0.3 + aSeed.y * 1.7);
     float d = abs(mod(a - uActive + 3.1416, 6.283) - 3.1416);
@@ -45,7 +46,11 @@ function arcMesh(start, span, mat) {
   return m;
 }
 
-export function createCicloLayer(section, host, labelEls) {
+/* opts.gap: arco que se abre na pausa (2: entre consequencia e gatilho; 0: entre gatilho e comportamento).
+   opts.ponte: em vez de girar etapa por etapa, o ciclo mostra o registro e depois abre a pausa. */
+export function createCicloLayer(section, host, labelEls, opts = {}) {
+  const g = opts.gap === undefined ? 2 : opts.gap;
+  const ponte = !!opts.ponte;
   const rnd = makeRng(41);
   const scene = new THREE.Scene();
   const camera = new THREE.PerspectiveCamera(32, 1, 0.1, 40);
@@ -56,7 +61,7 @@ export function createCicloLayer(section, host, labelEls) {
   tilt.add(ring);
   scene.add(tilt);
 
-  /* tres arcos com seta; o terceiro e feito de duas metades, que se separam na quebra */
+  /* tres arcos com seta; o arco g e feito de duas metades, que se separam na quebra */
   const arcMats = [0, 1, 2].map(() => new THREE.MeshBasicMaterial({ color: CALM.clone(), transparent: true }));
   const cone = new THREE.ConeGeometry(0.1, 0.24, 14);
   const arrow = (angle, mat) => {
@@ -66,17 +71,15 @@ export function createCicloLayer(section, host, labelEls) {
     return m;
   };
   const halves = [new THREE.Group(), new THREE.Group()];
-  [0, 1].forEach(k => {
+  [0, 1, 2].forEach(k => {
     const a = nodeAngle(k) + GAP, span = deg(120) - GAP * 2;
-    ring.add(arcMesh(a, span, arcMats[k]), arrow(a + span, arcMats[k]));
-  });
-  {
-    const a = nodeAngle(2) + GAP, span = deg(120) - GAP * 2, half = span / 2 - 0.07;
-    halves[0].add(arcMesh(a, half, arcMats[2]));
-    halves[1].add(arcMesh(a + span - half, half, arcMats[2]), arrow(a + span, arcMats[2]));
+    if (k !== g) { ring.add(arcMesh(a, span, arcMats[k]), arrow(a + span, arcMats[k])); return; }
+    const half = span / 2 - 0.07;
+    halves[0].add(arcMesh(a, half, arcMats[k]));
+    halves[1].add(arcMesh(a + span - half, half, arcMats[k]), arrow(a + span, arcMats[k]));
     ring.add(halves[0], halves[1]);
-  }
-  const gapMid = nodeAngle(2) + deg(60);
+  });
+  const gapMid = nodeAngle(g) + deg(60);
   const radial = new THREE.Vector3(Math.cos(gapMid), Math.sin(gapMid), 0);
 
   /* nos: gatilho, comportamento e consequencia */
@@ -105,6 +108,7 @@ export function createCicloLayer(section, host, labelEls) {
   geo.setAttribute('aSeed', new THREE.BufferAttribute(seeds, 3));
   const fu = {
     uPhase: { value: 0 }, uBreak: { value: 0 }, uScale: { value: 500 }, uDpr: { value: 1 }, uR: { value: R }, uActive: { value: nodeAngle(0) },
+    uGapC: { value: ((gapMid % (Math.PI * 2)) + Math.PI * 2) % (Math.PI * 2) },
     uColor: { value: new THREE.Color('#ff9d5c') }
   };
   const flow = new THREE.Points(geo, new THREE.ShaderMaterial({
@@ -123,6 +127,8 @@ export function createCicloLayer(section, host, labelEls) {
     pos: new THREE.Vector3(Math.cos(nodeAngle(k)) * R, Math.sin(nodeAngle(k)) * R, labelOffset)
   }));
   labels.push({ el: labelEls[3], pos: new THREE.Vector3(Math.cos(gapMid) * R, Math.sin(gapMid) * R, 0) });
+  /* na ponte, o registro fica preso ao no do gatilho, do lado oposto ao rotulo */
+  if (labelEls[4]) labels.push({ el: labelEls[4], pos: new THREE.Vector3(Math.cos(nodeAngle(0)) * R * 1.02, Math.sin(nodeAngle(0)) * R * 1.02, -0.5) });
 
   let target = 0, p = 0, phase = 0, px = 0;
   window.addEventListener('pointermove', e => { px = e.clientX / window.innerWidth - 0.5; }, { passive: true });
@@ -132,21 +138,28 @@ export function createCicloLayer(section, host, labelEls) {
     resize() { fu.uDpr.value = view.dpr; },
     update(dt, t) {
       p += (target - p) * (1 - Math.exp(-dt * 4.5));
-      const s = p * 3;
-      /* 0 a 2: uma etapa por vez (120 graus); 2 a 3: traz o trecho quebrado para a frente */
-      const spin = s <= 2 ? -s * 120 : -(240 + (s - 2) * 60);
+      /* ciclo: 0 a 2, uma etapa por vez (120 graus). ponte: o gatilho fica na frente e depois a pausa abre o anel */
+      let spin, brk, act;
+      if (ponte) {
+        brk = THREE.MathUtils.smoothstep(p, 0.3, 0.85);
+        spin = -60 * brk;
+        act = 0;
+      } else {
+        act = p * 2;
+        spin = -act * 120;
+        brk = 0;
+      }
       ring.rotation.z = deg(spin);
       tilt.rotation.y = px * 0.18;
       tilt.rotation.x = -0.95 + Math.sin(t * 0.3) * 0.025;
 
-      const brk = THREE.MathUtils.smoothstep(s, 2.15, 2.85);
       nodes.forEach((n, k) => {
-        const w = Math.max(0, 1 - Math.abs(Math.min(s, 2) - k) * 1.5) * (1 - brk);
+        const w = Math.max(0, 1 - Math.abs(Math.min(act, 2) - k) * 1.5) * (1 - brk);
         n.material.uniforms.uBase.value.lerpColors(DIM, AMBER, w);
         n.scale.setScalar(0.3 + w * 0.09);
         arcMats[k].color.lerpColors(DIM, CALM, 0.35 + (1 - brk) * 0.65);
       });
-      arcMats[2].opacity = 1 - brk * 0.5;
+      arcMats[g].opacity = 1 - brk * 0.5;
       halves[0].position.copy(radial).multiplyScalar(brk * 0.5).add(new THREE.Vector3(Math.cos(gapMid - 0.9) * brk * 0.2, Math.sin(gapMid - 0.9) * brk * 0.2, 0));
       halves[1].position.copy(radial).multiplyScalar(brk * 0.5).add(new THREE.Vector3(Math.cos(gapMid + 0.9) * brk * 0.2, Math.sin(gapMid + 0.9) * brk * 0.2, 0));
       pause.scale.setScalar(0.001 + brk * 0.46);

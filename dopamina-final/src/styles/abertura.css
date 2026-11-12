@@ -5,3 +5,10 @@
 .is-3d #net{opacity:0}
 #net{display:block;width:100%;aspect-ratio:1;max-height:min(70dvh,620px);margin-inline:auto;cursor:grab;touch-action:pan-y}
 #net:active{cursor:grabbing}
+
+/* Recorte e mapa dos cinco passos (a versao grande do trilho) */
+.recorte{font-family:var(--display);font-weight:600;font-size:clamp(1.02rem,1.35vw,1.3rem);color:var(--text)}
+.mapa-passos{display:flex;flex-wrap:wrap;gap:8px}
+.mapa-passos button{position:relative;overflow:hidden;display:inline-flex;align-items:center;gap:8px;min-height:40px;padding:.3rem .85rem .3rem .35rem;border-radius:999px;border:1px solid var(--line-strong);background:rgba(14,21,34,.75);color:var(--text);font-weight:600;font-size:clamp(.86rem,.95vw,.98rem);cursor:pointer;transition:border-color .2s}
+.mapa-passos button:hover{border-color:var(--accent)}
+.mapa-passos b{width:26px;height:26px;border-radius:50%;display:grid;place-items:center;flex:none;background:var(--accent);color:var(--accent-ink);font-family:var(--mono);font-size:.8rem}

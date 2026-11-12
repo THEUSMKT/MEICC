@@ -19,3 +19,9 @@
 /* ===== Cenas presas ao scroll ===== */
 [data-mode="pin"] .chapter[data-scene]{height:100vh;min-height:0;overflow:hidden}
 .depth{width:100%;will-change:transform}
+
+/* Elo: a pergunta que o proximo capitulo responde. Nas cenas presas, aparece no ultimo passo. */
+.elo{margin-top:clamp(8px,1.4vh,16px);font-family:var(--display);font-weight:600;font-size:clamp(.98rem,1.2vw,1.2rem);line-height:1.3;color:var(--accent)}
+.elo span{margin-right:.35em;font-family:var(--mono);font-size:.8em;letter-spacing:.08em;text-transform:uppercase}
+[data-mode="pin"] .chapter[data-scene] .elo{opacity:0;transform:translateY(8px);transition:opacity .45s ease,transform .45s ease}
+[data-mode="pin"] .chapter[data-scene].elo-on .elo{opacity:1;transform:none}

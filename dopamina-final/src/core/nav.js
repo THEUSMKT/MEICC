@@ -38,6 +38,8 @@ function setupScene(def) {
       const prev = def.cur;
       def.cur = i;
       if (def.onStep) def.onStep(i, prev);
+      /* o elo ("Proximo: ...") aparece no ultimo passo do capitulo */
+      def.el.classList.toggle('elo-on', i === n - 1);
     }
   };
   if (mode === 'pin') {
@@ -50,6 +52,7 @@ function setupScene(def) {
     });
   } else if (reduce || def.flatStatic) {
     def.cur = n - 1;
+    def.el.classList.add('elo-on');
     if (def.onProgress) def.onProgress(1, null);
     if (def.onStep) def.onStep(n - 1, -1);
   } else {
@@ -113,6 +116,12 @@ export function goToChapter(ci) {
   if (idx >= 0) goToStop(idx);
 }
 
+/* leva ao capitulo pelo id da secao (mapa da abertura, trilho, demonstracao) */
+export function goToChapterId(id) {
+  const ci = chapters.findIndex(c => c.id === id);
+  if (ci >= 0) goToChapter(ci);
+}
+
 function step(dir) {
   if (!stops.length) return;
   if (target >= 0) { goToStop(target + dir); return; }
@@ -157,6 +166,11 @@ export function initNav() {
     const idx = stops.findIndex(s => s.ci === chapter);
     if (idx >= 0) goToStop(idx);
   }));
+
+  document.addEventListener('click', e => {
+    const b = e.target.closest && e.target.closest('[data-ir]');
+    if (b) goToChapterId(b.dataset.ir);
+  });
 
   window.addEventListener('wheel', stopTween, { passive: true });
   window.addEventListener('touchstart', stopTween, { passive: true });

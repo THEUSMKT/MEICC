@@ -19,3 +19,5 @@
 .timeline{display:grid;gap:clamp(6px,1.1vh,12px);position:relative}
 .timeline li{display:grid;grid-template-columns:auto 1fr;gap:14px;align-items:center;color:var(--text);font-size:clamp(.98rem,1.2vw,1.15rem)}
 .tl-dot{width:44px;height:44px;border-radius:50%;display:grid;place-items:center;background:var(--ink-3);border:1px solid var(--accent);color:var(--accent);font-size:1.02rem}
+.linha-t{font-family:var(--mono);font-size:.82rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--accent)}
+.take b{color:var(--text);font-weight:700}
